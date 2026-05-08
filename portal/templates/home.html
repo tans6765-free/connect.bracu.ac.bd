@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+
+  <!-- Dashboard heading row -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h3 class="dashboard-main-title mb-0">Dashboard</h3>
+    <button class="btn btn-link btn-sm configure-btn">Configure Dashboard ▾</button>
+  </div>
+
+  <div class="row gy-4">
+    <!-- Left column: Activity + Calendar -->
+    <div class="col-12">
+
+      <!-- Activity Card -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">Activity</div>
+        <div class="card-body">
+          <div class="empty-state-box">
+            <!-- Clipboard illustration -->
+            <div class="clipboard-illustration">
+              <div class="clipboard-back"></div>
+              <div class="clipboard-front">
+                <div class="clipboard-clip"></div>
+                <div class="clipboard-lines">
+                  <div class="clip-line"></div>
+                  <div class="clip-line short"></div>
+                  <div class="clip-line"></div>
+                </div>
+              </div>
+            </div>
+            <p class="empty-label mt-3 mb-0">No active tasks found!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Calendar Card -->
+      <div class="card">
+        <div class="card-header fw-semibold d-flex align-items-center justify-content-between">
+          <span>Student Calendar</span>
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-secondary cal-nav-btn">&#8249;</button>
+            <button class="btn btn-sm btn-outline-secondary cal-nav-btn">&#8250;</button>
+            <button class="btn btn-sm btn-outline-secondary cal-nav-btn">Today</button>
+            <span class="cal-month-title">May 2026</span>
+            <div class="cal-view-btns">
+              <button class="btn btn-sm cal-view active">Month</button>
+              <button class="btn btn-sm cal-view">Week</button>
+              <button class="btn btn-sm cal-view">Day</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="cal-table w-100">
+            <thead>
+              <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cal-day other-month"><span>26</span></td>
+                <td class="cal-day">
+                  <span>27</span>
+                  <div class="cal-event blue">9:30 AM &nbsp; Regular Class (CSE340-3)</div>
+                  <div class="cal-event blue">11:00 AM &nbsp; Regular Class (BUS102-...</div>
+                  <div class="cal-event blue">10:00 AM &nbsp; Regular Class (CSE16...)</div>
+                </td>
+                <td class="cal-day">
+                  <span>28</span>
+                  <div class="cal-event green">11:00 AM &nbsp; Regular Class (CSE421...)</div>
+                </td>
+                <td class="cal-day">
+                  <span>29</span>
+                  <div class="cal-event blue">9:30 AM &nbsp; Regular Class (CSE340-3)</div>
+                  <div class="cal-event blue">11:00 AM &nbsp; Regular Class (BUS102-...</div>
+                  <div class="cal-event blue">10:00 AM &nbsp; Regular Class (CSE16...)</div>
+                </td>
+                <td class="cal-day"><span>30</span><div class="cal-holiday">May Day Buddha Purnima*</div></td>
+                <td class="cal-day first-of-month"><span class="date-circle">1</span></td>
+                <td class="cal-day"><span>2</span></td>
+              </tr>
+              <tr>
+                <td class="cal-day"><span>3</span></td>
+                <td class="cal-day"><span>4</span></td>
+                <td class="cal-day"><span>5</span></td>
+                <td class="cal-day"><span>6</span></td>
+                <td class="cal-day"><span>7</span></td>
+                <td class="cal-day"><span>8</span></td>
+                <td class="cal-day"><span>9</span></td>
+              </tr>
+              <tr>
+                <td class="cal-day"><span>10</span></td>
+                <td class="cal-day"><span>11</span></td>
+                <td class="cal-day"><span>12</span></td>
+                <td class="cal-day"><span>13</span></td>
+                <td class="cal-day"><span>14</span></td>
+                <td class="cal-day"><span>15</span></td>
+                <td class="cal-day"><span>16</span></td>
+              </tr>
+              <tr>
+                <td class="cal-day"><span>17</span></td>
+                <td class="cal-day"><span>18</span></td>
+                <td class="cal-day"><span>19</span></td>
+                <td class="cal-day"><span>20</span></td>
+                <td class="cal-day"><span>21</span></td>
+                <td class="cal-day"><span>22</span></td>
+                <td class="cal-day"><span>23</span></td>
+              </tr>
+              <tr>
+                <td class="cal-day"><span>24</span></td>
+                <td class="cal-day"><span>25</span></td>
+                <td class="cal-day"><span>26</span></td>
+                <td class="cal-day"><span>27</span></td>
+                <td class="cal-day"><span>28</span></td>
+                <td class="cal-day"><span>29</span></td>
+                <td class="cal-day"><span>30</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

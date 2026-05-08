@@ -1,0 +1,248 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>University Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header px-4 py-4">
+          <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="sidebar-logo-img mb-2">
+          <div class="sidebar-title">Student Lifecycle</div>
+          <div class="sidebar-subtitle">Management</div>
+        </div>
+
+        <div class="sidebar-nav px-3 pb-4">
+          <ul class="nav flex-column sidebar-menu" id="mainSidebarMenu">
+
+            <!-- Advising (collapsible) -->
+            <li class="nav-item">
+              <a class="nav-link sidebar-collapse-toggle {% block advising_active %}{% endblock %}" href="#advisingSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                <span class="menu-icon">A</span>
+                <span>Advising</span>
+                <span class="menu-arrow ms-auto">&#8964;</span>
+              </a>
+              <ul class="collapse list-unstyled sub-menu" id="advisingSubmenu">
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Wishlist</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Pre-Registration Phase One</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Pre-Registration Phase Two</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Self Registration</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Section Seat Status</span></a></li>
+              </ul>
+            </li>
+
+            <!-- Class and Exam Schedule -->
+            <li class="nav-item">
+              <a class="nav-link {% block schedule_active %}{% endblock %}" href="#">
+                <span class="menu-icon">C</span>
+                <span>Class and Exam Schedule</span>
+              </a>
+            </li>
+
+            <!-- Scholarship & Waiver (collapsible) -->
+            <li class="nav-item">
+              <a class="nav-link sidebar-collapse-toggle {% block scholarship_active %}{% endblock %}" href="#scholarshipSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                <span class="menu-icon">S</span>
+                <span>Scholarship &amp; Waiver</span>
+                <span class="menu-arrow ms-auto">&#8964;</span>
+              </a>
+              <ul class="collapse list-unstyled sub-menu" id="scholarshipSubmenu">
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>Apply</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>History</span></a></li>
+              </ul>
+            </li>
+
+            <!-- Course Drop Application -->
+            <li class="nav-item">
+              <a class="nav-link {% block coursedrop_active %}{% endblock %}" href="#">
+                <span class="menu-icon">C</span>
+                <span>Course Drop Application</span>
+              </a>
+            </li>
+
+            <!-- Semester Drop Application -->
+            <li class="nav-item">
+              <a class="nav-link {% block semdrop_active %}{% endblock %}" href="#">
+                <span class="menu-icon">S</span>
+                <span>Semester Drop Application</span>
+              </a>
+            </li>
+
+            <!-- Department Change -->
+            <li class="nav-item">
+              <a class="nav-link {% block deptchange_active %}{% endblock %}" href="#">
+                <span class="menu-icon">D</span>
+                <span>Department Change</span>
+              </a>
+            </li>
+
+            <!-- Grade Sheet -->
+            <li class="nav-item">
+              <a class="nav-link {% block grade_active %}{% endblock %}" href="{% url 'grade_sheet' %}">
+                <span class="menu-icon">G</span>
+                <span>Grade Sheet</span>
+              </a>
+            </li>
+
+            <!-- Probation -->
+            <li class="nav-item">
+              <a class="nav-link {% block probation_active %}{% endblock %}" href="#">
+                <span class="menu-icon">P</span>
+                <span>Probation</span>
+              </a>
+            </li>
+
+            <!-- Payslip -->
+            <li class="nav-item">
+              <a class="nav-link {% block payslip_active %}{% endblock %}" href="#">
+                <span class="menu-icon">P</span>
+                <span>Payslip</span>
+              </a>
+            </li>
+
+            <!-- Service Request (collapsible) -->
+            <li class="nav-item">
+              <a class="nav-link sidebar-collapse-toggle {% block service_active %}{% endblock %}" href="#serviceSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                <span class="menu-icon">S</span>
+                <span>Service Request</span>
+                <span class="menu-arrow ms-auto">&#8964;</span>
+              </a>
+              <ul class="collapse list-unstyled sub-menu" id="serviceSubmenu">
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>New Request</span></a></li>
+                <li><a class="nav-link sub-link" href="#"><span class="menu-dot"></span><span>History</span></a></li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-content" class="flex-grow-1 d-flex flex-column">
+        <header class="topbar">
+          <div class="container-fluid d-flex align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-secondary icon-only sidebar-toggle" id="sidebarToggle">&#9776;</button>
+              <div>
+                <div class="page-breadcrumb">Student</div>
+                <h2 class="page-heading mb-0">{% block page_title %}Dashboard{% endblock %}</h2>
+              </div>
+            </div>
+
+            <div class="topbar-actions d-flex align-items-center gap-2 flex-wrap">
+              <div class="search-box d-flex align-items-center">
+                <span class="search-icon">&#128269;</span>
+                <input type="search" class="form-control" placeholder="Search" aria-label="Search">
+                <span class="search-shortcut">&#8984; K</span>
+              </div>
+              <button class="btn btn-outline-secondary btn-sm icon-only">&#9638;</button>
+              <div class="icon-button position-relative" id="notifBtn" style="cursor:pointer;">
+                <span class="bell-icon">🔔</span>
+                <span class="badge-count">18</span>
+              </div>
+              <div class="profile-card d-flex align-items-center position-relative" style="cursor: pointer;" id="profileDropBtn">
+                <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-avatar">
+                <div class="profile-info">
+                  <div class="profile-name">Md. Tahsinul Islam</div>
+                  <div class="profile-email">md.tahsinul.islam@g.bracu.ac.bd</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Notification Dropdown -->
+        <div class="notif-dropdown" id="notifDropdown" style="display:none;">
+          <div class="notif-header">
+            <span class="notif-title">User Notifications</span>
+            <span class="notif-badge">18 new</span>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item"><span class="notif-icon">✉</span><div><div class="notif-name">Payment Confirmation Alert</div><div class="notif-time">Oct 21, 2025, 11:23:19 AM</div></div></div>
+            <div class="notif-item"><span class="notif-icon">✉</span><div><div class="notif-name">Payslip Deadline Alert</div><div class="notif-time">Oct 21, 2025, 8:00:21 AM</div></div></div>
+            <div class="notif-item"><span class="notif-icon">✉</span><div><div class="notif-name">Payslip Deadline Alert</div><div class="notif-time">Oct 19, 2025, 8:00:24 AM</div></div></div>
+            <div class="notif-item"><span class="notif-icon">✉</span><div><div class="notif-name">Registration Payslip Alert</div><div class="notif-time">Oct 13, 2025, 7:26:23 PM</div></div></div>
+            <div class="notif-item"><span class="notif-icon">✉</span><div><div class="notif-name">Registration Payslip Alert</div><div class="notif-time">Oct 13, 2025, 4:42:18 PM</div></div></div>
+          </div>
+          <div class="notif-footer"><a href="#">View All &rsaquo;</a></div>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown" id="profileDropdown" style="display:none;">
+          <div class="pd-header">
+            <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="pd-avatar">
+            <div>
+              <div class="pd-name">MD. TAHSINUL ISLAM</div>
+              <div class="pd-email">md.tahsinul.islam@g.bracu.ac.bd</div>
+            </div>
+          </div>
+          <div class="pd-item"><span class="pd-dot green"></span><a href="{% url 'profile' %}">My Profile</a></div>
+          <div class="pd-item"><span class="pd-dot green"></span><a href="#">Account Settings</a></div>
+          <div class="pd-item"><span class="pd-dot red"></span><a href="{% url 'account_logout' %}">Sign Out</a></div>
+        </div>
+
+        <main class="p-4 flex-grow-1">
+          {% block content %}{% endblock %}
+        </main>
+
+        <footer class="portal-footer">
+          <span>2026© <a href="https://www.bracu.ac.bd" target="_blank">BRAC University</a>. All rights reserved.</span>
+          <span class="footer-dev">Developed By: <img src="{% static 'images/bracit.svg' %}" alt="BracIT" class="bracit-logo"></span>
+        </footer>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Sidebar toggle for mobile
+      document.getElementById('sidebarToggle').addEventListener('click', function () {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+
+      // Notification dropdown
+      const notifBtn = document.getElementById('notifBtn');
+      const notifDropdown = document.getElementById('notifDropdown');
+      notifBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        notifDropdown.style.display = notifDropdown.style.display === 'none' ? 'block' : 'none';
+        profileDropdown.style.display = 'none';
+      });
+
+      // Profile dropdown
+      const profileDropBtn = document.getElementById('profileDropBtn');
+      const profileDropdown = document.getElementById('profileDropdown');
+      profileDropBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+        notifDropdown.style.display = 'none';
+      });
+
+      // Close dropdowns on outside click
+      document.addEventListener('click', function() {
+        notifDropdown.style.display = 'none';
+        profileDropdown.style.display = 'none';
+      });
+
+      // Rotate arrow on collapse
+      document.querySelectorAll('.sidebar-collapse-toggle').forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+          const arrow = this.querySelector('.menu-arrow');
+          if (arrow) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+              target.addEventListener('show.bs.collapse', () => arrow.style.transform = 'rotate(180deg)', {once: false});
+              target.addEventListener('hide.bs.collapse', () => arrow.style.transform = 'rotate(0deg)', {once: false});
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

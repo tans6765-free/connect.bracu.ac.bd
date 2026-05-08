@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+
+  <!-- Profile Header Card -->
+  <div class="card mb-0">
+    <div class="card-body">
+
+      <!-- Top section: photo + name + stats -->
+      <div class="d-flex align-items-start gap-4 flex-wrap mb-4">
+        <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-page-avatar">
+        <div class="flex-grow-1">
+          <h4 class="fw-bold mb-1">Md. Tahsinul Islam</h4>
+          <div class="d-flex gap-3 text-muted mb-3" style="font-size:.85rem;">
+            <span>🪪 22241090</span>
+            <span>⚙ CS</span>
+            <span>📅 FALL 2022</span>
+          </div>
+          <div class="d-flex gap-3 flex-wrap">
+            <div class="stat-badge">
+              <div class="stat-icon green">💬</div>
+              <div>
+                <div class="stat-number">66</div>
+                <div class="stat-label">Earned Credit</div>
+              </div>
+            </div>
+            <div class="stat-badge">
+              <div class="stat-icon blue">↑</div>
+              <div>
+                <div class="stat-number">2.74</div>
+                <div class="stat-label">CGPA</div>
+              </div>
+            </div>
+            <div class="stat-badge">
+              <div class="stat-icon red">📅</div>
+              <div>
+                <div class="stat-number">SPRING 2026</div>
+                <div class="stat-label">Current Semester</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <ul class="nav profile-tabs mb-4" id="profileTabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" data-tab="overview">Overview</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab="misc">Miscellaneous Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab="academic">Academic Info</a>
+        </li>
+      </ul>
+
+      <!-- ===== OVERVIEW TAB ===== -->
+      <div id="tab-overview" class="tab-panel">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h6 class="fw-bold mb-0">Overview</h6>
+          <div class="d-flex gap-3">
+            <a href="#" class="profile-action-link">✉ Update Email</a>
+            <a href="#" class="profile-action-link">✏ Edit</a>
+          </div>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">FULL NAME:</div>
+            <div class="info-field-value">Md. Tahsinul Islam</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">MOBILE NO:</div>
+            <div class="info-field-value">01600341615</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">EMAIL:</div>
+            <div class="info-field-value">md.tahsinul.islam@g.bracu.ac.bd</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">DATE OF BIRTH:</div>
+            <div class="info-field-value">2003-08-16</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">EMERGENCY CONTACT NAME:</div>
+            <div class="info-field-value">Md. Tanjimul Islam</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">EMERGENCY CONTACT NO:</div>
+            <div class="info-field-value">01717672108</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">BIRTH CERTIFICATE NO:</div>
+            <div class="info-field-value">&nbsp;</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">PASSPORT NO:</div>
+            <div class="info-field-value">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MISCELLANEOUS INFO TAB ===== -->
+      <div id="tab-misc" class="tab-panel" style="display:none;">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="fw-bold mb-0">Miscellaneous Information</h6>
+          <a href="#" class="profile-action-link">✏ Edit</a>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-12 col-md-3">
+            <div class="info-field-label">Present Address:</div>
+            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
+              Abhoynagar , Dhaka , Dhaka
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="info-field-label">Permanent Address:</div>
+            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
+              House-284, Alokar More, Boalia Para,<br>
+              Ghoramara, Rajshahi<br>
+              Abhoynagar , Dhaka , Dhaka
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="info-field-label">Family Information:</div>
+            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.8;">
+              Md, Zahidul Islam , 01600341615<br>
+              Taslima Khatun , 01533113908
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="info-field-label">Local Guardian:</div>
+            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
+              Md. Tanjimul Islam, 01814335678
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ACADEMIC INFO TAB ===== -->
+      <div id="tab-academic" class="tab-panel" style="display:none;">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="fw-bold mb-0">Academic Information</h6>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">STUDENT ID:</div>
+            <div class="info-field-value">22241090</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">DEPARTMENT:</div>
+            <div class="info-field-value">Computer Science &amp; Engineering</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">PROGRAM:</div>
+            <div class="info-field-value">B.Sc. in Computer Science</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">INTAKE:</div>
+            <div class="info-field-value">FALL 2022</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">CURRENT SEMESTER:</div>
+            <div class="info-field-value">SPRING 2026</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">CGPA:</div>
+            <div class="info-field-value">2.74</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">EARNED CREDIT:</div>
+            <div class="info-field-value">66</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="info-field-label">ACADEMIC STATUS:</div>
+            <div class="info-field-value">Regular</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('#profileTabs .nav-link').forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Remove active from all
+      document.querySelectorAll('#profileTabs .nav-link').forEach(t => t.classList.remove('active'));
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+      // Activate clicked
+      this.classList.add('active');
+      var target = this.getAttribute('data-tab');
+      document.getElementById('tab-' + target).style.display = 'block';
+    });
+  });
+</script>
+{% endblock %}
