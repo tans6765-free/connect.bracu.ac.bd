@@ -5,19 +5,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 
-# On Vercel, DEBUG should be False; locally keep True for dev
 DEBUG = os.environ.get('VERCEL') is None
 
 ALLOWED_HOSTS = ['*']
 
-# CSRF Configuration
 CSRF_TRUSTED_ORIGINS = [
+    'https://bracuconnectbracuacbd.vercel.app',
     'https://conectbracuacbd.vercel.app',
     'https://connectbracuacbd.vercel.app',
     'https://bracu.connect.bd',
-    'https://bracu.conect.bd',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'http://localhost:8080',
 ]
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = False
@@ -59,8 +58,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'uni_portal.urls'
-
-# Required: explicitly set WSGI application
 WSGI_APPLICATION = 'uni_portal.wsgi.application'
 
 TEMPLATES = [
@@ -82,19 +79,15 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': '/tmp/db.sqlite3' if os.environ.get('VERCEL') else BASE_DIR / 'db.sqlite3',
     }
 }
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-# Static files configuration for Vercel
 if os.environ.get('VERCEL'):
     STATIC_ROOT = '/tmp/staticfiles'
 else:
@@ -111,9 +104,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_ADAPTER = 'portal.adapters.CustomSocialAccountAdapter'
 
-# Google OAuth credentials — set these as environment variables in Vercel
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],

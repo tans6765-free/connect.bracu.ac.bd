@@ -1,56 +1,48 @@
-"""
-Auto-create Google OAuth SocialApp from environment variables.
-This runs on every deployment and ensures allauth has the credentials it needs.
-"""
-
 from django.db import migrations
 import os
 
 
 def create_google_socialapp(apps, schema_editor):
-    """Create Google OAuth SocialApp if it doesn't exist"""
     SocialApp = apps.get_model('socialaccount', 'SocialApp')
     Site = apps.get_model('sites', 'Site')
-    
-    # Get client ID and secret from env vars
+
     client_id = os.environ.get('GOOGLE_CLIENT_ID', '')
     client_secret = os.environ.get('GOOGLE_CLIENT_SECRET', '')
-    
-    # Only create if we have both credentials
+
     if not client_id or not client_secret:
-        print("⚠️  Skipping Google SocialApp creation: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set")
+        print("WARNING: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set, skipping SocialApp creation")
         return
-    
-    # Check if Google app already exists
+
+    # Ensure site exists with correct domain
+    site, _ = Site.objects.update_or_create(
+        pk=1,
+        defaults={
+            'domain': 'bracuconnectbracuacbd.vercel.app',
+            'name': 'BRAC Portal',
+        }
+    )
+
+    # Create or update Google SocialApp
     google_app = SocialApp.objects.filter(provider='google').first()
     if google_app:
-        print("✓ Google SocialApp already exists, updating credentials...")
         google_app.client_id = client_id
         google_app.secret = client_secret
         google_app.save()
-        return
-    
-    # Get the default site
-    try:
-        site = Site.objects.get(pk=1)
-    except Site.DoesNotExist:
-        print("✓ Creating default Site...")
-        site = Site.objects.create(pk=1, domain='bracu.connect.bd', name='BRAC Portal')
-    
-    # Create Google SocialApp
-    print("✓ Creating Google SocialApp...")
-    google_app = SocialApp.objects.create(
-        provider='google',
-        name='Google',
-        client_id=client_id,
-        secret=client_secret,
-    )
-    google_app.sites.add(site)
-    print(f"✓ Google SocialApp created successfully")
+        print("Updated existing Google SocialApp")
+    else:
+        google_app = SocialApp.objects.create(
+            provider='google',
+            name='Google',
+            client_id=client_id,
+            secret=client_secret,
+        )
+        print("Created Google SocialApp")
+
+    google_app.sites.set([site])
+    print("Google SocialApp linked to site successfully")
 
 
 def reverse_google_socialapp(apps, schema_editor):
-    """Remove Google SocialApp (for rollback)"""
     SocialApp = apps.get_model('socialaccount', 'SocialApp')
     SocialApp.objects.filter(provider='google').delete()
 
@@ -59,6 +51,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('portal', '0001_initial'),
+        ('sites', '0002_alter_domain_unique'),
+        ('socialaccount', '0001_initial'),
     ]
 
     operations = [

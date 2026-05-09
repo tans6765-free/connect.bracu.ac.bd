@@ -10,9 +10,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='StudentProfile',
+            name='Student',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('email', models.EmailField(unique=True)),
             ],
         ),
     ]
