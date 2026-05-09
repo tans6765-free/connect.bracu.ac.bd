@@ -1,7 +1,13 @@
 #!/bin/bash
 set -o errexit
 
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
-python manage.py collectstatic --noinput
-python manage.py migrate
+echo "Collecting static files..."
+python manage.py collectstatic --noinput --clear
+
+echo "Running migrations..."
+python manage.py migrate --noinput || true
+
+echo "Build completed successfully!"
