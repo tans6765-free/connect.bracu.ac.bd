@@ -3,11 +3,24 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'x')  # Change in production!
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
+
+# CSRF Configuration
+CSRF_TRUSTED_ORIGINS = [
+    'https://connectbraucacbd.vercel.app',
+    'https://bracu.connect.bd',
+    'https://bracu.conect.bd',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = False
 
 INSTALLED_APPS = [
 	'django.contrib.admin',
