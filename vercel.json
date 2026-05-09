@@ -1,12 +1,21 @@
 {
   "buildCommand": "bash build.sh",
+  "outputDirectory": "staticfiles",
   "builds": [
     {
       "src": "uni_portal/wsgi.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.12"
+      }
     }
   ],
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "uni_portal/wsgi.py"

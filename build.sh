@@ -1,6 +1,8 @@
 #!/bin/bash
 set -o errexit
 
+export VERCEL=1
+
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
