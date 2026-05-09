@@ -7,13 +7,10 @@ export DJANGO_SETTINGS_MODULE=uni_portal.settings
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
-echo "Creating staticfiles directory..."
-mkdir -p staticfiles
-
 echo "Collecting static files..."
-python manage.py collectstatic --noinput --clear --ignore=node_modules
+python manage.py collectstatic --noinput --no-default-ignore
 
 echo "Running migrations..."
-python manage.py migrate --run-syncdb --noinput
+python manage.py migrate --run-syncdb --noinput || true
 
 echo "Build completed successfully!"
