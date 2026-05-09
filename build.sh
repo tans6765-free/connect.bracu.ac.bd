@@ -5,7 +5,7 @@ export VERCEL=1
 export DJANGO_SETTINGS_MODULE=uni_portal.settings
 
 echo "Installing dependencies..."
-pip install -r requirements.txt
+pip install -r requirements.txt --break-system-packages
 
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear

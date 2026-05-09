@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 
-DEBUG = os.environ.get('VERCEL') is None
+DEBUG = True  # TEMP: set to True to see real errors, change back after fixing
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,12 +88,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-if os.environ.get('VERCEL'):
-    STATIC_ROOT = '/tmp/staticfiles'
-else:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = '/tmp/staticfiles'
+WHITENOISE_USE_FINDERS = True  # Fall back to STATICFILES_DIRS if manifest missing
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']
 
