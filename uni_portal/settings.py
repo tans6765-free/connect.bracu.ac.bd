@@ -5,18 +5,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
 
-DEBUG = True  # TEMP: set to True to see real errors, change back after fixing
+DEBUG = not os.environ.get('VERCEL')
 
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://bracuconnectbracuacbd.vercel.app',
-    'https://conectbracuacbd.vercel.app',
-    'https://connectbracuacbd.vercel.app',
+    'https://connectbraucacbd.vercel.app',
     'https://bracu.connect.bd',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'http://localhost:8080',
 ]
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_HTTPONLY = False
@@ -79,8 +76,8 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/db.sqlite3' if os.environ.get('VERCEL') else BASE_DIR / 'db.sqlite3',
-    }
+		'NAME': BASE_DIR / 'db.sqlite3',
+	}
 }
 
 LANGUAGE_CODE = 'en-us'
@@ -88,14 +85,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_ROOT = '/tmp/staticfiles'
-WHITENOISE_USE_FINDERS = True  # Fall back to STATICFILES_DIRS if manifest missing
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Static files configuration
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']
-
-LOGIN_URL = '/accounts/login/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.WhiteNoiseStaticFilesStorage'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
