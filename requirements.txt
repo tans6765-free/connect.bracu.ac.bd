@@ -4,4 +4,3 @@ requests
 PyJWT
 cryptography
 gunicorn
-whitenoise
