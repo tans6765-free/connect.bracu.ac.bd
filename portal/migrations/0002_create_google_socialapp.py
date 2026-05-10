@@ -17,25 +17,35 @@ def create_google_socialapp(apps, schema_editor):
     site, _ = Site.objects.update_or_create(
         pk=1,
         defaults={
-            'domain': 'bracuconnectbracuacbd.vercel.app',
+            'domain': 'localhost:8000',
             'name': 'BRAC Portal',
         }
     )
 
+    # Clean up any duplicate Google SocialApps first
+    all_google_apps = list(SocialApp.objects.filter(provider='google'))
+    if len(all_google_apps) > 1:
+        # Keep the first one, delete the rest
+        first = all_google_apps[0]
+        for app in all_google_apps[1:]:
+            app.delete()
+
     # Create or update Google SocialApp
-    google_app = SocialApp.objects.filter(provider='google').first()
-    if google_app:
+    google_app, created = SocialApp.objects.get_or_create(
+        provider='google',
+        defaults={
+            'name': 'Google',
+            'client_id': client_id,
+            'secret': client_secret,
+        }
+    )
+    
+    if not created:
         google_app.client_id = client_id
         google_app.secret = client_secret
         google_app.save()
         print("Updated existing Google SocialApp")
     else:
-        google_app = SocialApp.objects.create(
-            provider='google',
-            name='Google',
-            client_id=client_id,
-            secret=client_secret,
-        )
         print("Created Google SocialApp")
 
     google_app.sites.set([site])
