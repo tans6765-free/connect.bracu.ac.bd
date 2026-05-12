@@ -8,41 +8,40 @@
     <title>BracU Central Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background: #f8fafc;
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
-        .login-container {
+        .login-card {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             width: 100%;
             max-width: 420px;
             overflow: hidden;
         }
-        .branding {
+        .header {
             text-align: center;
-            padding: 2rem 2rem 1.5rem;
-            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            padding: 2.5rem 2rem 1.5rem;
         }
-        .branding img {
-            width: 120px;
+        .header img {
+            width: 130px;
             height: auto;
-            margin-bottom: 12px;
+            display: block;
+            margin: 0 auto 12px;
         }
-        .branding h1 {
-            font-size: 1.55rem;
+        .header h1 {
+            font-size: 1.6rem;
             font-weight: 700;
             color: #1e2937;
-            margin: 0;
         }
-        .form-area {
+        .form-section {
             padding: 0 2rem 2.5rem;
         }
         .form-group {
@@ -50,7 +49,7 @@
         }
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 6px;
             font-size: 0.9rem;
             color: #374151;
             font-weight: 500;
@@ -58,7 +57,7 @@
         input {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #d1d5db;
             border-radius: 10px;
             font-size: 1rem;
         }
@@ -67,61 +66,61 @@
             background: #3154f0;
             color: white;
             border: none;
-            padding: 14px;
+            padding: 15px;
             border-radius: 10px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
+            margin-top: 10px;
         }
         .divider {
             text-align: center;
-            margin: 1.5rem 0;
+            margin: 1.8rem 0;
             color: #6b7280;
             position: relative;
         }
         .divider::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
+            left: 0; right: 0; top: 50%;
             height: 1px;
             background: #e5e7eb;
         }
         .divider span {
             background: white;
-            padding: 0 20px;
+            padding: 0 15px;
         }
         .google-btn {
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            padding: 13px;
+            width: 100%;
+            padding: 14px;
             border: 1px solid #d1d5db;
             border-radius: 10px;
             background: white;
             font-size: 1rem;
             font-weight: 500;
-            color: #374151;
+            color: #1f2937;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="branding">
-            <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University">
+    <div class="login-card">
+        <div class="header">
+            <!-- Direct static path -->
+            <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" onerror="this.src='https://via.placeholder.com/130x60/3154f0/ffffff?text=BRAC';">
             <h1>BracU Central Login</h1>
         </div>
 
-        <div class="form-area">
-            <h2 style="text-align:center; margin-bottom:1.8rem; font-size:1.3rem;">Sign in to your account</h2>
+        <div class="form-section">
+            <h2 style="text-align:center; margin-bottom:1.5rem; font-size:1.25rem; color:#1e2937;">Sign in to your account</h2>
 
             {% if messages %}
                 {% for message in messages %}
-                    <div style="background:#fee2e2;color:#b91c1c;padding:12px;border-radius:8px;margin-bottom:1rem;">
+                    <div style="background:#fee2e2; color:#b91c1c; padding:12px; border-radius:8px; margin-bottom:1rem;">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -137,7 +136,6 @@
                     <label>Password</label>
                     <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
-
                 <button type="submit" class="btn-signin">Sign In</button>
             </form>
 
@@ -145,7 +143,7 @@
 
             {% if google_client_id %}
                 <a href="{% provider_login_url 'google' process='login' %}" class="google-btn">
-                    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" width="18" height="18">
+                    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" width="18" height="18" alt="Google">
                     Continue with Google
                 </a>
             {% endif %}
