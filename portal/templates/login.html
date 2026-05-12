@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BracU Central Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: #f8fafc;
+            font-family: 'Poppins', system-ui, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -19,27 +19,28 @@
             padding: 20px;
         }
         .login-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            background: var(--panel);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
             width: 100%;
-            max-width: 420px;
+            max-width: 460px;
             overflow: hidden;
+            border: 1px solid rgba(148,163,184,.18);
         }
         .header {
             text-align: center;
             padding: 2.5rem 2rem 1.5rem;
         }
         .header img {
-            width: 130px;
+            width: 140px;
             height: auto;
             display: block;
             margin: 0 auto 12px;
         }
         .header h1 {
-            font-size: 1.6rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            color: #1e2937;
+            color: var(--text);
         }
         .form-section {
             padding: 0 2rem 2.5rem;
@@ -49,34 +50,37 @@
         }
         label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            color: #374151;
-            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #475569;
+            font-weight: 600;
         }
         input {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
             font-size: 1rem;
+            background: #f8fafc;
+            color: var(--text);
         }
         .btn-signin {
             width: 100%;
-            background: #3154f0;
+            background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
             color: white;
             border: none;
             padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
         }
+        .btn-signin:hover { opacity: .95; }
         .divider {
             text-align: center;
             margin: 1.8rem 0;
-            color: #6b7280;
+            color: #64748b;
             position: relative;
         }
         .divider::before {
@@ -84,10 +88,10 @@
             position: absolute;
             left: 0; right: 0; top: 50%;
             height: 1px;
-            background: #e5e7eb;
+            background: #e2e8f0;
         }
         .divider span {
-            background: white;
+            background: var(--panel);
             padding: 0 15px;
         }
         .google-btn {
@@ -97,14 +101,16 @@
             gap: 12px;
             width: 100%;
             padding: 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: white;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 14px;
+            background: #ffffff;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             color: #1f2937;
             text-decoration: none;
+            transition: background .2s, border-color .2s;
         }
+        .google-btn:hover { background: #f8fafc; border-color: #93c5fd; }
     </style>
 </head>
 <body>
