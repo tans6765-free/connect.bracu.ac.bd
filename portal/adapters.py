@@ -1,5 +1,7 @@
 import os
+from django.core.exceptions import MultipleObjectsReturned
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.socialaccount.models import SocialApp
 from django.conf import settings
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -23,3 +25,17 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def authentication_allowed(self, request, sociallogin):
         """This is the key method that blocks login"""
         return self.is_open_for_signup(request, sociallogin)
+
+    def get_app(self, request, provider, client_id=None):
+        """Return a single SocialApp row and clean up duplicates if found."""
+        try:
+            return super().get_app(request, provider, client_id)
+        except MultipleObjectsReturned:
+            apps = SocialApp.objects.filter(provider=provider)
+            if client_id:
+                apps = apps.filter(client_id=client_id)
+            app = apps.order_by('id').first()
+            if not app:
+                raise
+            apps.exclude(pk=app.pk).delete()
+            return app
