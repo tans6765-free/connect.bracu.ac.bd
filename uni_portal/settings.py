@@ -118,5 +118,8 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
+# Force DEBUG on Vercel temporarily for testing
+if os.environ.get('VERCEL'):
+    DEBUG = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
