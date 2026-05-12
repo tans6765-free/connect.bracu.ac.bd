@@ -8,7 +8,7 @@
   },
   "functions": {
     "uni_portal/wsgi.py": {
-      "includeFiles": ["staticfiles/**"]
+      "includeFiles": "staticfiles/**"
     }
   },
   "routes": [
