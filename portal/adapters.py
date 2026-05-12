@@ -7,8 +7,21 @@ from django.conf import settings
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def is_open_for_signup(self, request, sociallogin):
         """Allow BrACU emails + Gmail for testing"""
-        email = (sociallogin.account.extra_data.get('email') or sociallogin.user.email or '').lower().strip()
-        
+        email = sociallogin.account.extra_data.get('email')
+        if not email:
+            email = sociallogin.account.extra_data.get('emailAddress')
+        if not email:
+            emails = sociallogin.account.extra_data.get('emails') or sociallogin.account.extra_data.get('emailAddresses')
+            if isinstance(emails, (list, tuple)) and emails:
+                first = emails[0]
+                if isinstance(first, str):
+                    email = first
+                elif isinstance(first, dict):
+                    email = first.get('value') or first.get('email') or first.get('address')
+        if not email:
+            email = getattr(sociallogin.user, 'email', None)
+        email = (email or '').lower().strip()
+
         if not email:
             return False
 
