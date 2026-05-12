@@ -133,3 +133,5 @@ if os.environ.get('VERCEL'):
     DEBUG = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
