@@ -8,6 +8,7 @@
   },
   "functions": {
     "api/**/*.py": {
+      "runtime": "python3.11",
       "includeFiles": "staticfiles/**"
     }
   },
