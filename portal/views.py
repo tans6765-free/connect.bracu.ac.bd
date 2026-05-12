@@ -1,8 +1,31 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 import os
 from django.conf import settings
+import json
+
+
+def health_check(request):
+    """Health check endpoint for monitoring"""
+    try:
+        from django.contrib.sites.models import Site
+        from allauth.socialaccount.models import SocialApp
+        
+        site = Site.objects.get(pk=1)
+        google_app = SocialApp.objects.filter(provider='google').first()
+        
+        return JsonResponse({
+            'status': 'ok',
+            'site': site.domain if site else 'N/A',
+            'google_oauth': 'configured' if (google_app and google_app.client_id != 'placeholder-client-id') else 'not_configured',
+            'debug': settings.DEBUG,
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'error': str(e)
+        }, status=500)
 
 
 @login_required
