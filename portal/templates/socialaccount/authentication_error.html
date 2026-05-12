@@ -1,0 +1,16 @@
+{% extends 'account/login.html' %}
+
+{% block content %}
+<div class="login-card" style="margin-top: 20px;">
+  <div class="alert" style="background: #fef2f2; border: 1px solid #fecaca; padding: 14px; border-radius: 8px; color: #b91c1c; margin-bottom: 0;">
+    <strong>Authentication Failed</strong>
+    <p style="margin-top: 8px; font-size: 13px;">
+      An error occurred while attempting to login with {{ provider }}. 
+      Please try again or contact support.
+    </p>
+    <p style="margin-top: 8px; font-size: 12px; opacity: 0.8;">
+      Error: {{ exception|default:"Unknown error" }}
+    </p>
+  </div>
+</div>
+{% endblock %}

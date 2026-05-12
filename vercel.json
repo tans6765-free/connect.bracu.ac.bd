@@ -1,29 +1,27 @@
 {
   "version": 2,
   "buildCommand": "bash build.sh",
+  "builds": [
+    {
+      "src": "uni_portal/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "memory": 3008,
+        "runtime": "python3.12"
+      }
+    }
+  ],
   "env": {
     "PYTHONUNBUFFERED": "1",
     "VERCEL": "1",
-    "DJANGO_SETTINGS_MODULE": "uni_portal.settings"
+    "DJANGO_SETTINGS_MODULE": "uni_portal.settings",
+    "DEBUG": "false"
   },
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
   "routes": [
     {
-      "src": "^/favicon\\.ico$",
-      "dest": "/staticfiles/images/favicon.ico"
-    },
-    {
-      "src": "^/static/(.*)$",
-      "dest": "/staticfiles/$1"
-    },
-    {
-      "src": "^/(.*)$",
-      "dest": "/api/index.py"
+      "src": "/(.*)",
+      "dest": "uni_portal/wsgi.py"
     }
   ]
 }

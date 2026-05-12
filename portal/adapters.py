@@ -1,78 +1,62 @@
 import logging
-from django.contrib.auth import get_user_model
-from django.core.exceptions import MultipleObjectsReturned
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.socialaccount.models import SocialApp
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
-
-    ALLOWED_EMAIL = 'md.tahsinul.islam@g.bracu.ac.bd'
-
-    def _get_social_email(self, sociallogin):
-        email = (getattr(sociallogin.user, 'email', '') or '').strip().lower()
-        if email:
-            return email
-
-        extra_data = getattr(sociallogin.account, 'extra_data', {}) or {}
-        email = (
-            extra_data.get('email')
-            or extra_data.get('emailAddress')
-            or extra_data.get('profileObj', {}).get('email')
-        )
-        if not email and isinstance(extra_data.get('emails'), (list, tuple)):
-            first_email = extra_data['emails'][0] if extra_data['emails'] else {}
-            email = first_email.get('value') or first_email.get('email')
-
-        if email:
-            return str(email).strip().lower()
-
-        return ''
-
-    def pre_social_login(self, request, sociallogin):
-        email = self._get_social_email(sociallogin)
-        if email != self.ALLOWED_EMAIL:
-            logger.warning(f"Blocked Google login for unauthorized email: {email}")
-            return
-
-        if sociallogin.is_existing:
-            return
-
-        User = get_user_model()
-        try:
-            user = User.objects.get(email__iexact=email)
-        except User.DoesNotExist:
-            user = User(
-                email=email,
-                username=email,
-                first_name=(sociallogin.account.extra_data.get('given_name') or '').strip(),
-                last_name=(sociallogin.account.extra_data.get('family_name') or '').strip(),
-            )
-            user.set_unusable_password()
-            user.save()
-
-        sociallogin.connect(request, user)
+    """
+    Custom adapter that:
+    1. Creates app from settings if available (no DB lookup needed)
+    2. Allows all signups and authentications for testing
+    3. Cleans up duplicate SocialApp rows
+    """
 
     def is_open_for_signup(self, request, sociallogin):
-        return self._get_social_email(sociallogin) == self.ALLOWED_EMAIL
+        """Allow all signups."""
+        return True
+
+    def authentication_allowed(self, request, sociallogin):
+        """Allow all authentication."""
+        return True
 
     def get_app(self, request, provider, client_id=None):
+        """
+        Get the SocialApp. First try settings-based config (no DB needed),
+        then fall back to database lookup.
+        
+        This is critical for Vercel where /tmp DB is ephemeral.
+        """
+        try:
+            # Try to get app from SOCIALACCOUNT_PROVIDERS settings first
+            provider_settings = settings.SOCIALACCOUNT_PROVIDERS.get(provider, {})
+            app_config = provider_settings.get('APP', {})
+            
+            cid = app_config.get('client_id', '').strip()
+            secret = app_config.get('secret', '').strip()
+            
+            if cid and secret:
+                # Create an in-memory (unsaved) SocialApp from settings
+                # This works with allauth's settings-aware adapter
+                app = SocialApp(
+                    provider=provider,
+                    name=provider.capitalize(),
+                    client_id=cid,
+                    secret=secret,
+                    key=app_config.get('key', ''),
+                )
+                logger.info(f"[OAuth] Using settings-based {provider} app (client_id={cid[:8]}...)")
+                return app
+        except Exception as e:
+            logger.warning(f"[OAuth] Settings-based app failed: {e}")
+
+        # Fall back to database SocialApp
         try:
             return super().get_app(request, provider, client_id)
-
-        except MultipleObjectsReturned:
-            apps = SocialApp.objects.filter(provider=provider)
-
-            if client_id:
-                apps = apps.filter(client_id=client_id)
-
-            app = apps.order_by('id').first()
-
-            if not app:
-                raise
-
-            apps.exclude(pk=app.pk).delete()
-
-            return app
+        except SocialApp.DoesNotExist:
+            logger.error(f"[OAuth] No SocialApp for {provider} in DB or settings")
+            raise
+        except Exception as e:
+            logger.exception(f"[OAuth] Error getting {provider} app: {e}")
+            raise

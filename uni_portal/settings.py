@@ -1,13 +1,28 @@
-import os
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-prod')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+if os.environ.get('VERCEL'):
+    DEBUG = False  # Disable DEBUG on Vercel
 
 ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://connectbracuacbd.vercel.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = False
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,18 +39,26 @@ INSTALLED_APPS = [
     'portal',
 ]
 
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'portal.middleware.VercelExceptionLoggingMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
+
+ROOT_URLCONF = 'uni_portal.urls'
 
 TEMPLATES = [
     {
@@ -55,9 +78,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'uni_portal.wsgi.application'
-ROOT_URLCONF = 'uni_portal.urls'
 
-# Database
+# Database: on Vercel use /tmp (per-request), otherwise use project dir
 if os.environ.get('VERCEL'):
     DATABASES = {
         'default': {
@@ -74,17 +96,32 @@ else:
     }
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Dhaka'  # Better for BRACU
+TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-SITE_ID = 1
+# ═══════════════════════════════════════════════════════════════════════════
+# STATIC FILES — Critical fix for Vercel
+#
+# The issue: collectstatic must write to STATIC_ROOT which is inside the
+# project (gets deployed). WhiteNoise serves from there using
+# WHITENOISE_ROOT. No manifest hashing — simple 1:1 URL mapping.
+# ═══════════════════════════════════════════════════════════════════════════
 
-# Static files - Critical for Vercel
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Gets deployed by Vercel
+STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']  # Source files
+
+# SimpleStorage: no hashing, {% static 'x' %} → /static/x
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# WhiteNoise: serves from STATIC_ROOT (the deployed staticfiles/)
+WHITENOISE_AUTOREFRESH = True
+WHITENOISE_USE_FINDERS = True
+
+# ═══════════════════════════════════════════════════════════════════════════
+# ALLAUTH / GOOGLE OAUTH
+# ═══════════════════════════════════════════════════════════════════════════
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -96,18 +133,21 @@ SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_ADAPTER = 'portal.adapters.CustomSocialAccountAdapter'
+SOCIALACCOUNT_STORE_TOKENS = True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'SCOPE': ['profile', 'email'],
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
         'AUTH_PARAMS': {
             'access_type': 'online',
-            'prompt': 'select_account',
         },
         'APP': {
             'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
             'secret': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
-            'key': ''
+            'key': '',
         },
     }
 }

@@ -1,23 +1,37 @@
-# Python cache — NEVER commit these, they override .py files on Vercel
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Virtual environment
-.venv/
-venv/
+*.py[cod]
+*$py.class
+*.so
+.Python
 env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
 
 # Django
 *.sqlite3
-staticfiles/
-/tmp/
+db.sqlite3
+/staticfiles/
+/staticfiles_root/
+.DS_Store
+
+# Vercel
+.vercel
+.vercel_build_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Environment
 .env
-*.env
+.env.local
+*.pem
 
 # OS
-.DS_Store
 Thumbs.db
