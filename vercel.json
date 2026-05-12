@@ -7,18 +7,18 @@
     "DJANGO_SETTINGS_MODULE": "uni_portal.settings"
   },
   "functions": {
-    "api/uni_portal/wsgi.py": {
+    "api/wsgi.py": {
       "includeFiles": "staticfiles/**"
     }
   },
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "api/uni_portal/wsgi.py"
+      "dest": "api/wsgi.py"
     },
     {
       "src": "/(.*)",
-      "dest": "api/uni_portal/wsgi.py"
+      "dest": "api/wsgi.py"
     }
   ]
 }
