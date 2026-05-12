@@ -15,7 +15,7 @@
     <div class="d-flex" id="wrapper">
       <nav id="sidebar">
         <div class="sidebar-header px-4 py-4">
-          <!-- FIX: use {% static %} so Django resolves the correct URL in all environments -->
+          <!-- FIX: use the Django static tag so Django resolves the correct URL in all environments -->
           <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="sidebar-logo-img mb-2">
           <div class="sidebar-title">Student Lifecycle</div>
           <div class="sidebar-subtitle">Management</div>
@@ -149,7 +149,7 @@
                 <span class="badge-count">18</span>
               </div>
               <div class="profile-card d-flex align-items-center position-relative" style="cursor: pointer;" id="profileDropBtn">
-                <!-- FIX: use {% static %} tag -->
+                <!-- FIX: use the Django static tag here -->
                 <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-avatar">
                 <div class="profile-info">
                   <div class="profile-name">Md. Tahsinul Islam</div>
@@ -179,7 +179,7 @@
         <!-- Profile Dropdown -->
         <div class="profile-dropdown" id="profileDropdown" style="display:none;">
           <div class="pd-header">
-            <!-- FIX: use {% static %} tag -->
+            <!-- FIX: use the Django static tag here -->
             <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="pd-avatar">
             <div>
               <div class="pd-name">MD. TAHSINUL ISLAM</div>
@@ -197,7 +197,7 @@
 
         <footer class="portal-footer">
           <span>2026© <a href="https://www.bracu.ac.bd" target="_blank">BRAC University</a>. All rights reserved.</span>
-          <!-- FIX: use {% static %} tag -->
+          <!-- FIX: use the Django static tag here -->
           <span class="footer-dev">Developed By: <img src="{% static 'images/bracit.svg' %}" alt="BracIT" class="bracit-logo"></span>
         </footer>
       </div>
