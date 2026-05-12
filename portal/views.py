@@ -36,7 +36,7 @@ def health_check(request):
             google_has_secret = 'ERROR'
             google_sites = []
 
-        return JsonResponse({
+        response_data = {
             'status': 'ok',
             'site': site_domain,
             'google_oauth': google_configured,
@@ -45,7 +45,14 @@ def health_check(request):
             'google_sites': google_sites,
             'debug': settings.DEBUG,
             'vercel': 'YES' if os.environ.get('VERCEL') else 'NO',
-        })
+        }
+        if request.GET.get('debug') == '1' and os.environ.get('VERCEL'):
+            try:
+                with open('/tmp/vercel_exception.txt', 'r', encoding='utf-8') as f:
+                    response_data['last_exception'] = f.read()
+            except Exception as e:
+                response_data['last_exception'] = f'Error reading exception log: {e}'
+        return JsonResponse(response_data)
     except Exception as e:
         return JsonResponse({
             'status': 'error',
