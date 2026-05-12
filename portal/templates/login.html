@@ -111,7 +111,7 @@
     <div class="login-card">
         <div class="header">
             <!-- Use Django static tag for correct asset path -->
-            <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="branding-logo">
+            <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="branding-logo" onerror="this.onerror=null;this.src='{% static "images/bracit.svg" %}';">
             <h1>BracU Central Login</h1>
         </div>
 
