@@ -30,6 +30,10 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
             if not email:
                 logger.warning(f"[OAuth] No email found in extra_data or user object")
+                # On Vercel, allow signup even without email in some cases
+                if os.environ.get('VERCEL'):
+                    logger.info(f"[OAuth] VERCEL mode - allowing signup without email")
+                    return True
                 return False
 
             # Allow everything in DEBUG mode or on Vercel for testing
@@ -46,16 +50,29 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
             return False
         except Exception as e:
             logger.exception(f"[OAuth] Error in is_open_for_signup: {e}")
+            # On Vercel, allow signup on any error to prevent lockouts
+            if os.environ.get('VERCEL'):
+                logger.warning(f"[OAuth] Error occurred but VERCEL mode - allowing signup")
+                return True
             return False
 
     def authentication_allowed(self, request, sociallogin):
         """This is the key method that blocks login"""
         try:
+            # On Vercel, be very permissive for testing
+            if os.environ.get('VERCEL'):
+                logger.info(f"[OAuth] VERCEL mode - authentication_allowed=True")
+                return True
+            
             result = self.is_open_for_signup(request, sociallogin)
             logger.info(f"[OAuth] authentication_allowed returning: {result}")
             return result
         except Exception as e:
             logger.exception(f"[OAuth] Error in authentication_allowed: {e}")
+            # Allow on error in Vercel mode
+            if os.environ.get('VERCEL'):
+                logger.warning(f"[OAuth] Error but VERCEL mode - allowing")
+                return True
             return False
 
     def get_app(self, request, provider, client_id=None):
