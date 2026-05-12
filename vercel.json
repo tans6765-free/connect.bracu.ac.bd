@@ -7,7 +7,7 @@
     "DJANGO_SETTINGS_MODULE": "uni_portal.settings"
   },
   "functions": {
-    "wsgi.py": {
+    "api/**/*.py": {
       "includeFiles": "staticfiles/**"
     }
   },
