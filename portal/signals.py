@@ -1,11 +1,12 @@
 import logging
+from django.contrib.auth import get_user_model
 from django.dispatch import receiver
 from allauth.socialaccount.signals import pre_social_login, social_account_updated
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 
 logger = logging.getLogger(__name__)
+ALLOWED_EMAIL = 'md.tahsinul.islam@g.bracu.ac.bd'
 
 def ensure_correct_site_config():
     """Ensure site domain and SocialApp are correctly configured"""
@@ -27,20 +28,52 @@ def ensure_correct_site_config():
         logger.exception(f"[Fix] Error in ensure_correct_site_config: {e}")
 
 
+def get_social_email(sociallogin):
+    email = (getattr(sociallogin.user, 'email', '') or '').strip().lower()
+    if email:
+        return email
+
+    extra_data = getattr(sociallogin.account, 'extra_data', {}) or {}
+    email = extra_data.get('email') or extra_data.get('emailAddress')
+    if email:
+        return str(email).strip().lower()
+
+    return ''
+
+
+def create_or_connect_user(request, sociallogin, email):
+    User = get_user_model()
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        user = User(
+            email=email,
+            username=email,
+            first_name=(sociallogin.account.extra_data.get('given_name') or '').strip(),
+            last_name=(sociallogin.account.extra_data.get('family_name') or '').strip(),
+        )
+        user.set_unusable_password()
+        user.save()
+
+    if not sociallogin.is_existing:
+        sociallogin.connect(request, user)
+    return user
+
+
 @receiver(pre_social_login)
 def pre_social_login_handler(sender, request, sociallogin, **kwargs):
-    """Log OAuth data before authentication"""
+    """Handle Google social logins before authentication"""
     try:
         ensure_correct_site_config()
-        logger.info(f"[Signal] pre_social_login triggered")
-        logger.info(f"[Signal] Provider: {sociallogin.account.provider}")
-        logger.info(f"[Signal] UID: {sociallogin.account.uid}")
-        logger.info(f"[Signal] Extra data keys: {list(sociallogin.account.extra_data.keys())}")
-        logger.info(f"[Signal] Email from extra_data: {sociallogin.account.extra_data.get('email')}")
-        logger.info(f"[Signal] User email: {getattr(sociallogin.user, 'email', 'N/A')}")
-        logger.info(f"[Signal] User first_name: {getattr(sociallogin.user, 'first_name', 'N/A')}")
-        logger.info(f"[Signal] User last_name: {getattr(sociallogin.user, 'last_name', 'N/A')}")
-        logger.info(f"[Signal] Full extra_data: {sociallogin.account.extra_data}")
+        email = get_social_email(sociallogin)
+        logger.info(f"[Signal] pre_social_login triggered for email: {email}")
+
+        if email != ALLOWED_EMAIL:
+            logger.warning(f"[Signal] Blocking social login for unauthorized email: {email}")
+            return
+
+        create_or_connect_user(request, sociallogin, email)
+        logger.info(f"[Signal] Connected social login to user {email}")
     except Exception as e:
         logger.exception(f"[Signal] Error in pre_social_login_handler: {e}")
 
