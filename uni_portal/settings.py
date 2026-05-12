@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'portal',
+    'portal.apps.PortalConfig',
 ]
 
 SITE_ID = 1
