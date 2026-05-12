@@ -6,11 +6,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         email = sociallogin.account.extra_data.get('email')
         if not email:
             return False
-
         if settings.DEBUG:
             return True
-
-        # Only BRACU Google accounts allowed in production
         return email.lower().endswith('@g.bracu.ac.bd')
 
     def authentication_allowed(self, request, sociallogin):

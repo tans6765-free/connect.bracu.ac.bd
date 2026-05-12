@@ -12,19 +12,30 @@ def health_check(request):
         from django.contrib.sites.models import Site
         from allauth.socialaccount.models import SocialApp
         
-        site = Site.objects.get(pk=1)
-        google_app = SocialApp.objects.filter(provider='google').first()
+        try:
+            site = Site.objects.get(pk=1)
+            site_domain = site.domain if site else 'N/A'
+        except:
+            site_domain = 'N/A'
+        
+        try:
+            google_app = SocialApp.objects.filter(provider='google').first()
+            google_configured = 'configured' if (google_app and google_app.client_id and google_app.client_id != 'placeholder-client-id') else 'not_configured'
+        except:
+            google_configured = 'error_checking'
         
         return JsonResponse({
             'status': 'ok',
-            'site': site.domain if site else 'N/A',
-            'google_oauth': 'configured' if (google_app and google_app.client_id != 'placeholder-client-id') else 'not_configured',
+            'site': site_domain,
+            'google_oauth': google_configured,
             'debug': settings.DEBUG,
+            'google_env_vars': 'set' if os.environ.get('GOOGLE_CLIENT_ID') else 'missing',
         })
     except Exception as e:
         return JsonResponse({
             'status': 'error',
-            'error': str(e)
+            'error': str(e),
+            'debug': settings.DEBUG,
         }, status=500)
 
 
