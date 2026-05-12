@@ -53,6 +53,8 @@ TEMPLATES = {
 
 WSGI_APPLICATION = 'uni_portal.wsgi.application'
 
+ROOT_URLCONF = 'uni_portal.urls'
+
 if os.environ.get('VERCEL'):
     DATABASES = {
         'default': {
