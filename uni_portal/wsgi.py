@@ -30,17 +30,31 @@ if os.environ.get('VERCEL'):
         client_secret = os.environ.get('GOOGLE_CLIENT_SECRET', '')
 
         if client_id and client_secret:
-            site = Site.objects.get_or_create(
+            site, _ = Site.objects.get_or_create(
                 id=1,
                 defaults={'domain': 'connectbracuacbd.vercel.app', 'name': 'BracU Portal'}
-            )[0]
-            app = SocialApp.objects.create(
-                provider='google',
-                name='Google',
-                client_id=client_id,
-                secret=client_secret,
             )
-            app.sites.add(site)
+            if site.domain != 'connectbracuacbd.vercel.app' or site.name != 'BracU Portal':
+                site.domain = 'connectbracuacbd.vercel.app'
+                site.name = 'BracU Portal'
+                site.save()
+
+            apps = SocialApp.objects.filter(provider='google')
+            if apps.exists():
+                app = apps.order_by('id').first()
+                apps.exclude(pk=app.pk).delete()
+                app.name = 'Google'
+                app.client_id = client_id
+                app.secret = client_secret
+                app.save()
+            else:
+                app = SocialApp.objects.create(
+                    provider='google',
+                    name='Google',
+                    client_id=client_id,
+                    secret=client_secret,
+                )
+            app.sites.set([site])
             print("Created fresh Google SocialApp")
         else:
             print("WARNING: GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET not set — Google login will not work")
