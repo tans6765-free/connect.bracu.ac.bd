@@ -75,6 +75,15 @@ def grade_sheet_preview(request):
 
 
 @login_required
+def grade_sheet_pdf(request):
+    pdf_path = os.path.join(settings.BASE_DIR, 'portal', 'static', 'grade_sheet.pdf')
+    if not os.path.exists(pdf_path):
+        raise Http404("Grade sheet PDF not found.")
+    response = FileResponse(open(pdf_path, 'rb'), content_type='application/pdf')
+    return response
+
+
+@login_required
 def grade_sheet_download(request):
     pdf_path = os.path.join(settings.BASE_DIR, 'portal', 'static', 'grade_sheet.pdf')
     if not os.path.exists(pdf_path):

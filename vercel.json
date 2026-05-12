@@ -1,28 +1,20 @@
 {
   "version": 2,
   "buildCommand": "bash build.sh",
-  "builds": [
-    {
-      "src": "uni_portal/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
-    },
-    {
-      "src": "staticfiles/**",
-      "use": "@vercel/static"
-    }
-  ],
   "env": {
     "PYTHONUNBUFFERED": "1",
     "VERCEL": "1",
     "DJANGO_SETTINGS_MODULE": "uni_portal.settings"
   },
+  "functions": {
+    "uni_portal/wsgi.py": {
+      "includeFiles": ["staticfiles/**"]
+    }
+  },
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
+      "dest": "uni_portal/wsgi.py"
     },
     {
       "src": "/(.*)",
