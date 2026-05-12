@@ -1,4 +1,5 @@
 import logging
+from django.contrib.auth import get_user_model
 from django.core.exceptions import MultipleObjectsReturned
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.socialaccount.models import SocialApp
@@ -22,14 +23,35 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
         return ''
 
-    def _is_allowed_email(self, sociallogin):
-        return self._get_social_email(sociallogin) == self.ALLOWED_EMAIL
+    def pre_social_login(self, request, sociallogin):
+        email = self._get_social_email(sociallogin)
+        if email != self.ALLOWED_EMAIL:
+            logger.warning(f"Blocked Google login for unauthorized email: {email}")
+            return
+
+        if sociallogin.is_existing:
+            return
+
+        User = get_user_model()
+        try:
+            user = User.objects.get(email__iexact=email)
+        except User.DoesNotExist:
+            user = User(
+                email=email,
+                username=email,
+                first_name=(sociallogin.account.extra_data.get('given_name') or '').strip(),
+                last_name=(sociallogin.account.extra_data.get('family_name') or '').strip(),
+            )
+            user.set_unusable_password()
+            user.save()
+
+        sociallogin.connect(request, user)
 
     def is_open_for_signup(self, request, sociallogin):
-        return self._is_allowed_email(sociallogin)
+        return self._get_social_email(sociallogin) == self.ALLOWED_EMAIL
 
     def authentication_allowed(self, request, sociallogin):
-        return self._is_allowed_email(sociallogin)
+        return self._get_social_email(sociallogin) == self.ALLOWED_EMAIL
 
     def get_app(self, request, provider, client_id=None):
         try:
