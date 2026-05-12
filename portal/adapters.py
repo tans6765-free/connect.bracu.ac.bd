@@ -9,71 +9,14 @@ logger = logging.getLogger(__name__)
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def is_open_for_signup(self, request, sociallogin):
-        """Allow BrACU emails + Gmail for testing"""
-        try:
-            email = sociallogin.account.extra_data.get('email')
-            if not email:
-                email = sociallogin.account.extra_data.get('emailAddress')
-            if not email:
-                emails = sociallogin.account.extra_data.get('emails') or sociallogin.account.extra_data.get('emailAddresses')
-                if isinstance(emails, (list, tuple)) and emails:
-                    first = emails[0]
-                    if isinstance(first, str):
-                        email = first
-                    elif isinstance(first, dict):
-                        email = first.get('value') or first.get('email') or first.get('address')
-            if not email:
-                email = getattr(sociallogin.user, 'email', None)
-            email = (email or '').lower().strip()
-
-            logger.info(f"[OAuth] Checking signup for email: {email}, provider: {sociallogin.account.provider}, extra_data keys: {list(sociallogin.account.extra_data.keys())}")
-
-            if not email:
-                logger.warning(f"[OAuth] No email found in extra_data or user object")
-                # On Vercel, allow signup even without email in some cases
-                if os.environ.get('VERCEL'):
-                    logger.info(f"[OAuth] VERCEL mode - allowing signup without email")
-                    return True
-                return False
-
-            # Allow everything in DEBUG mode or on Vercel for testing
-            if settings.DEBUG or os.environ.get('VERCEL'):
-                logger.info(f"[OAuth] DEBUG or VERCEL mode - allowing signup for {email}")
-                return True
-
-            # Production: Only BrACU emails
-            if email.endswith('@g.bracu.ac.bd') or email.endswith('@bracu.ac.bd'):
-                logger.info(f"[OAuth] BrACU email allowed: {email}")
-                return True
-
-            logger.warning(f"[OAuth] Email {email} not in allowed domains")
-            return False
-        except Exception as e:
-            logger.exception(f"[OAuth] Error in is_open_for_signup: {e}")
-            # On Vercel, allow signup on any error to prevent lockouts
-            if os.environ.get('VERCEL'):
-                logger.warning(f"[OAuth] Error occurred but VERCEL mode - allowing signup")
-                return True
-            return False
+        """Allow all signups for testing - restrictions removed"""
+        logger.info(f"[OAuth] is_open_for_signup called - ALLOWING ALL (no restrictions)")
+        return True
 
     def authentication_allowed(self, request, sociallogin):
-        """This is the key method that blocks login"""
-        try:
-            # On Vercel, be very permissive for testing
-            if os.environ.get('VERCEL'):
-                logger.info(f"[OAuth] VERCEL mode - authentication_allowed=True")
-                return True
-            
-            result = self.is_open_for_signup(request, sociallogin)
-            logger.info(f"[OAuth] authentication_allowed returning: {result}")
-            return result
-        except Exception as e:
-            logger.exception(f"[OAuth] Error in authentication_allowed: {e}")
-            # Allow on error in Vercel mode
-            if os.environ.get('VERCEL'):
-                logger.warning(f"[OAuth] Error but VERCEL mode - allowing")
-                return True
-            return False
+        """Allow all authentication for testing"""
+        logger.info(f"[OAuth] authentication_allowed called - ALLOWING ALL")
+        return True
 
     def get_app(self, request, provider, client_id=None):
         """Return a single SocialApp row and clean up duplicates if found."""

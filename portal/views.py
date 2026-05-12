@@ -11,7 +11,7 @@ def health_check(request):
     try:
         from django.contrib.sites.models import Site
         from allauth.socialaccount.models import SocialApp
-        
+
         try:
             site = Site.objects.get(pk=1)
             site_domain = site.domain if site else 'N/A'
@@ -20,16 +20,31 @@ def health_check(request):
         
         try:
             google_app = SocialApp.objects.filter(provider='google').first()
-            google_configured = 'configured' if (google_app and google_app.client_id and google_app.client_id != 'placeholder-client-id') else 'not_configured'
-        except:
+            if google_app:
+                google_configured = 'configured'
+                google_client_id = google_app.client_id[:10] + '...' if google_app.client_id else 'EMPTY'
+                google_has_secret = 'YES' if google_app.secret else 'NO'
+                google_sites = list(google_app.sites.values_list('domain', flat=True))
+            else:
+                google_configured = 'not_configured'
+                google_client_id = 'NO_APP'
+                google_has_secret = 'N/A'
+                google_sites = []
+        except Exception as e:
             google_configured = 'error_checking'
-        
+            google_client_id = str(e)
+            google_has_secret = 'ERROR'
+            google_sites = []
+
         return JsonResponse({
             'status': 'ok',
             'site': site_domain,
             'google_oauth': google_configured,
+            'google_client_id': google_client_id,
+            'google_has_secret': google_has_secret,
+            'google_sites': google_sites,
             'debug': settings.DEBUG,
-            'google_env_vars': 'set' if os.environ.get('GOOGLE_CLIENT_ID') else 'missing',
+            'vercel': 'YES' if os.environ.get('VERCEL') else 'NO',
         })
     except Exception as e:
         return JsonResponse({
