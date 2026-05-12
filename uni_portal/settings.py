@@ -25,6 +25,15 @@ SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
 
+# -----------------------------------------------------------------------
+# FIX: Use signed-cookie sessions so the OAuth "state" token survives
+# across Vercel serverless function instances.  The state is stored in
+# the browser cookie itself — no database round-trip needed, and it is
+# always available on the Google callback regardless of which instance
+# handles it.  This is safe because the cookie is signed with SECRET_KEY.
+# -----------------------------------------------------------------------
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -118,6 +127,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
+
 # Force DEBUG on Vercel temporarily for testing
 if os.environ.get('VERCEL'):
     DEBUG = True
