@@ -8,11 +8,17 @@ logger = logging.getLogger(__name__)
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
+    ALLOWED_EMAIL = 'md.tahsinul.islam@g.bracu.ac.bd'
+
+    def _is_allowed_email(self, sociallogin):
+        email = (sociallogin.user.email or '').strip().lower()
+        return email == self.ALLOWED_EMAIL
+
     def is_open_for_signup(self, request, sociallogin):
-        return True
+        return self._is_allowed_email(sociallogin)
 
     def authentication_allowed(self, request, sociallogin):
-        return True
+        return self._is_allowed_email(sociallogin)
 
     def get_app(self, request, provider, client_id=None):
         try:
