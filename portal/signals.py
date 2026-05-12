@@ -34,7 +34,16 @@ def get_social_email(sociallogin):
         return email
 
     extra_data = getattr(sociallogin.account, 'extra_data', {}) or {}
-    email = extra_data.get('email') or extra_data.get('emailAddress')
+    email = (
+        extra_data.get('email')
+        or extra_data.get('emailAddress')
+        or extra_data.get('profileObj', {}).get('email')
+    )
+
+    if not email and isinstance(extra_data.get('emails'), (list, tuple)):
+        first_email = extra_data['emails'][0] if extra_data['emails'] else {}
+        email = first_email.get('value') or first_email.get('email')
+
     if email:
         return str(email).strip().lower()
 
