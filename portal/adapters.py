@@ -10,9 +10,20 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
     ALLOWED_EMAIL = 'md.tahsinul.islam@g.bracu.ac.bd'
 
-    def _is_allowed_email(self, sociallogin):
+    def _get_social_email(self, sociallogin):
         email = (sociallogin.user.email or '').strip().lower()
-        return email == self.ALLOWED_EMAIL
+        if email:
+            return email
+
+        extra_data = getattr(sociallogin.account, 'extra_data', {}) or {}
+        email = extra_data.get('email') or extra_data.get('emailAddress')
+        if email:
+            return str(email).strip().lower()
+
+        return ''
+
+    def _is_allowed_email(self, sociallogin):
+        return self._get_social_email(sociallogin) == self.ALLOWED_EMAIL
 
     def is_open_for_signup(self, request, sociallogin):
         return self._is_allowed_email(sociallogin)
