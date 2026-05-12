@@ -1,6 +1,5 @@
 {% load account %}
 {% load static %}
-{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Inter', system-ui, sans-serif;
       background: #f4f6f9;
@@ -22,275 +20,69 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* ── Faint background decorations (matching screenshot) ── */
-    .bg-deco {
-      position: fixed;
-      pointer-events: none;
-      opacity: 0.18;
-    }
+    .bg-deco { position: fixed; pointer-events: none; opacity: 0.18; }
     .bg-deco-tl { top: -60px; left: -60px; }
     .bg-deco-tr { top: -40px; right: -40px; }
     .bg-deco-bl { bottom: -60px; left: -40px; }
     .bg-deco-br { bottom: -40px; right: -60px; }
-
-    /* ── Center wrapper ── */
-    .login-center {
-      width: 100%;
-      max-width: 460px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── Top branding (above card) ── */
-    .branding {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .branding-logo {
-      width: 130px;
-      height: 130px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 6px;
-      background: transparent;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    }
-    .branding-tagline {
-      font-size: 11.5px;
-      color: #64748b;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .branding-line {
-      width: 64px;
-      height: 1.5px;
-      background: #1e3a8a;
-      margin: 6px auto 14px;
-      border-radius: 2px;
-    }
-    .branding-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.02em;
-    }
-
-    /* ── Card ── */
-    .login-card {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08), 0 1px 4px rgba(15, 23, 42, 0.04);
-      padding: 36px 36px 30px;
-    }
-
-    .card-heading {
-      font-size: 17px;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 24px;
-    }
-
-    /* ── Alerts ── */
-    .alert {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
+    .login-center { width: 100%; max-width: 460px; position: relative; z-index: 1; }
+    .branding { text-align: center; margin-bottom: 24px; }
+    .branding-logo { width: 130px; height: 130px; object-fit: contain; display: block; margin: 0 auto 6px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+    .branding-tagline { font-size: 11.5px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .branding-line { width: 64px; height: 1.5px; background: #1e3a8a; margin: 6px auto 14px; border-radius: 2px; }
+    .branding-title { font-size: 22px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; }
+    .login-card { background: #ffffff; border-radius: 16px; box-shadow: 0 4px 24px rgba(15,23,42,0.08), 0 1px 4px rgba(15,23,42,0.04); padding: 36px 36px 30px; }
+    .card-heading { font-size: 17px; font-weight: 600; color: #0f172a; margin-bottom: 24px; }
+    .alert { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
     .alert-danger { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
     .alert-success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-
-    /* ── Form fields ── */
     .form-group { margin-bottom: 16px; }
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: #374151;
-      margin-bottom: 6px;
-    }
-    .form-control {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 14px;
-      background: #f8fafc;
-      color: #0f172a;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      outline: none;
-    }
-    .form-control:focus {
-      border-color: #3b82f6;
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
-    }
+    .form-label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #f8fafc; color: #0f172a; transition: border-color 0.15s, box-shadow 0.15s; outline: none; }
+    .form-control:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
     .form-control::placeholder { color: #9ca3af; }
-
-    /* Password wrapper with eye icon */
     .password-wrap { position: relative; }
     .password-wrap .form-control { padding-right: 42px; }
-    .eye-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #9ca3af;
-      padding: 2px;
-      display: flex;
-      align-items: center;
-    }
+    .eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #9ca3af; padding: 2px; display: flex; align-items: center; }
     .eye-btn:hover { color: #6b7280; }
-
-    /* ── reCAPTCHA wrapper ── */
-    .recaptcha-wrap {
-      margin: 18px 0 4px;
-    }
-    .recaptcha-mock {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      padding: 14px 16px;
-      background: #f9f9f9;
-      width: 300px;
-    }
-    .recaptcha-checkbox {
-      width: 24px;
-      height: 24px;
-      border: 2px solid #9ca3af;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      background: #fff;
-      transition: all 0.15s;
-    }
-    .recaptcha-checkbox.checked {
-      background: #4a90d9;
-      border-color: #4a90d9;
-    }
-    .recaptcha-label {
-      font-size: 14px;
-      color: #374151;
-      flex: 1;
-      cursor: pointer;
-    }
-    .recaptcha-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-    .recaptcha-logo svg { width: 32px; height: 32px; }
+    .recaptcha-wrap { margin: 18px 0 4px; }
+    .recaptcha-mock { display: flex; align-items: center; gap: 14px; border: 1px solid #d1d5db; border-radius: 4px; padding: 14px 16px; background: #f9f9f9; width: 300px; cursor: pointer; }
+    .recaptcha-checkbox { width: 24px; height: 24px; border: 2px solid #9ca3af; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #fff; transition: all 0.15s; }
+    .recaptcha-checkbox.checked { background: #4a90d9; border-color: #4a90d9; }
+    .recaptcha-label { font-size: 14px; color: #374151; flex: 1; }
+    .recaptcha-logo { display: flex; flex-direction: column; align-items: center; gap: 2px; }
     .recaptcha-brand { font-size: 8px; color: #9ca3af; text-align: center; }
-
-    /* ── Forgot password ── */
-    .forgot-row {
-      text-align: right;
-      margin: 14px 0 18px;
-    }
-    .forgot-link {
-      font-size: 13px;
-      color: #3b82f6;
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .forgot-row { text-align: right; margin: 14px 0 18px; }
+    .forgot-link { font-size: 13px; color: #3b82f6; text-decoration: none; font-weight: 500; }
     .forgot-link:hover { text-decoration: underline; }
-
-    /* ── Sign In button ── */
-    .btn-signin {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
-      letter-spacing: 0.01em;
-    }
+    .btn-signin { width: 100%; padding: 13px; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
     .btn-signin:hover { opacity: 0.92; transform: translateY(-1px); }
-    .btn-signin:active { transform: translateY(0); }
-
-    /* ── Divider ── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 22px 0;
-    }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; }
     .divider-line { flex: 1; height: 1px; background: #e5e7eb; }
     .divider-text { font-size: 13px; color: #9ca3af; white-space: nowrap; }
-
-    /* ── Google button ── */
-    .btn-google {
-      width: 100%;
-      padding: 12px;
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    }
-    .btn-google:hover {
-      background: #f8fafc;
-      border-color: #c7d2fe;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.1);
-      color: #374151;
-    }
-    .btn-google:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn-google { width: 100%; padding: 12px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; transition: background 0.15s, border-color 0.15s, box-shadow 0.15s; }
+    .btn-google:hover { background: #f8fafc; border-color: #c7d2fe; box-shadow: 0 2px 8px rgba(59,130,246,0.1); color: #374151; }
   </style>
 </head>
 <body>
-
-  <!-- Background decorations (faint geometric shapes) -->
   <svg class="bg-deco bg-deco-tl" width="220" height="220" viewBox="0 0 220 220" fill="none">
     <circle cx="30" cy="180" r="100" stroke="#94a3b8" stroke-width="1.5"/>
     <circle cx="80" cy="140" r="60" stroke="#94a3b8" stroke-width="1"/>
     <circle cx="160" cy="60" r="30" stroke="#94a3b8" stroke-width="1"/>
-    <line x1="20" y1="20" x2="60" y2="60" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="62" cy="62" r="4" fill="#94a3b8"/>
   </svg>
   <svg class="bg-deco bg-deco-tr" width="200" height="200" viewBox="0 0 200 200" fill="none">
     <circle cx="170" cy="30" r="90" stroke="#94a3b8" stroke-width="1.5"/>
     <circle cx="130" cy="70" r="50" stroke="#94a3b8" stroke-width="1"/>
-    <circle cx="60" cy="140" r="25" stroke="#94a3b8" stroke-width="1"/>
   </svg>
   <svg class="bg-deco bg-deco-bl" width="200" height="180" viewBox="0 0 200 180" fill="none">
     <circle cx="40" cy="140" r="80" stroke="#94a3b8" stroke-width="1.5"/>
-    <circle cx="100" cy="90" r="45" stroke="#94a3b8" stroke-width="1"/>
   </svg>
   <svg class="bg-deco bg-deco-br" width="200" height="200" viewBox="0 0 200 200" fill="none">
     <circle cx="160" cy="160" r="90" stroke="#94a3b8" stroke-width="1.5"/>
     <circle cx="110" cy="110" r="50" stroke="#94a3b8" stroke-width="1"/>
-    <circle cx="60" cy="60" r="20" stroke="#94a3b8" stroke-width="1"/>
   </svg>
 
   <div class="login-center">
-
-    <!-- Branding above card -->
     <div class="branding">
       <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="branding-logo">
       <div class="branding-tagline">Inspiring Excellence</div>
@@ -298,11 +90,9 @@
       <div class="branding-title">BracU Central Login</div>
     </div>
 
-    <!-- Login card -->
     <div class="login-card">
       <div class="card-heading">Sign in to your account</div>
 
-      <!-- Error messages -->
       {% if form.non_field_errors %}
         <div class="alert alert-danger">
           {% for error in form.non_field_errors %}{{ error }}{% endfor %}
@@ -316,7 +106,6 @@
         {% endfor %}
       {% endif %}
 
-      <!-- Login form -->
       <form method="POST" action="{% url 'account_login' %}">
         {% csrf_token %}
         {% if redirect_field_value %}
@@ -335,13 +124,10 @@
           <div class="password-wrap">
             <input type="password" class="form-control" id="id_password" name="password"
                    placeholder="Enter your password" autocomplete="current-password">
-            <button type="button" class="eye-btn" onclick="togglePassword()" id="eyeBtn">
-              <!-- Eye open icon -->
+            <button type="button" class="eye-btn" onclick="togglePassword()">
               <svg id="eyeOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
               </svg>
-              <!-- Eye closed icon (hidden by default) -->
               <svg id="eyeClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
                 <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
                 <line x1="1" y1="1" x2="23" y2="23"/>
@@ -350,63 +136,45 @@
           </div>
         </div>
 
-        <!-- reCAPTCHA (visual) -->
         <div class="recaptcha-wrap">
-          <div class="recaptcha-mock" id="recaptchaMock" onclick="toggleCaptcha()">
+          <div class="recaptcha-mock" onclick="toggleCaptcha()">
             <div class="recaptcha-checkbox" id="rcCheckbox"></div>
             <div class="recaptcha-label">I'm not a robot</div>
             <div class="recaptcha-logo">
-              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 64 64" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M32 8C18.7 8 8 18.7 8 32s10.7 24 24 24 24-10.7 24-24S45.3 8 32 8z" fill="#4A90D9"/>
                 <path d="M32 14c-9.9 0-18 8.1-18 18s8.1 18 18 18 18-8.1 18-18-8.1-18-18-18z" fill="#fff"/>
                 <path d="M40 28l-8-8-8 8h5v8h6v-8h5z" fill="#4A90D9"/>
-                <path d="M24 36l8 8 8-8h-5v-8h-6v8h-5z" fill="#4A90D9" opacity="0.5"/>
               </svg>
               <div class="recaptcha-brand">reCAPTCHA<br>Privacy - Terms</div>
             </div>
           </div>
         </div>
 
-        <!-- Forgot password -->
         <div class="forgot-row">
           <a href="{% url 'account_reset_password' %}" class="forgot-link">Forgot Password?</a>
         </div>
 
-        <!-- Sign In -->
         <button type="submit" class="btn-signin">Sign In</button>
       </form>
 
-      <!-- Divider -->
       <div class="divider">
         <div class="divider-line"></div>
         <div class="divider-text">Or sign in with</div>
         <div class="divider-line"></div>
       </div>
 
-      <!-- Google OAuth -->
-      {% if google_client_id %}
-        <a href="{% provider_login_url 'google' %}" class="btn-google">
-          <svg width="18" height="18" viewBox="0 0 24 24">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          <span>Google</span>
-        </a>
-      {% else %}
-        <button class="btn-google" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" opacity="0.4">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          <span>Google (Not Configured)</span>
-        </button>
-      {% endif %}
+      <!-- HARDCODED URL — no {% provider_login_url %} tag which causes MultipleObjectsReturned -->
+      <a href="/accounts/google/login/" class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <span>Google</span>
+      </a>
     </div>
-
   </div>
 
   <script>
@@ -415,21 +183,15 @@
       const open = document.getElementById('eyeOpen');
       const closed = document.getElementById('eyeClosed');
       if (inp.type === 'password') {
-        inp.type = 'text';
-        open.style.display = 'none';
-        closed.style.display = 'block';
+        inp.type = 'text'; open.style.display = 'none'; closed.style.display = 'block';
       } else {
-        inp.type = 'password';
-        open.style.display = 'block';
-        closed.style.display = 'none';
+        inp.type = 'password'; open.style.display = 'block'; closed.style.display = 'none';
       }
     }
-
     function toggleCaptcha() {
       const cb = document.getElementById('rcCheckbox');
       if (cb.classList.contains('checked')) {
-        cb.classList.remove('checked');
-        cb.innerHTML = '';
+        cb.classList.remove('checked'); cb.innerHTML = '';
       } else {
         cb.classList.add('checked');
         cb.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';

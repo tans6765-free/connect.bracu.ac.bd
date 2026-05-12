@@ -1,86 +1,58 @@
-<!doctype html>
+{% load account %}
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - BRAC University Portal</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <style>
-      body { font-family: 'Poppins', sans-serif; background: #f5f7fb; margin: 0; }
-      .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; overflow: hidden; background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%); }
-      .login-page::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 1100px;
-        height: 1100px;
-        transform: translateX(-50%) translateY(-22%);
-        background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, .08), transparent 23%), radial-gradient(circle at 70% 70%, rgba(59, 130, 246, .07), transparent 18%);
-        opacity: .8;
-        pointer-events: none;
-      }
-      .login-card { width: 100%; max-width: 480px; border: none; border-radius: 30px; box-shadow: 0 28px 70px rgba(15, 23, 42, .08); background: #ffffff; position: relative; z-index: 1; }
-      .login-card .card-body { padding: 2.5rem 2.3rem 2rem; }
-      .login-brand { text-align: center; margin-bottom: 1.85rem; }
-      .login-brand .brand-logo { width: 82px; height: 82px; display: inline-block; margin-bottom: 1rem; }
-      .login-brand h4 { margin-bottom: .35rem; font-size: 1.6rem; font-weight: 700; color: #0f172a; letter-spacing: -.02em; }
-      .login-brand p { margin-bottom: 0; color: #6b7280; font-size: 1rem; }
-      .form-label { font-weight: 600; color: #1f2937; }
-      .form-control { border-radius: 16px; padding: 1rem 1rem; border: 1px solid rgba(148, 163, 184, .2); background: #f8fafc; }
-      .form-control:focus { border-color: #4f7dff; box-shadow: 0 0 0 0.15rem rgba(79, 125, 255, .16); background: #fff; }
-      .login-captcha { border: 1px solid rgba(148, 163, 184, .2); border-radius: 18px; padding: 1rem 1.15rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; background: #f7f9ff; }
-      .captcha-box { width: 54px; height: 54px; background: #ffffff; border: 1px solid rgba(148, 163, 184, .22); border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #0f172a; }
-      .forgot-link { color: #2563eb; text-decoration: none; font-size: .95rem; }
-      .btn-google { background: #ffffff; color: #111827; border: 1px solid rgba(15, 23, 42, .12); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; gap: .75rem; padding: 0.95rem 1rem; font-weight: 600; }
-      .btn-google:hover { background: #f8fafc; }
-      .btn-primary { background: #4487ff; border-color: #4487ff; border-radius: 16px; font-weight: 700; padding: 0.95rem 1rem; }
-      .btn-primary:hover, .btn-primary:focus { background: #3b6ee6; border-color: #3b6ee6; }
-      .login-divider { text-align: center; margin: 1.5rem 0; position: relative; }
-      .login-divider::before, .login-divider::after { content: ''; height: 1px; width: 42%; background: rgba(148, 163, 184, .28); position: absolute; top: 50%; }
-      .login-divider::before { left: 0; }
-      .login-divider::after { right: 0; }
-      .login-divider span { display: inline-block; background: #ffffff; padding: 0 0.75rem; color: #6b7280; font-size: .95rem; }
-      .login-footer { text-align: center; margin-top: 0.9rem; color: #94a3b8; font-size: .9rem; }
-    </style>
-  </head>
-  <body>
-    <div class="login-page">
-      <div class="card login-card">
-        <div class="card-body">
-          <div class="login-brand">
-            <img src="/static/images/brac-logo.png" alt="BRAC University" class="brand-logo">
-            <h4>BracU Central Login</h4>
-            <p>Sign in to your account</p>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="username">Username or email</label>
-            <input id="username" type="text" class="form-control" placeholder="Enter username or email">
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="password">Password</label>
-            <input id="password" type="password" class="form-control" placeholder="Enter your password">
-          </div>
-          <div class="login-captcha">
-            <div class="captcha-box">✓</div>
-            <div style="flex: 1; color: #334155; font-weight: 600;">I'm not a robot</div>
-          </div>
-          <div class="d-flex justify-content-end mb-3">
-            <a class="forgot-link" href="#">Forgot Password?</a>
-          </div>
-          <button class="btn btn-primary w-100 mb-4">Sign In</button>
-          <div class="login-divider"><span>Or sign in with</span></div>
-          <a href="/accounts/google/login/" class="btn btn-google w-100">
-            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="20" class="me-2 align-text-bottom">
-            Google
-          </a>
-          <div class="login-footer">Only Google sign-in is supported</div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BracU Central Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8f9fa; padding: 40px 20px; }
+    .login-card { max-width: 420px; margin: auto; }
+  </style>
+</head>
+<body>
+
+<div class="login-card card shadow">
+  <div class="card-body p-5 text-center">
+
+    <h4 class="mb-1">Inspiring Excellence</h4>
+    <h5 class="mb-4">BracU Central Login</h5>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
       </div>
-    </div>
-  </body>
+    {% endif %}
+
+    <form method="post" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary w-100 mt-3">Sign In</button>
+    </form>
+
+    <hr class="my-4">
+
+    <p class="mb-3">Or sign in with</p>
+
+    {% if google_client_id %}
+      <a href="{% provider_login_url 'google' process='login' %}" 
+         class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-2 py-2">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" 
+             width="22" height="22" alt="Google">
+        Continue with Google
+      </a>
+    {% else %}
+      <button class="btn btn-secondary w-100 py-2" disabled>
+        Google (Not Configured)
+      </button>
+    {% endif %}
+
+  </div>
+</div>
+
+</body>
 </html>

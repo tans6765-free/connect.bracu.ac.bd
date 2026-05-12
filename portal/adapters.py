@@ -1,81 +1,17 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.conf import settings
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
-    """
-    Handle Google OAuth with optional email domain restriction.
-    In development (DEBUG=True), allows all emails.
-    In production, restricts to @g.bracu.ac.bd unless configured otherwise.
-    """
-    ALLOWED_DOMAIN = getattr(settings, 'ALLOWED_EMAIL_DOMAIN', 'g.bracu.ac.bd')
-
-    def _email_allowed(self, email):
-        """Check if email is allowed to sign up."""
-        if not email:
-            logger.warning("No email found in social account data")
-            return False
-        
-        # In development, allow all emails
-        if settings.DEBUG:
-            logger.info(f"DEBUG mode: allowing email {email}")
-            return True
-        
-        # In production, restrict to allowed domain
-        allowed = email.lower().endswith('@' + self.ALLOWED_DOMAIN)
-        if not allowed:
-            logger.warning(f"Email {email} not in allowed domain {self.ALLOWED_DOMAIN}")
-        return allowed
-
     def is_open_for_signup(self, request, sociallogin):
-        """Allow signup if email is in allowed domain and credentials are configured."""
-        try:
-            # Check if credentials are actually configured (not placeholders)
-            from django.conf import settings
-            client_id = settings.GOOGLE_CLIENT_ID or ''
-            client_secret = settings.GOOGLE_CLIENT_SECRET or ''
-            
-            # If using placeholder credentials, don't allow signup
-            if client_id == 'placeholder-client-id' or not client_id:
-                logger.warning("Google OAuth not configured with real credentials")
-                return False
-            
-            email = sociallogin.account.extra_data.get('email') or sociallogin.user.email
-            return self._email_allowed(email)
-        except Exception as e:
-            logger.error(f"Error checking signup eligibility: {e}")
-            # Default to True in development, False in production
-            return settings.DEBUG
+        email = sociallogin.account.extra_data.get('email')
+        if not email:
+            return False
+
+        if settings.DEBUG:
+            return True
+
+        # Only BRACU Google accounts allowed in production
+        return email.lower().endswith('@g.bracu.ac.bd')
 
     def authentication_allowed(self, request, sociallogin):
-        """Allow authentication if email is in allowed domain and credentials are configured."""
-        try:
-            # Check if credentials are actually configured (not placeholders)
-            from django.conf import settings
-            client_id = settings.GOOGLE_CLIENT_ID or ''
-            client_secret = settings.GOOGLE_CLIENT_SECRET or ''
-            
-            # If using placeholder credentials, don't allow authentication
-            if client_id == 'placeholder-client-id' or not client_id:
-                logger.warning("Google OAuth not configured with real credentials")
-                return False
-            
-            email = sociallogin.account.extra_data.get('email') or sociallogin.user.email
-            return self._email_allowed(email)
-        except Exception as e:
-            logger.error(f"Error checking authentication eligibility: {e}")
-            # Default to True in development, False in production
-            return settings.DEBUG
-
-    def save_user(self, request, sociallogin, form=None):
-        """Save user from social account."""
-        try:
-            user = super().save_user(request, sociallogin, form)
-            logger.info(f"User {user.username} saved from social account")
-            return user
-        except Exception as e:
-            logger.error(f"Error saving user from social account: {e}")
-            raise
+        return self.is_open_for_signup(request, sociallogin)

@@ -6,8 +6,7 @@
       "src": "uni_portal/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "50mb",
-        "memory": 3008
+        "maxLambdaSize": "50mb"
       }
     }
   ],
