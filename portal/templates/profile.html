@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block page_title %}Profile{% endblock %}
 
@@ -12,7 +11,7 @@
 
       <!-- Top section: photo + name + stats -->
       <div class="d-flex align-items-start gap-4 flex-wrap mb-4">
-        <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-page-avatar">
+        <img src="/static/images/profilepic1.jpg" alt="Profile" class="profile-page-avatar">
         <div class="flex-grow-1">
           <h4 class="fw-bold mb-1">Md. Tahsinul Islam</h4>
           <div class="d-flex gap-3 text-muted mb-3" style="font-size:.85rem;">

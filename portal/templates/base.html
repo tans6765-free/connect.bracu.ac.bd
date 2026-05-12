@@ -1,4 +1,3 @@
-{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,13 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/css/style.css">
   </head>
   <body>
     <div class="d-flex" id="wrapper">
       <nav id="sidebar">
         <div class="sidebar-header px-4 py-4">
-          <img src="{% static 'images/brac-logo.png' %}" alt="BRAC University" class="sidebar-logo-img mb-2">
+          <img src="/static/images/brac-logo.png" alt="BRAC University" class="sidebar-logo-img mb-2">
           <div class="sidebar-title">Student Lifecycle</div>
           <div class="sidebar-subtitle">Management</div>
         </div>
@@ -148,7 +147,7 @@
                 <span class="badge-count">18</span>
               </div>
               <div class="profile-card d-flex align-items-center position-relative" style="cursor: pointer;" id="profileDropBtn">
-                <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-avatar">
+                <img src="/static/images/profilepic1.jpg" alt="Profile" class="profile-avatar">
                 <div class="profile-info">
                   <div class="profile-name">Md. Tahsinul Islam</div>
                   <div class="profile-email">md.tahsinul.islam@g.bracu.ac.bd</div>
@@ -177,7 +176,7 @@
         <!-- Profile Dropdown -->
         <div class="profile-dropdown" id="profileDropdown" style="display:none;">
           <div class="pd-header">
-            <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="pd-avatar">
+            <img src="/static/images/profilepic1.jpg" alt="Profile" class="pd-avatar">
             <div>
               <div class="pd-name">MD. TAHSINUL ISLAM</div>
               <div class="pd-email">md.tahsinul.islam@g.bracu.ac.bd</div>
@@ -194,7 +193,7 @@
 
         <footer class="portal-footer">
           <span>2026© <a href="https://www.bracu.ac.bd" target="_blank">BRAC University</a>. All rights reserved.</span>
-          <span class="footer-dev">Developed By: <img src="{% static 'images/bracit.svg' %}" alt="BracIT" class="bracit-logo"></span>
+          <span class="footer-dev">Developed By: <img src="/static/images/bracit.svg" alt="BracIT" class="bracit-logo"></span>
         </footer>
       </div>
     </div>

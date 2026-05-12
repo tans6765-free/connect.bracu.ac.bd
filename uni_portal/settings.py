@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'portal.context_processors.google_oauth',  # <-- Google client ID in all templates
             ],
         },
     },
@@ -87,40 +88,22 @@ USE_I18N = True
 USE_TZ = True
 
 # -----------------------------------------------------------------------
-# STATIC FILES — Vercel-safe configuration
+# STATIC FILES
+# Fix: STATIC_ROOT must be INSIDE the project directory (not /tmp).
+# During `build.sh`, collectstatic writes to BASE_DIR/staticfiles/.
+# Vercel packages that directory into the deployment snapshot at
+# /var/task/staticfiles/ — readable at runtime.
+# WhiteNoise middleware then serves /static/* from that directory.
 #
-# KEY FACTS about Vercel serverless:
-#   /var/task  = your deployed code, READ-ONLY, always available at runtime
-#   /tmp       = writable, but WIPED between cold starts
-#
-# WHY ManifestStaticFilesStorage fails:
-#   It writes staticfiles.json to STATIC_ROOT during collectstatic.
-#   Even if collectstatic runs in build.sh writing to /tmp/staticfiles,
-#   /tmp is reset before any request arrives, so the manifest is gone.
-#
-# SOLUTION:
-#   1. Use plain StaticFilesStorage — no manifest, no hashing, no file writes.
-#      {% static 'css/style.css' %} simply returns '/static/css/style.css'.
-#   2. WhiteNoise serves files directly from portal/static (inside /var/task,
-#      always readable) via WHITENOISE_ROOT.
-#   3. STATIC_ROOT still set so collectstatic doesn't crash, but never read.
+# CompressedStaticFilesStorage: gzip-compresses files but does NOT
+# create a manifest with hashed filenames, so {% static 'x' %} simply
+# returns /static/x — no manifest lookup that can fail.
 # -----------------------------------------------------------------------
-
 STATIC_URL = '/static/'
-
-# Plain storage: no manifest, no hashing, just prepends STATIC_URL
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
-# Source static files live inside /var/task — readable at runtime on Vercel
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']
-
-# WhiteNoise serves /static/* directly from this directory at runtime
-WHITENOISE_ROOT = str(BASE_DIR / 'portal' / 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_AUTOREFRESH = True
-WHITENOISE_USE_FINDERS = True
-
-# collectstatic target — only used during build, NEVER read at runtime
-STATIC_ROOT = '/tmp/staticfiles'
 
 # -----------------------------------------------------------------------
 # AUTH / ALLAUTH

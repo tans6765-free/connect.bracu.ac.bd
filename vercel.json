@@ -13,16 +13,10 @@
   ],
   "env": {
     "PYTHONUNBUFFERED": "1",
+    "VERCEL": "1",
     "DJANGO_SETTINGS_MODULE": "uni_portal.settings"
   },
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
     {
       "src": "/(.*)",
       "dest": "uni_portal/wsgi.py"
