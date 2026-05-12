@@ -9,20 +9,10 @@ logger = logging.getLogger(__name__)
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def is_open_for_signup(self, request, sociallogin):
-        email = sociallogin.user.email or ''
-
-        if email.endswith('@g.bracu.ac.bd'):
-            return True
-
-        return False
+        return True
 
     def authentication_allowed(self, request, sociallogin):
-        email = sociallogin.user.email or ''
-
-        if email.endswith('@g.bracu.ac.bd'):
-            return True
-
-        return False
+        return True
 
     def get_app(self, request, provider, client_id=None):
         try:
