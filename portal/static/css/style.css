@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   margin: 0;
@@ -38,6 +38,31 @@ body {
 
 main {
   min-height: calc(100vh - 140px);
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border-bottom: 1px solid #eef2f5;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-body.p-0 {
+  padding: 0;
 }
 
 .nav-link {
@@ -65,12 +90,6 @@ main {
 }
 
 /* Dashboard Cards */
-.card {
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
 
 /* Grade Sheet Specific */
 .pdf-preview-frame {
@@ -80,9 +99,75 @@ main {
 }
 
 /* Calendar */
+.cal-table {
+  border-collapse: separate;
+  border-spacing: 8px;
+}
+
+.cal-table thead th {
+  padding: 0.9rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+
 .cal-table td {
-  height: 100px;
+  min-height: 134px;
   vertical-align: top;
+  border: 1px solid #f3f4f6;
+  padding: 0.9rem;
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.cal-table td span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.cal-day.other-month span {
+  color: #9ca3af;
+}
+
+.cal-event {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #0f172a;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-event.green {
+  background: #dcfce7;
+  border-color: #bbf7d0;
+}
+
+.cal-holiday {
+  display: block;
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 12px;
+  background: #f0fdf4;
+  border: 1px solid #d1fae5;
+  color: #166534;
+  font-size: 0.78rem;
 }
 
 .date-circle {
@@ -136,28 +221,40 @@ main {
   padding: 0.85rem 1.2rem;
   border-radius: 14px;
   transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.45;
 }
 
 .sidebar-menu .nav-link span {
   white-space: nowrap;
 }
 
+.sidebar-menu .nav-link:hover,
+.sidebar-menu .nav-link.active {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
 .menu-icon {
-  width: 2.25rem;
-  min-width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 14px;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 16px;
   background: #eef2ff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #2563eb;
 }
 
 .menu-arrow {
   transition: transform 0.25s ease;
+  font-size: 0.85rem;
+  color: #94a3b8;
 }
 
 .sub-menu {
@@ -169,7 +266,7 @@ main {
   padding: 0.65rem 1rem;
   border-radius: 12px;
   color: #4b5563;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 .sub-menu .sub-link:hover,
@@ -187,10 +284,161 @@ main {
   margin-right: 0.75rem;
 }
 
-.page-breadcrumb {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 0.2rem;
+.sidebar-menu .nav-link .menu-icon {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 16px;
+  background: #eef2ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+
+.empty-state-box {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: #f8fafc;
+  border-radius: 22px;
+}
+
+.empty-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 0;
+}
+
+.clipboard-illustration {
+  position: relative;
+  width: 120px;
+  height: 140px;
+}
+
+.clipboard-back,
+.clipboard-front {
+  position: absolute;
+  border-radius: 18px;
+}
+
+.clipboard-back {
+  width: 100%;
+  height: 100%;
+  background: #e0e7ff;
+  top: 8px;
+  left: 8px;
+}
+
+.clipboard-front {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.clipboard-clip {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 12px;
+  border-radius: 8px;
+  background: #4338ca;
+}
+
+.clipboard-lines {
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  right: 16px;
+  display: grid;
+  gap: 9px;
+}
+
+.clip-line {
+  height: 10px;
+  border-radius: 6px;
+  background: #e2e8f0;
+}
+
+.clip-line.short {
+  width: 70%;
+}
+
+.cal-nav-btn,
+.cal-view-btns .cal-view {
+  font-size: 0.82rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #475569;
+  min-width: 56px;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.cal-view-btns {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.cal-view-btns .cal-view {
+  min-width: auto;
+}
+
+.cal-view-btns .cal-view.active {
+  background: rgba(59,130,246,0.1);
+  border-color: rgba(59,130,246,0.25);
+  color: #1d4ed8;
+}
+
+.cal-month-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111827;
+  white-space: nowrap;
+  margin: 0 0.75rem;
+}
+
+.cal-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.card-header.d-flex {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-nav-btn,
+.cal-view-btns .cal-view {
+  min-height: 34px;
+  padding: 0.45rem 0.8rem;
+}
+
+.cal-nav-btn:hover,
+.cal-view-btns .cal-view:hover {
+  background: #f8fafc;
+}
+
+.card-header .btn {
+  min-height: 34px;
 }
 
 .page-heading {
@@ -217,6 +465,28 @@ main {
   width: 100%;
   font-size: 0.95rem;
   color: #111827;
+}
+
+.dashboard-main-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.configure-btn {
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+}
+
+.page-breadcrumb {
+  font-size: 0.9rem;
+  color: #6b7280;
+  letter-spacing: 0.03em;
+}
+
+.topbar {
+  padding: 1rem 1.5rem;
 }
 
 .search-icon {
