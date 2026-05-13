@@ -9,7 +9,16 @@ DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 if os.environ.get('VERCEL'):
     DEBUG = False  # Disable DEBUG on Vercel
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'connectbracuacbd.vercel.app',
+    'localhost',
+    '127.0.0.1',
+    '*.vercel.app',
+] if not DEBUG else ['*']
+
+# ═══════════════════════════════════════════════════════════════════════════
+# CSRF & COOKIE SECURITY - FIXED FOR OAUTH
+# ═══════════════════════════════════════════════════════════════════════════
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
@@ -18,20 +27,44 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
 ]
 
-CSRF_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SECURE = not DEBUG
-SECURE_SSL_REDIRECT = False
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# CSRF Protection
+CSRF_COOKIE_SECURE = DEBUG == False
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'  # CRITICAL: Allow OAuth redirect from Google
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SESSION CONFIGURATION - FIXED FOR LOGIN PERSISTENCE
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Use database-backed sessions (not signed_cookies)
+# This allows sessions to persist across requests and be refreshed
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30 days
 SESSION_COOKIE_NAME = 'bracu_sessionid'
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
+SESSION_COOKIE_SECURE = DEBUG == False  # HTTPS only in production
+SESSION_COOKIE_SAMESITE = 'Lax'  # Allow OAuth redirect
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep sessions alive
+
+# CRITICAL FIX: Refresh session on every request
+# This prevents "you were logged out" situations
+SESSION_SAVE_EVERY_REQUEST = True
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SECURITY HEADERS
+# ═══════════════════════════════════════════════════════════════════════════
+
+SECURE_SSL_REDIRECT = not DEBUG and not os.environ.get('VERCEL')
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.sessions',  # CRITICAL: Must be here for session backend
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
@@ -52,13 +85,20 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    
+    # SessionMiddleware MUST come before AuthenticationMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    
+    # Auth middlewares must come after session
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'portal.middleware.VercelExceptionLoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'uni_portal.urls'
@@ -74,7 +114,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'portal.context_processors.google_oauth',
+                'portal.context_processors.google_oauth',  # Pass google_client_id to templates
             ],
         },
     },
@@ -82,15 +122,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'uni_portal.wsgi.application'
 
-# Database: on Vercel use /tmp (per-request), otherwise use project dir
+# ═══════════════════════════════════════════════════════════════════════════
+# DATABASE CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
+
 if os.environ.get('VERCEL'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/tmp/db.sqlite3',
+    # On Vercel, use PostgreSQL if available, otherwise SQLite in /tmp
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        # Use PostgreSQL
+        import dj_database_url
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=db_url,
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
         }
-    }
+    else:
+        # Fallback to SQLite in /tmp
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': '/tmp/db.sqlite3',
+            }
+        }
 else:
+    # Local development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -104,40 +162,43 @@ USE_I18N = True
 USE_TZ = True
 
 # ═══════════════════════════════════════════════════════════════════════════
-# STATIC FILES — Critical fix for Vercel
-#
-# The issue: collectstatic must write to STATIC_ROOT which is inside the
-# project (gets deployed). WhiteNoise serves from there using
-# WHITENOISE_ROOT. No manifest hashing — simple 1:1 URL mapping.
+# STATIC FILES
 # ═══════════════════════════════════════════════════════════════════════════
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Gets deployed by Vercel
-STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']  # Source files
-
-# SimpleStorage: no hashing, {% static 'x' %} → /static/x
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'portal' / 'static']
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# WhiteNoise: serves from STATIC_ROOT (the deployed staticfiles/)
 WHITENOISE_AUTOREFRESH = True
 WHITENOISE_USE_FINDERS = True
 
 # ═══════════════════════════════════════════════════════════════════════════
-# ALLAUTH / GOOGLE OAUTH
+# ALLAUTH / GOOGLE OAUTH - FIXED
 # ═══════════════════════════════════════════════════════════════════════════
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
+# Email settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# Auto signup for Google accounts
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+# Use custom adapter for better OAuth handling
 SOCIALACCOUNT_ADAPTER = 'portal.adapters.CustomSocialAccountAdapter'
+
+# Store OAuth tokens for future use
 SOCIALACCOUNT_STORE_TOKENS = True
 
+# Google OAuth Configuration
+# NOTE: Client ID and Secret should be set via environment variables
+# The SocialApp is configured in Django Admin, not here
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -147,12 +208,27 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'APP': {
-            'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
-            'secret': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
-            'key': '',
-        },
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2',
     }
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ═══════════════════════════════════════════════════════════════════════════
+# LOGGING (Optional - for debugging)
+# ═══════════════════════════════════════════════════════════════════════════
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO' if not DEBUG else 'DEBUG',
+    },
+}
