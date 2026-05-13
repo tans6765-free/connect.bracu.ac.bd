@@ -23,6 +23,9 @@ CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = False
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30 days
+SESSION_COOKIE_NAME = 'bracu_sessionid'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 INSTALLED_APPS = [
     'django.contrib.admin',

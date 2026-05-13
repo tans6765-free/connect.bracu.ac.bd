@@ -61,6 +61,18 @@ def health_check(request):
         }, status=500)
 
 
+def logout_view(request):
+    """Custom logout that clears messages before redirecting."""
+    from django.contrib.auth import logout
+    from django.contrib.messages import get_messages
+    logout(request)
+    # Clear all messages so they don't appear on login page
+    for message in get_messages(request):
+        pass
+    from django.shortcuts import redirect
+    return redirect('/accounts/login/')
+
+
 @login_required
 def home(request):
     return render(request, 'home.html')
