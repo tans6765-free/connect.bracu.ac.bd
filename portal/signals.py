@@ -1,5 +1,7 @@
 import logging
 from django.contrib.auth import get_user_model
+from django.contrib.auth.signals import user_logged_out
+from django.contrib.messages import get_messages
 from django.dispatch import receiver
 from allauth.socialaccount.signals import pre_social_login
 from allauth.account.signals import user_logged_in
@@ -77,9 +79,6 @@ def validate_google_email(sender, request, sociallogin, **kwargs):
     except Exception as e:
         logger.error(f"Error in validate_google_email: {e}", exc_info=True)
         raise ValidationError("An error occurred during authentication. Please try again.")
-
-    except Exception as e:
-        logger.exception(f"Error in pre_social_login_handler: {e}")
 
 
 @receiver(user_logged_out)
