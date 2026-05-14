@@ -174,7 +174,7 @@ WHITENOISE_AUTOREFRESH = True
 WHITENOISE_USE_FINDERS = True
 
 # ═══════════════════════════════════════════════════════════════════════════
-# ALLAUTH / GOOGLE OAUTH - FIXED
+# ALLAUTH / GOOGLE OAUTH - AUTO-CONFIGURED FROM ENV VARS
 # ═══════════════════════════════════════════════════════════════════════════
 
 LOGIN_URL = '/accounts/login/'
@@ -197,8 +197,6 @@ SOCIALACCOUNT_ADAPTER = 'portal.adapters.CustomSocialAccountAdapter'
 SOCIALACCOUNT_STORE_TOKENS = True
 
 # Google OAuth Configuration
-# NOTE: Client ID and Secret should be set via environment variables
-# The SocialApp is configured in Django Admin, not here
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -213,7 +211,81 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# ═══════════════════════════════════════════════════════════════════════════
+# AUTO-SETUP GOOGLE OAUTH ON STARTUP
+# ═══════════════════════════════════════════════════════════════════════════
+def setup_google_oauth_on_startup():
+    """Auto-setup Google OAuth SocialApp from environment variables."""
+    import os
+    from django.contrib.sites.models import Site
+    from allauth.socialaccount.models import SocialApp
+    
+    client_id = os.environ.get('GOOGLE_CLIENT_ID', '').strip()
+    client_secret = os.environ.get('GOOGLE_CLIENT_SECRET', '').strip()
+    
+    if not client_id or not client_secret:
+        return  # Skip if credentials not set
+    
+    try:
+        # Determine site domain based on environment
+        if os.environ.get('VERCEL'):
+            site_domain = os.environ.get('VERCEL_URL', 'connectbracuacbd.vercel.app')
+        else:
+            site_domain = 'localhost:8000'
+        
+        # Get or create site
+        site, _ = Site.objects.get_or_create(
+            id=1,
+            defaults={
+                'domain': site_domain,
+                'name': 'BRAC University Portal',
+            }
+        )
+        
+        # Check if Google SocialApp already exists
+        google_apps = SocialApp.objects.filter(provider='google')
+        
+        if google_apps.exists():
+            # Update existing app
+            app = google_apps.first()
+            app.client_id = client_id
+            app.secret = client_secret
+            app.save()
+        else:
+            # Create new app
+            app = SocialApp.objects.create(
+                provider='google',
+                name='Google OAuth',
+                client_id=client_id,
+                secret=client_secret,
+            )
+        
+        # Link app to site if not already linked
+        if not app.sites.filter(id=1).exists():
+            app.sites.add(site)
+        
+        # Also update site domain if it changed
+        if site.domain != site_domain:
+            site.domain = site_domain
+            site.save()
+            
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"Could not auto-setup Google OAuth: {e}")
+
+# Run on startup (after apps are ready)
+from django.core.signals import ready
+from django.dispatch import receiver
+from django.apps import AppConfig
+
+@receiver(ready, dispatch_uid='setup_google_oauth')
+def setup_on_ready(sender, **kwargs):
+    setup_google_oauth_on_startup()
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Note: Google OAuth auto-setup is defined above in settings.py
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LOGGING (Optional - for debugging)
