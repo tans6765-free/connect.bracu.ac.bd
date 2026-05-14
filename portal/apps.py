@@ -1,9 +1,6 @@
 from django.apps import AppConfig
 from django.conf import settings
 import os
-import django
-from django.contrib.sites.models import Site
-from allauth.socialaccount.models import SocialApp
 
 
 class PortalConfig(AppConfig):
@@ -19,6 +16,10 @@ class PortalConfig(AppConfig):
     
     def _setup_google_oauth_on_startup(self):
         """Auto-configure Google OAuth if credentials are available."""
+        # Import Django models INSIDE the method, after app registry is ready
+        from django.contrib.sites.models import Site
+        from allauth.socialaccount.models import SocialApp
+        
         try:
             client_id = os.environ.get('GOOGLE_CLIENT_ID')
             client_secret = os.environ.get('GOOGLE_CLIENT_SECRET')
