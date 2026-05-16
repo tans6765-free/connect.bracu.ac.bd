@@ -331,6 +331,20 @@ function handleCourseDrop() {
   if (!reason) { alert('Please select a reason type.'); return; }
   alert('Course drop application submitted successfully!');
 }
+function openGradePreview() {
+  const modal = document.getElementById('gradePreviewModal');
+  const iframe = document.getElementById('gradePreviewIframe');
+  iframe.src = '/static/grade_sheet.pdf';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGradePreview() {
+  const modal = document.getElementById('gradePreviewModal');
+  const iframe = document.getElementById('gradePreviewIframe');
+  modal.classList.remove('open');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
 </script>
 
 {# ══════════ SEMESTER DROP ══════════ #}
@@ -372,17 +386,41 @@ function handleCourseDrop() {
 
 {# ══════════ GRADE SHEET ══════════ #}
 {% elif page == 'grade-sheet' %}
-<div class="card full-card">
-  <div class="profile-info-card grade-profile">
-    <div class="pi-row"><span class="pi-label">Student ID</span><span class="pi-value">22241090</span></div>
-    <div class="pi-row"><span class="pi-label">Name</span><span class="pi-value">Md. Tahsinul Islam</span></div>
-    <div class="pi-row"><span class="pi-label">Department</span><span class="pi-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span></div>
-    <div class="pi-row"><span class="pi-label">Program</span><span class="pi-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span></div>
-    <div class="pi-row"><span class="pi-label">Current Semester</span><span class="pi-value">FALL 2025</span></div>
+<div class="card full-card grade-sheet-card">
+  <div class="grade-sheet-grid">
+    <div class="grade-sheet-main">
+      <div class="section-header">Download Grade Sheet</div>
+      <div class="grade-sheet-actions">
+        <button class="primary-btn" type="button" onclick="openGradePreview()">Preview</button>
+        <a class="secondary-btn" href="/static/grade_sheet.pdf" download>Download</a>
+      </div>
+    </div>
+    <div class="grade-sheet-info-card">
+      <div class="pi-row"><span class="pi-label">Student ID</span><span class="pi-value">22241090</span></div>
+      <div class="pi-row"><span class="pi-label">Name</span><span class="pi-value">Md. Tahsinul Islam</span></div>
+      <div class="pi-row"><span class="pi-label">Department</span><span class="pi-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span></div>
+      <div class="pi-row"><span class="pi-label">Program</span><span class="pi-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span></div>
+      <div class="pi-row"><span class="pi-label">Current Semester</span><span class="pi-value">SPRING 2026</span></div>
+    </div>
   </div>
-  <div class="button-row" style="margin-top:20px">
-    <a class="outline-btn" href="/static/grade_sheet.pdf" target="_blank">Preview</a>
-    <a class="primary-btn" href="/static/grade_sheet.pdf" download>Download</a>
+</div>
+
+<div class="modal-overlay" id="gradePreviewModal" aria-hidden="true">
+  <div class="preview-modal">
+    <div class="preview-modal-header">
+      <div>
+        <div class="preview-modal-title">Download "Grade Sheet Web"</div>
+        <div class="preview-modal-subtitle">Preview the grade sheet before downloading</div>
+      </div>
+      <button class="close-modal-btn" type="button" onclick="closeGradePreview()">×</button>
+    </div>
+    <div class="preview-modal-body">
+      <iframe id="gradePreviewIframe" src="" title="Grade Sheet Preview"></iframe>
+    </div>
+    <div class="preview-modal-footer">
+      <a class="secondary-btn" href="/static/grade_sheet.pdf" download>Download</a>
+      <button class="outline-btn" type="button" onclick="closeGradePreview()">Cancel</button>
+    </div>
   </div>
 </div>
 

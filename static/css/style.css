@@ -1083,7 +1083,137 @@ button { font-family: inherit; cursor: pointer; }
    ══════════════════════════════════ */
 .grade-profile { max-width: 520px; }
 
+.grade-sheet-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.5fr) minmax(260px, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.section-header {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 22px;
+}
+
+.grade-sheet-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.secondary-btn:hover { background: #6d28d9; }
+
+.grade-sheet-info-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.preview-modal {
+  width: min(1180px, 100%);
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.18);
+}
+
+.preview-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.preview-modal-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.preview-modal-subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.close-modal-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: #374151;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.preview-modal-body {
+  flex: 1;
+  min-height: 72vh;
+  background: #111;
+}
+
+.preview-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.preview-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f8fafc;
+}
+
 .button-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .grade-sheet-grid { grid-template-columns: 1fr; }
+}
 
 /* ══════════════════════════════════
    PROFILE PAGE
