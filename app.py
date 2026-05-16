@@ -139,9 +139,7 @@ def debug_redirect_uri():
 def auth_callback():
     try:
         token = google.authorize_access_token()
-        user_info = None
-        if token and token.get("id_token"):
-            user_info = google.parse_id_token(token)
+        user_info = token.get("userinfo")
         if not user_info:
             user_info = google.get("userinfo").json()
 
