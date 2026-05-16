@@ -620,6 +620,12 @@ button { font-family: inherit; cursor: pointer; }
 
 .empty-illo { display: flex; align-items: center; justify-content: center; }
 
+.empty-illo-img {
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+}
+
 .empty-text {
   font-size: 14px;
   color: #6b7280;
