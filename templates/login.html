@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-shell">
+      <div class="login-card google-login-card">
+        <div class="google-topbar">
+          <img src="/static/images/brac-logo.svg" class="google-logo" alt="BRAC" />
+          <div class="google-service">BRAC Student Lifecycle Management</div>
+        </div>
+        <h1>Sign in</h1>
+        <p class="google-subtitle">Use your Google Account</p>
+        <a class="google-button" href="{{ auth_route }}">
+          <span class="google-icon">G</span>
+          <span>Continue with Google</span>
+        </a>
+        <p class="login-note">
+          Only <strong>md.tahsinul.islam@g.bracu.ac.bd</strong> is allowed to log in.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

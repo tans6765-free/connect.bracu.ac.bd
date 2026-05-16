@@ -1,0 +1,213 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  {% if page == 'dashboard' %}
+  <div class="board-grid">
+    <div class="board-card">
+      <h2>Activity</h2>
+      <div class="empty-state">
+        <div class="empty-icon">⧖</div>
+        <div>No active tasks found!</div>
+      </div>
+    </div>
+    <div class="board-card">
+      <h2>Student Calendar</h2>
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <div>Calendar data not available yet.</div>
+      </div>
+    </div>
+  </div>
+  {% elif page in ['wish-list', 'phase-one', 'phase-two', 'self-registration'] %}
+  <div class="wide-card">
+    <div class="empty-state large">
+      <div class="empty-icon">⟲</div>
+      <div>
+        Advising has not been scheduled or has been expired. Please try after scheduled.
+      </div>
+    </div>
+  </div>
+  {% elif page == 'section-status' %}
+  <div class="wide-card">
+    <div class="section-header">Section Status</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>COURSE CODE</th>
+            <th>SECTION</th>
+            <th>CREDIT</th>
+            <th>FACULTY</th>
+            <th>TOTAL SEAT</th>
+            <th>SEAT BOOKED</th>
+            <th>SEAT REMAINING</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CHN101</td><td>05</td><td>3</td><td>RAI</td><td>30</td><td>5</td><td>25</td></tr>
+          <tr><td>MAT091</td><td>01</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
+          <tr><td>MAT091</td><td>02</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
+          <tr><td>MAT091</td><td>03</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
+          <tr><td>ECE103</td><td>05</td><td>3</td><td>TBA</td><td>3</td><td>2</td><td>1</td></tr>
+          <tr><td>HUM101</td><td>35</td><td>3</td><td>HSF</td><td>30</td><td>30</td><td>0</td></tr>
+          <tr><td>MAT101</td><td>03</td><td>3</td><td>TBA</td><td>40</td><td>33</td><td>7</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% elif page == 'schedule' %}
+  <div class="wide-card">
+    <div class="section-header">Schedule</div>
+    <div class="subsection">Class Schedule</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr><th>TIME/DAY</th><th>SUNDAY</th><th>MONDAY</th><th>TUESDAY</th><th>WEDNESDAY</th><th>THURSDAY</th><th>FRIDAY</th><th>SATURDAY</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8:00 am - 9:20 am</td><td></td><td>CSE340 -13 -09H-32C</td><td></td><td>CSE340 -13 -09H-32C</td><td></td><td></td><td></td></tr>
+          <tr><td>8:00 am - 10:50 am</td><td></td><td></td><td>CSE471L -10 -09F-26L</td><td></td><td></td><td></td><td>CSE423L -03 -10E-27L</td></tr>
+          <tr><td>11:00 am - 12:20 pm</td><td></td><td>MAT092 -04 -MMR-12A-07C</td><td>MAT092 -04 -MMR-12A-07C</td><td>MAT092 -04 -MMR-12A-07C</td><td>CSE470 -19 -ART-07H-27C</td><td>CSE470 -19 -ART-07H-27C</td><td></td></tr>
+          <tr><td>12:30 pm - 1:50 pm</td><td></td><td>CSE423 -03 -TMD-07F-22C</td><td></td><td>CSE423 -03 -TMD-07F-22C</td><td></td><td>CSE471 -10 -MHDE-09B-12C</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="subsection">Exam Schedule</div>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>DAY</th><th>TIME</th><th>EXAM</th><th>COURSE</th></tr></thead>
+        <tbody>
+          <tr><td>SUNDAY (2025-11-16)</td><td>4:30 pm -6:30 pm</td><td>MID</td><td>CSE423</td></tr>
+          <tr><td>MONDAY (2025-11-17)</td><td>11:00 am -1:00 pm</td><td>MID</td><td>MAT092</td></tr>
+          <tr><td>WEDNESDAY (2025-11-19)</td><td>2:00 pm -4:00 pm</td><td>MID</td><td>CSE471</td></tr>
+          <tr><td>WEDNESDAY (2025-11-19)</td><td>4:30 pm -6:30 pm</td><td>MID</td><td>CSE470</td></tr>
+          <tr><td>FRIDAY (2025-11-22)</td><td>11:00 am -1:00 pm</td><td>MID</td><td>CSE340</td></tr>
+          <tr><td>SUNDAY (2026-01-11)</td><td>4:30 pm -6:30 pm</td><td>FINAL</td><td>CSE423</td></tr>
+          <tr><td>MONDAY (2026-01-12)</td><td>11:00 am -1:00 pm</td><td>FINAL</td><td>MAT092</td></tr>
+          <tr><td>WEDNESDAY (2026-01-14)</td><td>2:00 pm -4:00 pm</td><td>FINAL</td><td>CSE471</td></tr>
+          <tr><td>WEDNESDAY (2026-01-14)</td><td>4:30 pm -6:30 pm</td><td>FINAL</td><td>CSE470</td></tr>
+          <tr><td>FRIDAY (2026-01-16)</td><td>11:00 am -1:00 pm</td><td>FINAL</td><td>CSE340</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% elif page == 'student-concession-apply' %}
+  <div class="wide-card form-card">
+    <div class="banner">Scholarship & Waiver Apply</div>
+    <div class="form-grid">
+      <div class="form-section">
+        <p class="section-label">No active scholarship or waiver session exists!</p>
+      </div>
+    </div>
+  </div>
+  {% elif page == 'concession-history-list' %}
+  <div class="wide-card">
+    <div class="empty-state large">
+      <div class="empty-icon">📄</div>
+      <div>Sorry, No scholarship & waiver data found!</div>
+    </div>
+  </div>
+  {% elif page == 'course-drop-application' %}
+  <div class="wide-card form-card">
+    <div class="banner">Apply for Dropping Course</div>
+    <div class="form-grid-grid">
+      <div class="table-card">
+        <h3>Taken Courses</h3>
+        <ul class="item-list">
+          <li>COMPUTER ARCHITECTURE (CSE340)</li>
+          <li>SOFTWARE ENGINEERING (CSE470)</li>
+          <li>SYSTEM ANALYSIS AND DESIGN (CSE471)</li>
+          <li>COMPUTER GRAPHICS (CSE423)</li>
+        </ul>
+      </div>
+      <div class="empty-drop">Selected Courses<br><span>No Data</span></div>
+      <div class="profile-card">
+        <p><strong>Name</strong> Md. Tahsinul Islam</p>
+        <p><strong>Student ID</strong> 22241090</p>
+        <p><strong>Mobile No.</strong> 01600341615</p>
+        <p><strong>Email</strong> md.tahsinul.islam@g.bracu.ac.bd</p>
+        <p><strong>Department</strong> DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</p>
+        <p><strong>Program</strong> BACHELOR OF SCIENCE IN COMPUTER SCIENCE</p>
+        <p><strong>Current Semester</strong> FALL 2025</p>
+        <p><strong>CGPA</strong> 2.36</p>
+      </div>
+    </div>
+  </div>
+  {% elif page == 'drop-semester-application' %}
+  <div class="wide-card form-card">
+    <div class="banner">Apply for Dropping Semester</div>
+    <div class="form-grid">
+      <label>Semester you wish to drop</label>
+      <select><option>FALL 2025</option></select>
+      <label>Reasons For Absence</label>
+      <div class="radio-group"><label><input type="radio" disabled /> Illness/Health Issues</label><label><input type="radio" disabled /> Family Emergency/Compassionate Ground</label><label><input type="radio" disabled /> Others</label></div>
+      <div class="file-row"><input type="text" placeholder="Attachment Title *" /><input type="file" disabled /></div>
+      <button class="primary-button">Submit</button>
+    </div>
+  </div>
+  {% elif page == 'grade-sheet' %}
+  <div class="wide-card center-card">
+    <div class="profile-panel">
+      <div><strong>Student ID</strong> 22241090</div>
+      <div><strong>Name</strong> Md. Tahsinul Islam</div>
+      <div><strong>Department</strong> DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</div>
+      <div><strong>Program</strong> BACHELOR OF SCIENCE IN COMPUTER SCIENCE</div>
+      <div><strong>Current Semester</strong> FALL 2025</div>
+    </div>
+    <div class="button-row">
+      <a class="secondary-button" href="/static/grade_sheet.pdf" target="_blank">Preview</a>
+      <a class="primary-button" href="/static/grade_sheet.pdf" download>Download</a>
+    </div>
+  </div>
+  {% elif page == 'probation-application' %}
+  <div class="wide-card">
+    <div class="empty-state large">
+      <div class="empty-icon">⚠️</div>
+      <div>You are not in probation currently.</div>
+    </div>
+  </div>
+  {% elif page == 'payslips' %}
+  <div class="wide-card">
+    <div class="section-header">Pay Slip View</div>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>PAYMENT STATUS</th><th>PAY SLIP NUMBER</th><th>FEES TYPE</th><th>DATE OF ISSUING</th><th>DUE DATE</th><th>TOTAL AMOUNT</th><th>ACTION</th></tr></thead>
+        <tbody>
+          <tr><td>Paid</td><td>251051947</td><td>Registration</td><td>16/02/2025</td><td>10/03/2025</td><td>106,700 BDT</td><td>View</td></tr>
+          <tr><td>Paid</td><td>252040945</td><td>Registration</td><td>23/06/2025</td><td>29/06/2025</td><td>106,700 BDT</td><td>View</td></tr>
+          <tr><td>Paid</td><td>253046964</td><td>Registration</td><td>13/10/2025</td><td>23/10/2025</td><td>106,700 BDT</td><td>View</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% elif page == 'profile-overview' %}
+  <div class="wide-card profile-overview">
+    <div class="profile-hero">
+      <img class="profile-photo" src="/static/images/bracit.svg" alt="Profile" />
+      <div>
+        <h2>Md. Tahsinul Islam</h2>
+        <div class="profile-meta">22241090 · CS · FALL 2022</div>
+      </div>
+      <div class="profile-stats">
+        <div><strong>63</strong><span>Earned Credit</span></div>
+        <div><strong>2.36</strong><span>CGPA</span></div>
+        <div><strong>FALL 2025</strong><span>Current Semester</span></div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div><strong>FULL NAME:</strong> Md. Tahsinul Islam</div>
+      <div><strong>MOBILE NO.:</strong> 01600341615</div>
+      <div><strong>EMAIL:</strong> md.tahsinul.islam@g.bracu.ac.bd</div>
+      <div><strong>DATE OF BIRTH:</strong> 2003-08-16</div>
+      <div><strong>EMERGENCY CONTACT NAME:</strong> Md. Tanjimul Islam</div>
+      <div><strong>EMERGENCY CONTACT NO.:</strong> 01814335678</div>
+      <div><strong>BIRTH CERTIFICATE NO.:</strong> N/A</div>
+      <div><strong>PASSPORT NO.:</strong> N/A</div>
+    </div>
+  </div>
+  {% else %}
+  <div class="wide-card">
+    <p>Content is coming soon.</p>
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BRAC Student Portal</title>
+    <link rel="icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <img class="brand-logo" src="/static/images/brac-logo.svg" alt="BRAC" />
+          <div class="brand-text">
+            <span>Student Lifecycle</span>
+            <strong>Management</strong>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-group">A</div>
+          <div class="nav-heading">Advising</div>
+          <a class="nav-link {% if page in ['wish-list','phase-one','phase-two','self-registration','section-status'] %}active{% endif %}" href="/student/advising/wish-list">Wishlist</a>
+          <a class="nav-link {% if page == 'phase-one' %}active{% endif %}" href="/student/advising/phase-one">Pre-Registration Phase One</a>
+          <a class="nav-link {% if page == 'phase-two' %}active{% endif %}" href="/student/advising/phase-two">Pre-Registration Phase Two</a>
+          <a class="nav-link {% if page == 'self-registration' %}active{% endif %}" href="/student/advising/self-registration">Self Registration</a>
+          <a class="nav-link {% if page == 'section-status' %}active{% endif %}" href="/student/advising/section-status">Section Seat Status</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="nav-group">C</div>
+          <a class="nav-link {% if page == 'schedule' %}active{% endif %}" href="/student/schedule">Class and Exam Schedule</a>
+          <div class="nav-group">S</div>
+          <div class="nav-heading">Scholarship & Waiver</div>
+          <a class="nav-link {% if page == 'student-concession-apply' %}active{% endif %}" href="/student/student-concession-apply">Apply</a>
+          <a class="nav-link {% if page == 'concession-history-list' %}active{% endif %}" href="/student/concession-history-list">History</a>
+          <a class="nav-link {% if page == 'course-drop-application' %}active{% endif %}" href="/student/course-drop-application">Course Drop Application</a>
+          <a class="nav-link {% if page == 'drop-semester-application' %}active{% endif %}" href="/student/drop-semester-application">Semester Drop Application</a>
+          <a class="nav-link {% if page == 'grade-sheet' %}active{% endif %}" href="/student/grade-sheet">Grade Sheet</a>
+          <a class="nav-link {% if page == 'probation-application' %}active{% endif %}" href="/student/probation-application">Probation</a>
+          <a class="nav-link {% if page == 'payslips' %}active{% endif %}" href="/student/payslips">Payslip</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="page-title">Student</div>
+          <div class="topbar-actions">
+            <div class="search-box">
+              <span>Search</span>
+            </div>
+            <button class="icon-button">⛶</button>
+            <button class="icon-button">🔔<span class="badge">14</span></button>
+            <div class="profile-menu">
+              <span>{{ user.name if user else 'Student' }}</span>
+              <img class="avatar" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="Profile" />
+            </div>
+          </div>
+        </header>
+
+        <section class="content-top">
+          <div class="page-heading">
+            <h1>{{ title or 'Dashboard' }}</h1>
+          </div>
+          <div class="page-actions">
+            {% if page == 'wish-list' %}
+            <button class="primary-button">Confirm Wishlist</button>
+            {% elif page == 'phase-one' or page == 'phase-two' or page == 'self-registration' %}
+            <button class="primary-button">Actions</button>
+            {% elif page == 'student-concession-apply' %}
+            <button class="primary-button">Apply Now</button>
+            {% endif %}
+          </div>
+        </section>
+
+        <div class="content-area">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
