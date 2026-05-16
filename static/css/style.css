@@ -1,14 +1,25 @@
 /* ═══════════════════════════════════════════════
    BRAC University Student Portal – style.css
-   Matches connect.bracu.ac.bd screenshots exactly
+   Exact UI match from screenshots
    ═══════════════════════════════════════════════ */
+
+:root {
+  --primary: #2563eb;
+  --primary-light: #60a5fa;
+  --sidebar-width: 240px;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --panel: #ffffff;
+}
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f4f6fb;
-  color: #111827;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -28,15 +39,20 @@ button { font-family: inherit; cursor: pointer; }
    SIDEBAR
    ══════════════════════════════════ */
 .sidebar {
-  width: 248px;
-  min-width: 248px;
-  background: #fff;
-  border-right: 1px solid #edf1f7;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--panel);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  padding: 20px 12px 20px 16px;
+  padding: 20px 12px;
   transition: width 0.22s ease, min-width 0.22s ease;
-  overflow: hidden;
+  overflow-y: auto;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+  left: 0;
+  top: 0;
 }
 
 .sidebar.collapsed {
@@ -188,12 +204,12 @@ button { font-family: inherit; cursor: pointer; }
   height: 28px;
   border-radius: 50%;
   background: #f3f4f6;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--border);
   font-size: 12px;
   font-weight: 700;
   color: #374151;
   flex-shrink: 0;
-  transition: background 0.12s, color 0.12s;
+  transition: all 0.12s;
 }
 
 .nav-letter.active-letter,
@@ -201,7 +217,7 @@ button { font-family: inherit; cursor: pointer; }
 .nav-item-group.open .nav-letter {
   background: #dbeafe;
   border-color: #93c5fd;
-  color: #1d4ed8;
+  color: var(--primary);
 }
 
 /* ══════════════════════════════════
@@ -213,6 +229,7 @@ button { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   min-width: 0;
   transition: margin-left 0.22s ease;
+  margin-left: var(--sidebar-width);
 }
 
 /* ══════════════════════════════════
@@ -223,11 +240,11 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
   justify-content: space-between;
   padding: 12px 28px;
-  background: #fff;
-  border-bottom: 1px solid #edf1f7;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 90;
   gap: 16px;
 }
 
@@ -362,10 +379,10 @@ button { font-family: inherit; cursor: pointer; }
   top: calc(100% + 10px);
   right: 0;
   width: 280px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(15,23,42,0.14);
-  border: 1px solid #f1f5f9;
+  background: var(--panel);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid var(--border);
   z-index: 999;
   overflow: hidden;
 }
@@ -497,7 +514,7 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
   gap: 6px;
   padding: 9px 18px;
-  background: #38bdf8;
+  background: var(--primary-light);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -506,7 +523,7 @@ button { font-family: inherit; cursor: pointer; }
   transition: background 0.15s;
 }
 
-.primary-btn:hover { background: #0ea5e9; }
+.primary-btn:hover { background: var(--primary); }
 
 .outline-btn {
   display: inline-flex;
@@ -560,10 +577,11 @@ button { font-family: inherit; cursor: pointer; }
    CARDS
    ══════════════════════════════════ */
 .card {
-  background: #fff;
-  border-radius: 16px;
+  background: var(--panel);
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 4px rgba(15,23,42,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #f0f0f0;
 }
 
 .full-card { width: 100%; }
@@ -625,8 +643,8 @@ button { font-family: inherit; cursor: pointer; }
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -1217,11 +1235,11 @@ button { font-family: inherit; cursor: pointer; }
    ══════════════════════════════════ */
 .login-body {
   min-height: 100vh;
-  background: #f4f5f7;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 40px 20px 60px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
 }
@@ -1277,10 +1295,12 @@ button { font-family: inherit; cursor: pointer; }
 /* Card */
 .login-card {
   width: 100%;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 32px rgba(15,23,42,0.10);
-  padding: 32px 30px;
+  max-width: 460px;
+  background: var(--panel);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  padding: 40px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .login-h1 {
@@ -1304,18 +1324,22 @@ button { font-family: inherit; cursor: pointer; }
 
 .text-input {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
   font-family: inherit;
-  font-size: 13.5px;
-  color: #374151;
-  background: #fff;
+  font-size: 15px;
+  color: var(--text);
+  background: #f9fafb;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.text-input:focus { border-color: #60a5fa; }
+.text-input:focus {
+  border-color: var(--primary);
+  background: var(--panel);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
 
 /* Password wrapper */
 .pw-wrap { position: relative; }
