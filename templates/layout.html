@@ -3,12 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BRAC Student Portal</title>
+    <title>{% if page == 'dashboard' %}Dashboard | buX{% elif page == 'wish-list' %}Course Wish List | buX{% elif page == 'phase-one' %}Phase One | buX{% elif page == 'phase-two' %}Phase Two | buX{% elif page == 'self-registration' %}Self Registration | buX{% elif page == 'section-status' %}Section Status | buX{% elif page == 'schedule' %}Class Schedule | buX{% elif page == 'student-concession-apply' %}Scholarship & Waiver | buX{% elif page == 'concession-history-list' %}Scholarship History | buX{% elif page == 'course-drop-application' %}Course Drop | buX{% elif page == 'drop-semester-application' %}Semester Drop | buX{% elif page == 'grade-sheet' %}Grade Sheet | buX{% elif page == 'probation-application' %}Probation | buX{% elif page == 'payslips' %}Payslips | buX{% elif page == 'profile-overview' %}Profile Overview | buX{% else %}BRAC Student Portal{% endif %}</title>
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
+    {% if page == 'dashboard' %}
+      {% set page_heading = 'Dashboard' %}
+    {% elif page == 'wish-list' %}
+      {% set page_heading = 'Course Wish List' %}
+    {% elif page == 'phase-one' %}
+      {% set page_heading = 'Advising for Phase One' %}
+    {% elif page == 'phase-two' %}
+      {% set page_heading = 'Advising for Phase Two' %}
+    {% elif page == 'self-registration' %}
+      {% set page_heading = 'Advising for Self Registration' %}
+    {% elif page == 'section-status' %}
+      {% set page_heading = 'Section Seat Status' %}
+    {% elif page == 'schedule' %}
+      {% set page_heading = 'Class and Exam Schedule' %}
+    {% elif page == 'student-concession-apply' %}
+      {% set page_heading = 'Scholarship & Waiver Apply' %}
+    {% elif page == 'concession-history-list' %}
+      {% set page_heading = 'Scholarship & Waiver History' %}
+    {% elif page == 'course-drop-application' %}
+      {% set page_heading = 'Course Drop Application' %}
+    {% elif page == 'drop-semester-application' %}
+      {% set page_heading = 'Semester Drop Application' %}
+    {% elif page == 'grade-sheet' %}
+      {% set page_heading = 'Grade Sheet' %}
+    {% elif page == 'probation-application' %}
+      {% set page_heading = 'Probation Application' %}
+    {% elif page == 'payslips' %}
+      {% set page_heading = 'Pay Slip View' %}
+    {% elif page == 'profile-overview' %}
+      {% set page_heading = 'Profile Overview' %}
+    {% else %}
+      {% set page_heading = 'Dashboard' %}
+    {% endif %}
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand-block">
@@ -46,10 +79,45 @@
 
       <main class="main-content">
         <header class="topbar">
-          <div class="page-title">Student</div>
+          <div class="page-title">
+            {% if page == 'dashboard' %}
+              Dashboard
+            {% elif page == 'wish-list' %}
+              Student / Course Wish List
+            {% elif page == 'phase-one' %}
+              Student / Phase One
+            {% elif page == 'phase-two' %}
+              Student / Phase Two
+            {% elif page == 'self-registration' %}
+              Student / Self Registration
+            {% elif page == 'section-status' %}
+              Student / Section Seat Status
+            {% elif page == 'schedule' %}
+              Student / Class and Exam Schedule
+            {% elif page == 'student-concession-apply' %}
+              Student / Scholarship & Waiver Apply
+            {% elif page == 'concession-history-list' %}
+              Student / Scholarship History
+            {% elif page == 'course-drop-application' %}
+              Student / Course Drop Application
+            {% elif page == 'drop-semester-application' %}
+              Student / Semester Drop Application
+            {% elif page == 'grade-sheet' %}
+              Student / Grade Sheet
+            {% elif page == 'probation-application' %}
+              Student / Probation
+            {% elif page == 'payslips' %}
+              Student / Pay Slip View
+            {% elif page == 'profile-overview' %}
+              Student / Profile Overview
+            {% else %}
+              Dashboard
+            {% endif %}
+          </div>
           <div class="topbar-actions">
             <div class="search-box">
-              <span>Search</span>
+              <span class="search-icon">🔎</span>
+              <input type="text" placeholder="Search CTRL + K" aria-label="Search" />
             </div>
             <button class="icon-button">⛶</button>
             <button class="icon-button">🔔<span class="badge">14</span></button>
@@ -62,10 +130,12 @@
 
         <section class="content-top">
           <div class="page-heading">
-            <h1>{{ title or 'Dashboard' }}</h1>
+            <h1>{{ page_heading }}</h1>
           </div>
           <div class="page-actions">
-            {% if page == 'wish-list' %}
+            {% if page == 'dashboard' %}
+            <button class="secondary-button">Configure Dashboard</button>
+            {% elif page == 'wish-list' %}
             <button class="primary-button">Confirm Wishlist</button>
             {% elif page == 'phase-one' or page == 'phase-two' or page == 'self-registration' %}
             <button class="primary-button">Actions</button>
