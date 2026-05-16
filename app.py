@@ -75,14 +75,31 @@ def login():
     )
 
 
+def get_google_env_status():
+    missing = []
+    if not google.client_id:
+        missing.append("GOOGLE_CLIENT_ID")
+    if not google.client_secret:
+        missing.append("GOOGLE_CLIENT_SECRET")
+    return missing
+
+
 @app.route("/accounts/google/auth/")
 def google_auth():
     if session.get("user"):
         return redirect(url_for("dashboard"))
     redirect_uri = REDIRECT_URI or url_for("auth_callback", _external=True)
+    missing_env = get_google_env_status()
+    if missing_env:
+        return (
+            "<h1>Google OAuth configuration error</h1>"
+            f"<p>Missing environment variables: {', '.join(missing_env)}</p>"
+            "<p>Please set them in Vercel or your local .env.</p>"
+        ), 500
+
     try:
         return google.authorize_redirect(redirect_uri)
-    except Exception as exc:
+    except Exception:
         error_text = traceback.format_exc()
         return (
             "<h1>OAuth redirect failed</h1>"
@@ -94,41 +111,55 @@ def google_auth():
 @app.route("/debug/redirect-uri")
 def debug_redirect_uri():
     computed_uri = url_for("auth_callback", _external=True)
+    env_status = get_google_env_status()
+    env_message = (
+        "All required Google env vars are present."
+        if not env_status
+        else f"Missing: {', '.join(env_status)}"
+    )
     return (
         f"Computed callback URI: {computed_uri}<br>"
-        f"Configured redirect URI: {REDIRECT_URI}"
+        f"Configured redirect URI: {REDIRECT_URI}<br>"
+        f"Google env status: {env_message}"
     )
 
 
 @app.route("/accounts/google/login/callback/")
 @app.route("/accounts/google/login/callback")
 def auth_callback():
-    token = google.authorize_access_token()
-    user_info = None
-    if token and token.get("id_token"):
-        user_info = google.parse_id_token(token)
-    if not user_info:
-        user_info = google.get("userinfo").json()
+    try:
+        token = google.authorize_access_token()
+        user_info = None
+        if token and token.get("id_token"):
+            user_info = google.parse_id_token(token)
+        if not user_info:
+            user_info = google.get("userinfo").json()
 
-    email = user_info.get("email")
-    if email != ALLOWED_EMAIL:
-        return render_template(
-            "unauthorized.html",
-            email=email,
-            allowed_email=ALLOWED_EMAIL,
-        )
-    session["user"] = {
-        "name": user_info.get("name", "Student"),
-        "email": email,
-        "picture": user_info.get("picture", ""),
-        "student_id": "22241090",
-        "department": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
-        "program": "BACHELOR OF SCIENCE IN COMPUTER SCIENCE",
-        "current_semester": "FALL 2025",
-        "cgpa": "2.36",
-        "earned_credit": "63",
-    }
-    return redirect(url_for("dashboard"))
+        email = user_info.get("email")
+        if email != ALLOWED_EMAIL:
+            return render_template(
+                "unauthorized.html",
+                email=email,
+                allowed_email=ALLOWED_EMAIL,
+            )
+        session["user"] = {
+            "name": user_info.get("name", "Student"),
+            "email": email,
+            "picture": user_info.get("picture", ""),
+            "student_id": "22241090",
+            "department": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
+            "program": "BACHELOR OF SCIENCE IN COMPUTER SCIENCE",
+            "current_semester": "FALL 2025",
+            "cgpa": "2.36",
+            "earned_credit": "63",
+        }
+        return redirect(url_for("dashboard"))
+    except Exception:
+        error_text = traceback.format_exc()
+        return (
+            "<h1>OAuth callback failed</h1>"
+            f"<pre>{error_text}</pre>"
+        ), 500
 
 
 @app.route("/logout")
