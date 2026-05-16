@@ -1,4 +1,5 @@
 import os
+import traceback
 from functools import wraps
 
 from authlib.integrations.flask_client import OAuth
@@ -79,14 +80,24 @@ def google_auth():
     if session.get("user"):
         return redirect(url_for("dashboard"))
     redirect_uri = REDIRECT_URI or url_for("auth_callback", _external=True)
-    print(f"DEBUG redirect_uri={redirect_uri}")
-    return google.authorize_redirect(redirect_uri)
+    try:
+        return google.authorize_redirect(redirect_uri)
+    except Exception as exc:
+        error_text = traceback.format_exc()
+        return (
+            "<h1>OAuth redirect failed</h1>"
+            f"<p><strong>redirect_uri</strong>: {redirect_uri}</p>"
+            f"<pre>{error_text}</pre>"
+        ), 500
 
 
 @app.route("/debug/redirect-uri")
 def debug_redirect_uri():
     computed_uri = url_for("auth_callback", _external=True)
-    return f"Computed callback URI: {computed_uri}<br>Configured redirect URI: {REDIRECT_URI}"
+    return (
+        f"Computed callback URI: {computed_uri}<br>"
+        f"Configured redirect URI: {REDIRECT_URI}"
+    )
 
 
 @app.route("/accounts/google/login/callback/")
