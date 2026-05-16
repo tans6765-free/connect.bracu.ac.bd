@@ -12,13 +12,17 @@ from flask import (
     session,
     url_for,
 )
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.secret_key = os.getenv("SECRET_KEY", "django-insecure-dev-key-change-in-prod")
+app.config["PREFERRED_URL_SCHEME"] = os.getenv("PREFERRED_URL_SCHEME", "https")
 
 ALLOWED_EMAIL = "md.tahsinul.islam@g.bracu.ac.bd"
+REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 
 oauth = OAuth(app)
 
@@ -71,7 +75,7 @@ def login():
 def google_auth():
     if session.get("user"):
         return redirect(url_for("dashboard"))
-    redirect_uri = url_for("auth_callback", _external=True)
+    redirect_uri = REDIRECT_URI or url_for("auth_callback", _external=True)
     return google.authorize_redirect(redirect_uri)
 
 
