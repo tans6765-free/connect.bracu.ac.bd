@@ -9,43 +9,29 @@
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
-    {% if page == 'dashboard' %}
-      {% set page_heading = 'Dashboard' %}
-    {% elif page == 'wish-list' %}
-      {% set page_heading = 'Course Wish List' %}
-    {% elif page == 'phase-one' %}
-      {% set page_heading = 'Advising for Phase One' %}
-    {% elif page == 'phase-two' %}
-      {% set page_heading = 'Advising for Phase Two' %}
-    {% elif page == 'self-registration' %}
-      {% set page_heading = 'Advising for Self Registration' %}
-    {% elif page == 'section-status' %}
-      {% set page_heading = 'Section Seat Status' %}
-    {% elif page == 'schedule' %}
-      {% set page_heading = 'Class and Exam Schedule' %}
-    {% elif page == 'student-concession-apply' %}
-      {% set page_heading = 'Scholarship & Waiver Apply' %}
-    {% elif page == 'concession-history-list' %}
-      {% set page_heading = 'Scholarship & Waiver History' %}
-    {% elif page == 'course-drop-application' %}
-      {% set page_heading = 'Course Drop Application' %}
-    {% elif page == 'drop-semester-application' %}
-      {% set page_heading = 'Semester Drop Application' %}
-    {% elif page == 'grade-sheet' %}
-      {% set page_heading = 'Grade Sheet' %}
-    {% elif page == 'probation-application' %}
-      {% set page_heading = 'Probation Application' %}
-    {% elif page == 'payslips' %}
-      {% set page_heading = 'Pay Slip View' %}
-    {% elif page == 'profile-overview' %}
-      {% set page_heading = 'Profile Overview' %}
-    {% else %}
-      {% set page_heading = 'Dashboard' %}
-    {% endif %}
+    {# ── Page heading variable ── #}
+    {% if page == 'dashboard' %}{% set page_heading = 'Dashboard' %}
+    {% elif page == 'wish-list' %}{% set page_heading = 'Course Wish List' %}
+    {% elif page == 'phase-one' %}{% set page_heading = 'Advising for Phase One' %}
+    {% elif page == 'phase-two' %}{% set page_heading = 'Advising for Phase Two' %}
+    {% elif page == 'self-registration' %}{% set page_heading = 'Advising for Self Registration' %}
+    {% elif page == 'section-status' %}{% set page_heading = 'Section Status' %}
+    {% elif page == 'schedule' %}{% set page_heading = 'Class and Exam Schedule' %}
+    {% elif page == 'student-concession-apply' %}{% set page_heading = 'Scholarship & Waiver Apply' %}
+    {% elif page == 'concession-history-list' %}{% set page_heading = 'Scholarship & Waiver History' %}
+    {% elif page == 'course-drop-application' %}{% set page_heading = 'Apply for Dropping Course' %}
+    {% elif page == 'drop-semester-application' %}{% set page_heading = 'Apply for Dropping Semester' %}
+    {% elif page == 'grade-sheet' %}{% set page_heading = 'Grade Sheet' %}
+    {% elif page == 'probation-application' %}{% set page_heading = 'Probation Application' %}
+    {% elif page == 'payslips' %}{% set page_heading = 'Pay Slip View' %}
+    {% elif page == 'profile-overview' %}{% set page_heading = 'Profile Overview' %}
+    {% else %}{% set page_heading = 'Dashboard' %}{% endif %}
+
     <div class="app-shell">
-      <aside class="sidebar">
+      <!-- ═══ SIDEBAR ═══ -->
+      <aside class="sidebar" id="sidebar">
         <div class="brand-block">
-          <img class="brand-logo" src="/static/images/brac-logo.svg" alt="BRAC" />
+          <img class="brand-logo" src="/static/images/brac-logo.svg" alt="BRAC University" />
           <div class="brand-text">
             <span>Student Lifecycle</span>
             <strong>Management</strong>
@@ -53,102 +39,290 @@
         </div>
 
         <nav class="sidebar-nav">
-          <div class="nav-group">A</div>
-          <div class="nav-heading">Advising</div>
-          <a class="nav-link {% if page in ['wish-list','phase-one','phase-two','self-registration','section-status'] %}active{% endif %}" href="/student/advising/wish-list">Wishlist</a>
-          <a class="nav-link {% if page == 'phase-one' %}active{% endif %}" href="/student/advising/phase-one">Pre-Registration Phase One</a>
-          <a class="nav-link {% if page == 'phase-two' %}active{% endif %}" href="/student/advising/phase-two">Pre-Registration Phase Two</a>
-          <a class="nav-link {% if page == 'self-registration' %}active{% endif %}" href="/student/advising/self-registration">Self Registration</a>
-          <a class="nav-link {% if page == 'section-status' %}active{% endif %}" href="/student/advising/section-status">Section Seat Status</a>
-        </nav>
 
-        <nav class="sidebar-nav">
-          <div class="nav-group">C</div>
-          <a class="nav-link {% if page == 'schedule' %}active{% endif %}" href="/student/schedule">Class and Exam Schedule</a>
-          <div class="nav-group">S</div>
-          <div class="nav-heading">Scholarship & Waiver</div>
-          <a class="nav-link {% if page == 'student-concession-apply' %}active{% endif %}" href="/student/student-concession-apply">Apply</a>
-          <a class="nav-link {% if page == 'concession-history-list' %}active{% endif %}" href="/student/concession-history-list">History</a>
-          <a class="nav-link {% if page == 'course-drop-application' %}active{% endif %}" href="/student/course-drop-application">Course Drop Application</a>
-          <a class="nav-link {% if page == 'drop-semester-application' %}active{% endif %}" href="/student/drop-semester-application">Semester Drop Application</a>
-          <a class="nav-link {% if page == 'grade-sheet' %}active{% endif %}" href="/student/grade-sheet">Grade Sheet</a>
-          <a class="nav-link {% if page == 'probation-application' %}active{% endif %}" href="/student/probation-application">Probation</a>
-          <a class="nav-link {% if page == 'payslips' %}active{% endif %}" href="/student/payslips">Payslip</a>
+          <!-- A · Advising (collapsible) -->
+          <div class="nav-item-group {% if page in ['wish-list','phase-one','phase-two','self-registration','section-status'] %}open{% endif %}" id="group-advising">
+            <button class="nav-group-btn" onclick="toggleGroup('group-advising')">
+              <span class="nav-letter">A</span>
+              <span class="nav-group-label">Advising</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-sub">
+              <a class="nav-sub-link {% if page == 'wish-list' %}active{% endif %}" href="/student/advising/wish-list">
+                <span class="dot"></span>Wishlist
+              </a>
+              <a class="nav-sub-link {% if page == 'phase-one' %}active{% endif %}" href="/student/advising/phase-one">
+                <span class="dot"></span>Pre-Registration Phase One
+              </a>
+              <a class="nav-sub-link {% if page == 'phase-two' %}active{% endif %}" href="/student/advising/phase-two">
+                <span class="dot"></span>Pre-Registration Phase Two
+              </a>
+              <a class="nav-sub-link {% if page == 'self-registration' %}active{% endif %}" href="/student/advising/self-registration">
+                <span class="dot"></span>Self Registration
+              </a>
+              <a class="nav-sub-link {% if page == 'section-status' %}active{% endif %}" href="/student/advising/section-status">
+                <span class="dot"></span>Section Seat Status
+              </a>
+            </div>
+          </div>
+
+          <!-- C · Class and Exam Schedule -->
+          <a class="nav-flat-link {% if page == 'schedule' %}active{% endif %}" href="/student/schedule">
+            <span class="nav-letter {% if page == 'schedule' %}active-letter{% endif %}">C</span>
+            <span>Class and Exam Schedule</span>
+          </a>
+
+          <!-- S · Scholarship & Waiver (collapsible) -->
+          <div class="nav-item-group {% if page in ['student-concession-apply','concession-history-list'] %}open{% endif %}" id="group-scholarship">
+            <button class="nav-group-btn" onclick="toggleGroup('group-scholarship')">
+              <span class="nav-letter {% if page in ['student-concession-apply','concession-history-list'] %}active-letter{% endif %}">S</span>
+              <span class="nav-group-label">Scholarship & Waiver</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="nav-sub">
+              <a class="nav-sub-link {% if page == 'student-concession-apply' %}active{% endif %}" href="/student/student-concession-apply">
+                <span class="dot"></span>Apply
+              </a>
+              <a class="nav-sub-link {% if page == 'concession-history-list' %}active{% endif %}" href="/student/concession-history-list">
+                <span class="dot"></span>History
+              </a>
+            </div>
+          </div>
+
+          <!-- C · Course Drop -->
+          <a class="nav-flat-link {% if page == 'course-drop-application' %}active{% endif %}" href="/student/course-drop-application">
+            <span class="nav-letter {% if page == 'course-drop-application' %}active-letter{% endif %}">C</span>
+            <span>Course Drop Application</span>
+          </a>
+
+          <!-- S · Semester Drop -->
+          <a class="nav-flat-link {% if page == 'drop-semester-application' %}active{% endif %}" href="/student/drop-semester-application">
+            <span class="nav-letter {% if page == 'drop-semester-application' %}active-letter{% endif %}">S</span>
+            <span>Semester Drop Application</span>
+          </a>
+
+          <!-- G · Grade Sheet -->
+          <a class="nav-flat-link {% if page == 'grade-sheet' %}active{% endif %}" href="/student/grade-sheet">
+            <span class="nav-letter {% if page == 'grade-sheet' %}active-letter{% endif %}">G</span>
+            <span>Grade Sheet</span>
+          </a>
+
+          <!-- P · Probation -->
+          <a class="nav-flat-link {% if page == 'probation-application' %}active{% endif %}" href="/student/probation-application">
+            <span class="nav-letter {% if page == 'probation-application' %}active-letter{% endif %}">P</span>
+            <span>Probation</span>
+          </a>
+
+          <!-- P · Payslip -->
+          <a class="nav-flat-link {% if page == 'payslips' %}active{% endif %}" href="/student/payslips">
+            <span class="nav-letter {% if page == 'payslips' %}active-letter{% endif %}">P</span>
+            <span>Payslip</span>
+          </a>
+
         </nav>
       </aside>
 
+      <!-- ═══ MAIN ═══ -->
       <main class="main-content">
+
+        <!-- Top bar -->
         <header class="topbar">
-          <div class="page-title">
-            {% if page == 'dashboard' %}
-              Dashboard
-            {% elif page == 'wish-list' %}
-              Student / Course Wish List
-            {% elif page == 'phase-one' %}
-              Student / Phase One
-            {% elif page == 'phase-two' %}
-              Student / Phase Two
-            {% elif page == 'self-registration' %}
-              Student / Self Registration
-            {% elif page == 'section-status' %}
-              Student / Section Seat Status
-            {% elif page == 'schedule' %}
-              Student / Class and Exam Schedule
-            {% elif page == 'student-concession-apply' %}
-              Student / Scholarship & Waiver Apply
-            {% elif page == 'concession-history-list' %}
-              Student / Scholarship History
-            {% elif page == 'course-drop-application' %}
-              Student / Course Drop Application
-            {% elif page == 'drop-semester-application' %}
-              Student / Semester Drop Application
-            {% elif page == 'grade-sheet' %}
-              Student / Grade Sheet
-            {% elif page == 'probation-application' %}
-              Student / Probation
-            {% elif page == 'payslips' %}
-              Student / Pay Slip View
-            {% elif page == 'profile-overview' %}
-              Student / Profile Overview
-            {% else %}
-              Dashboard
-            {% endif %}
+          <div class="topbar-left">
+            <button class="collapse-btn" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="breadcrumb">
+              {% if page == 'dashboard' %}
+                <span>Student</span>
+              {% elif page in ['wish-list','phase-one','phase-two','self-registration','section-status'] %}
+                <span>Student</span><span class="bc-sep">/</span>
+                <span>Advising</span><span class="bc-sep">/</span>
+                <strong>
+                  {% if page == 'wish-list' %}Wishlist
+                  {% elif page == 'phase-one' %}Phase One
+                  {% elif page == 'phase-two' %}Phase Two
+                  {% elif page == 'self-registration' %}Self Registration
+                  {% elif page == 'section-status' %}Section Seat Status
+                  {% endif %}
+                </strong>
+              {% elif page == 'schedule' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Class and Exam Schedule</strong>
+              {% elif page in ['student-concession-apply','concession-history-list'] %}
+                <span>Student</span><span class="bc-sep">/</span>
+                <strong>{% if page == 'student-concession-apply' %}Scholarship & Waiver Apply{% else %}Scholarship History{% endif %}</strong>
+              {% elif page == 'course-drop-application' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Course Drop Application</strong>
+              {% elif page == 'drop-semester-application' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Semester Drop Application</strong>
+              {% elif page == 'grade-sheet' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Grade Sheet</strong>
+              {% elif page == 'probation-application' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Probation</strong>
+              {% elif page == 'payslips' %}
+                <span>Student</span>
+              {% elif page == 'profile-overview' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Profile Overview</strong>
+              {% else %}
+                <span>Student</span>
+              {% endif %}
+            </div>
           </div>
+
           <div class="topbar-actions">
             <div class="search-box">
-              <span class="search-icon">🔎</span>
-              <input type="text" placeholder="Search CTRL + K" aria-label="Search" />
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search" aria-label="Search" />
+              <kbd>Ctrl K</kbd>
             </div>
-            <button class="icon-button">⛶</button>
-            <button class="icon-button">🔔<span class="badge">14</span></button>
-            <div class="profile-menu">
-              <span>{{ user.name if user else 'Student' }}</span>
-              <img class="avatar" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="Profile" />
+            <button class="icon-button icon-btn-fullscreen" title="Fullscreen" onclick="toggleFullscreen()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+            <button class="icon-button icon-btn-notif" title="Notifications">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="badge">14</span>
+            </button>
+            <div class="profile-menu" id="profileMenu" onclick="toggleProfileDropdown()">
+              <img class="avatar" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="{{ user.name if user else 'Student' }}" />
+              <!-- Profile dropdown -->
+              <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-dropdown-header">
+                  <img class="avatar-lg" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="Profile" />
+                  <div>
+                    <div class="pd-name">{{ (user.name if user else 'MD. TAHSINUL ISLAM')|upper }}</div>
+                    <div class="pd-email">{{ user.email if user else 'md.tahsinul.islam@g.bracu.ac.bd' }}</div>
+                  </div>
+                </div>
+                <div class="profile-dropdown-body">
+                  <a href="/student/profile/overview" class="pd-link">
+                    <span class="pd-dot green"></span> My Profile
+                  </a>
+                  <a href="/accounts/settings/" class="pd-link">
+                    <span class="pd-dot green"></span> Account Settings
+                  </a>
+                  <a href="/accounts/logout/" class="pd-link pd-signout">
+                    <span class="pd-dot red"></span> Sign Out
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </header>
 
+        <!-- Page heading row -->
         <section class="content-top">
           <div class="page-heading">
             <h1>{{ page_heading }}</h1>
+            {% if page == 'schedule' %}<div class="page-sub">FALL 2025</div>{% endif %}
+            {% if page == 'section-status' %}<div class="page-sub-right">UNDERGRADUATE-SPRING 2026</div>{% endif %}
           </div>
           <div class="page-actions">
             {% if page == 'dashboard' %}
-            <button class="secondary-button">Configure Dashboard</button>
+              <div class="dropdown-wrap" id="dd-configure">
+                <button class="outline-btn" onclick="toggleDropdown('dd-configure')">
+                  Configure Dashboard
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <div class="dropdown-item">Rearrange Widgets</div>
+                  <div class="dropdown-item">Add Widget</div>
+                  <div class="dropdown-item">Reset Layout</div>
+                </div>
+              </div>
             {% elif page == 'wish-list' %}
-            <button class="primary-button">Confirm Wishlist</button>
-            {% elif page == 'phase-one' or page == 'phase-two' or page == 'self-registration' %}
-            <button class="primary-button">Actions</button>
+              <button class="primary-btn" onclick="alert('Wishlist confirmed!')">Confirm Wishlist</button>
+            {% elif page in ['phase-one','phase-two','self-registration'] %}
+              <div class="dropdown-wrap" id="dd-actions">
+                <button class="primary-btn" onclick="toggleDropdown('dd-actions')">
+                  Actions
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <div class="dropdown-item">View Schedule</div>
+                  <div class="dropdown-item">Download PDF</div>
+                </div>
+              </div>
+            {% elif page == 'schedule' %}
+              <div class="dropdown-wrap" id="dd-semester">
+                <button class="primary-btn" onclick="toggleDropdown('dd-semester')">
+                  Change Semester
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <div class="dropdown-item">FALL 2025</div>
+                  <div class="dropdown-item">SUMMER 2025</div>
+                  <div class="dropdown-item">SPRING 2025</div>
+                  <div class="dropdown-item">FALL 2024</div>
+                </div>
+              </div>
             {% elif page == 'student-concession-apply' %}
-            <button class="primary-button">Apply Now</button>
+              <button class="primary-btn" onclick="alert('No active session.')">Apply Now</button>
             {% endif %}
           </div>
         </section>
 
+        <!-- Main content area -->
         <div class="content-area">
           {% block content %}{% endblock %}
         </div>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+          <span>2025© <a href="https://www.bracu.ac.bd" target="_blank">BRAC University</a>. All rights reserved.</span>
+          <span class="footer-dev">
+            Developed By:
+            <img src="/static/images/bracit.svg" alt="bracIT" class="bracit-logo" />
+          </span>
+        </footer>
+
       </main>
     </div>
+
+    <script>
+      // Sidebar collapse
+      function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+        document.querySelector('.main-content').classList.toggle('sidebar-collapsed');
+      }
+
+      // Collapsible nav groups
+      function toggleGroup(id) {
+        const group = document.getElementById(id);
+        group.classList.toggle('open');
+      }
+
+      // Generic dropdown toggle
+      function toggleDropdown(id) {
+        const wrap = document.getElementById(id);
+        const isOpen = wrap.classList.contains('dd-open');
+        // close all
+        document.querySelectorAll('.dropdown-wrap').forEach(w => w.classList.remove('dd-open'));
+        if (!isOpen) wrap.classList.add('dd-open');
+      }
+
+      // Profile dropdown
+      function toggleProfileDropdown() {
+        document.getElementById('profileDropdown').classList.toggle('show');
+      }
+
+      // Close dropdowns on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-wrap')) {
+          document.querySelectorAll('.dropdown-wrap').forEach(w => w.classList.remove('dd-open'));
+        }
+        if (!e.target.closest('.profile-menu')) {
+          const dd = document.getElementById('profileDropdown');
+          if (dd) dd.classList.remove('show');
+        }
+      });
+
+      // Fullscreen
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    </script>
   </body>
 </html>

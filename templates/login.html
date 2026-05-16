@@ -3,48 +3,197 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ page_title }}</title>
+    <title>BracU Central Login</title>
+    <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body class="login-body">
+
+    <!-- Campus sketch SVG background (inline, mimics the real site) -->
+    <div class="login-bg-sketch" aria-hidden="true">
+      <!-- Left side doodles -->
+      <svg class="sketch-svg sketch-left" viewBox="0 0 420 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Tree 1 -->
+        <ellipse cx="60" cy="580" rx="30" ry="40" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="60" y1="620" x2="60" y2="680" stroke="#c8cfd9" stroke-width="1.2"/>
+        <!-- Tree 2 -->
+        <ellipse cx="130" cy="565" rx="25" ry="35" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="130" y1="600" x2="130" y2="660" stroke="#c8cfd9" stroke-width="1.2"/>
+        <!-- Tree 3 -->
+        <ellipse cx="200" cy="575" rx="28" ry="38" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="200" y1="613" x2="200" y2="670" stroke="#c8cfd9" stroke-width="1.2"/>
+        <!-- Building outline -->
+        <rect x="60" y="430" width="220" height="130" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="60" y1="430" x2="280" y2="430" stroke="#c8cfd9" stroke-width="1.2"/>
+        <!-- Windows -->
+        <rect x="80" y="450" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="115" y="450" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="150" y="450" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="185" y="450" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="220" y="450" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="80" y="485" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="115" y="485" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="220" y="485" width="20" height="20" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <!-- Door -->
+        <rect x="155" y="510" width="30" height="50" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <!-- Path / walkway -->
+        <path d="M155 560 L140 620 M185 560 L200 620" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- People silhouettes -->
+        <circle cx="100" cy="635" r="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="100" y1="641" x2="100" y2="665" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="100" y1="648" x2="90" y2="658" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="100" y1="648" x2="110" y2="658" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="100" y1="665" x2="92" y2="678" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="100" y1="665" x2="108" y2="678" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- Person 2 -->
+        <circle cx="240" cy="628" r="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="240" y1="634" x2="240" y2="658" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="240" y1="641" x2="230" y2="651" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="240" y1="641" x2="250" y2="651" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="240" y1="658" x2="232" y2="671" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="240" y1="658" x2="248" y2="671" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- Bicycle -->
+        <circle cx="340" cy="650" r="16" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <circle cx="380" cy="650" r="16" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <path d="M356 650 L360 630 L375 635 M356 650 L380 650" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- Compass doodle top-left -->
+        <circle cx="48" cy="100" r="22" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="48" y1="78" x2="48" y2="122" stroke="#c8cfd9" stroke-width="0.8"/>
+        <line x1="26" y1="100" x2="70" y2="100" stroke="#c8cfd9" stroke-width="0.8"/>
+        <!-- Pencil doodle -->
+        <rect x="160" y="55" width="8" height="35" rx="2" stroke="#c8cfd9" stroke-width="1" fill="none" transform="rotate(-30 160 55)"/>
+        <!-- Paper airplane -->
+        <path d="M320 80 L360 60 L345 90 L330 82 Z" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="330" y1="82" x2="345" y2="90" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- Cloud -->
+        <path d="M60 220 Q60 200 80 200 Q82 186 100 188 Q110 178 124 186 Q140 178 146 192 Q162 192 162 208 Q162 222 148 224 L72 224 Q58 224 60 220Z" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <!-- Car sketch -->
+        <rect x="20" y="700" width="80" height="30" rx="8" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="30" y="688" width="60" height="18" rx="4" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <circle cx="35" cy="730" r="8" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <circle cx="85" cy="730" r="8" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+      </svg>
+
+      <!-- Right side doodles -->
+      <svg class="sketch-svg sketch-right" viewBox="0 0 420 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Globe/circle -->
+        <circle cx="370" cy="100" r="28" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <ellipse cx="370" cy="100" rx="14" ry="28" stroke="#c8cfd9" stroke-width="0.8" fill="none"/>
+        <line x1="342" y1="100" x2="398" y2="100" stroke="#c8cfd9" stroke-width="0.8"/>
+        <!-- Another tree -->
+        <ellipse cx="360" cy="580" rx="30" ry="42" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="360" y1="622" x2="360" y2="680" stroke="#c8cfd9" stroke-width="1.2"/>
+        <ellipse cx="410" cy="570" rx="24" ry="34" stroke="#c8cfd9" stroke-width="1.2" fill="none"/>
+        <line x1="410" y1="604" x2="410" y2="660" stroke="#c8cfd9" stroke-width="1.2"/>
+        <!-- Person right -->
+        <circle cx="280" cy="630" r="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="280" y1="636" x2="280" y2="660" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="280" y1="643" x2="270" y2="653" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="280" y1="643" x2="290" y2="653" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="280" y1="660" x2="272" y2="673" stroke="#c8cfd9" stroke-width="1"/>
+        <line x1="280" y1="660" x2="288" y2="673" stroke="#c8cfd9" stroke-width="1"/>
+        <!-- Dashed road -->
+        <line x1="0" y1="695" x2="420" y2="695" stroke="#c8cfd9" stroke-width="1" stroke-dasharray="8 6"/>
+        <!-- Apple/fruit doodle -->
+        <circle cx="60" cy="110" r="18" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <path d="M60 92 Q64 82 70 86" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <!-- Book doodle -->
+        <rect x="300" y="200" width="50" height="40" rx="2" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <line x1="325" y1="200" x2="325" y2="240" stroke="#c8cfd9" stroke-width="0.8"/>
+        <line x1="308" y1="212" x2="322" y2="212" stroke="#c8cfd9" stroke-width="0.8"/>
+        <line x1="308" y1="220" x2="322" y2="220" stroke="#c8cfd9" stroke-width="0.8"/>
+        <line x1="308" y1="228" x2="322" y2="228" stroke="#c8cfd9" stroke-width="0.8"/>
+        <!-- Bus sketch -->
+        <rect x="320" y="695" width="100" height="40" rx="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <rect x="328" y="703" width="18" height="14" rx="1" stroke="#c8cfd9" stroke-width="0.8" fill="none"/>
+        <rect x="352" y="703" width="18" height="14" rx="1" stroke="#c8cfd9" stroke-width="0.8" fill="none"/>
+        <rect x="376" y="703" width="18" height="14" rx="1" stroke="#c8cfd9" stroke-width="0.8" fill="none"/>
+        <circle cx="338" cy="735" r="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+        <circle cx="400" cy="735" r="6" stroke="#c8cfd9" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- LOGIN CARD -->
     <div class="login-shell">
-      <div class="login-card bracu-login-card">
-        <div class="brand-header">
-          <img src="/static/images/brac-logo.svg" class="logo-image" alt="BRAC" />
-          <div class="brand-title">BracU Central Login</div>
-        </div>
-        <div class="login-content">
-          <h1>Sign in to your account</h1>
-          <form class="login-form" action="/accounts/google/auth/" method="get">
-            <label>Username or email</label>
-            <input type="text" placeholder="Enter username or email" disabled />
+      <div class="login-top">
+        <img src="/static/images/brac-logo.svg" class="login-logo" alt="BRAC University" />
+        <div class="login-brand-title">BracU Central Login</div>
+      </div>
+
+      <div class="login-card">
+        <h1 class="login-h1">Sign in to your account</h1>
+
+        <div class="login-form">
+          <div class="form-field">
+            <label>Username or email<span class="required">*</span></label>
+            <input type="text" placeholder="Enter username or email" class="text-input" disabled />
+          </div>
+
+          <div class="form-field">
             <label>Password</label>
-            <input type="password" placeholder="Enter your password" disabled />
-            <div class="recaptcha-box">
-              <span class="checkbox"></span>
+            <div class="pw-wrap">
+              <input type="password" placeholder="Enter your password" id="pwInput" class="text-input" disabled />
+              <button type="button" class="pw-toggle" onclick="togglePw()" tabindex="-1">
+                <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="recaptcha-box">
+            <label class="recaptcha-check">
+              <input type="checkbox" id="robotCheck" onchange="onRobotCheck()" />
+              <span class="check-box-visual"></span>
               <span>I'm not a robot</span>
-              <span class="recaptcha-badge">reCAPTCHA</span>
-            </div>
-            <div class="form-footer">
-              <a href="#">Forgot Password?</a>
-            </div>
-            <button type="submit" class="sign-in-button">Sign In</button>
-          </form>
-          <div class="divider"><span>Or sign in with</span></div>
-          <a class="google-login" href="{{ auth_route }}">
-            <span class="google-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" width="18" height="18">
-                <path fill="#FBBC05" d="M20.66 17.77V29.85H29.82C29.2 33.73 26.05 36.41 21.85 36.41C16.81 36.41 12.6 32.3 12.6 27.22C12.6 22.14 16.81 18.02 21.85 18.02C24.4 18.02 26.68 18.93 28.28 20.43L32.85 15.86C29.92 13.06 26.21 11.5 21.85 11.5C13.52 11.5 6.87 18.16 6.87 26.5C6.87 34.83 13.52 41.5 21.85 41.5C30.18 41.5 36.83 34.83 36.83 26.5C36.83 25.23 36.71 24.03 36.48 22.92H20.66Z"/>
-                <path fill="#EA4335" d="M8.52 16.69L13.79 20.17C15.6 16.67 18.74 14.02 22.99 13.1V7.08C17.13 7.95 11.85 11.88 8.52 16.69Z"/>
-                <path fill="#34A853" d="M21.85 41.5C26.33 41.5 30.2 39.75 33.07 36.95L28.27 32.85C26.77 34.21 24.56 35.09 21.85 35.09C17.59 35.09 13.97 31.65 13.24 27.56L8.12 31.63C9.68 37.26 15.42 41.5 21.85 41.5Z"/>
-                <path fill="#4285F4" d="M36.48 22.92L36.5 22.1H21.85V29.85H29.82C29.31 32.05 27.92 33.95 25.96 35.13L25.9 35.43L30.07 39.25L30.3 39.29C34.52 35.71 36.48 30.71 36.48 26.41C36.48 25.72 36.44 25.05 36.35 24.4L36.48 22.92Z"/>
+            </label>
+            <div class="recaptcha-right">
+              <svg viewBox="0 0 64 64" width="36" height="36" fill="none">
+                <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" stroke="#c8cfd9" stroke-width="2"/>
+                <path d="M22 32l7 7 13-13" stroke="#4a90d9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </span>
-            <span>Google</span>
-          </a>
+              <div class="recaptcha-label">reCAPTCHA<br/><span>Privacy - Terms</span></div>
+            </div>
+          </div>
+
+          <div class="form-footer-row">
+            <span></span>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <button type="button" class="sign-in-btn" id="signInBtn" onclick="handleSignIn()">Sign In</button>
         </div>
+
+        <div class="divider"><span>Or sign in with</span></div>
+
+        <a class="google-login-btn" href="{{ auth_route }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 46" width="20" height="20">
+            <path fill="#FBBC05" d="M20.66 17.77V29.85H29.82C29.2 33.73 26.05 36.41 21.85 36.41C16.81 36.41 12.6 32.3 12.6 27.22C12.6 22.14 16.81 18.02 21.85 18.02C24.4 18.02 26.68 18.93 28.28 20.43L32.85 15.86C29.92 13.06 26.21 11.5 21.85 11.5C13.52 11.5 6.87 18.16 6.87 26.5C6.87 34.83 13.52 41.5 21.85 41.5C30.18 41.5 36.83 34.83 36.83 26.5C36.83 25.23 36.71 24.03 36.48 22.92H20.66Z"/>
+            <path fill="#EA4335" d="M8.52 16.69L13.79 20.17C15.6 16.67 18.74 14.02 22.99 13.1V7.08C17.13 7.95 11.85 11.88 8.52 16.69Z"/>
+            <path fill="#34A853" d="M21.85 41.5C26.33 41.5 30.2 39.75 33.07 36.95L28.27 32.85C26.77 34.21 24.56 35.09 21.85 35.09C17.59 35.09 13.97 31.65 13.24 27.56L8.12 31.63C9.68 37.26 15.42 41.5 21.85 41.5Z"/>
+            <path fill="#4285F4" d="M36.48 22.92L36.5 22.1H21.85V29.85H29.82C29.31 32.05 27.92 33.95 25.96 35.13L25.9 35.43L30.07 39.25L30.3 39.29C34.52 35.71 36.48 30.71 36.48 26.41C36.48 25.72 36.44 25.05 36.35 24.4L36.48 22.92Z"/>
+          </svg>
+          <span>Google</span>
+        </a>
       </div>
     </div>
+
+    <script>
+      function togglePw() {
+        const input = document.getElementById('pwInput');
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+
+      function onRobotCheck() {
+        // visual feedback only — real reCAPTCHA would go here
+      }
+
+      function handleSignIn() {
+        // Since fields are disabled, redirect to Google auth
+        window.location.href = "{{ auth_route }}";
+      }
+    </script>
   </body>
 </html>

@@ -1,213 +1,582 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  {% if page == 'dashboard' %}
-  <div class="board-grid">
-    <div class="board-card">
-      <h2>Activity</h2>
-      <div class="empty-state">
-        <div class="empty-icon">⧖</div>
-        <div>No active tasks found!</div>
+
+{# ══════════ DASHBOARD ══════════ #}
+{% if page == 'dashboard' %}
+<div class="dash-grid">
+  <div class="card">
+    <div class="card-title">Activity</div>
+    <div class="empty-state">
+      <div class="empty-illo">
+        <!-- Clipboard illustration matching screenshot -->
+        <svg width="130" height="120" viewBox="0 0 130 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="28" width="72" height="86" rx="4" fill="#e9ebf0" stroke="#c9cdd6" stroke-width="1.5"/>
+          <rect x="28" y="20" width="36" height="16" rx="8" fill="#7c83fd" stroke="#5c63d8" stroke-width="1.5"/>
+          <circle cx="36" cy="28" r="4" fill="#5c63d8"/>
+          <circle cx="58" cy="28" r="4" fill="#5c63d8"/>
+          <rect x="44" y="50" width="72" height="86" rx="4" fill="#f0f1f4" stroke="#c9cdd6" stroke-width="1.5"/>
+          <rect x="60" y="40" width="38" height="16" rx="8" fill="#7c83fd" stroke="#5c63d8" stroke-width="1.5"/>
+          <circle cx="68" cy="48" r="4" fill="#5c63d8"/>
+          <circle cx="90" cy="48" r="4" fill="#5c63d8"/>
+        </svg>
       </div>
+      <p class="empty-text">No active tasks found!</p>
     </div>
-    <div class="board-card">
-      <h2>Student Calendar</h2>
-      <div class="empty-state">
-        <div class="empty-icon">📅</div>
-        <div>Calendar data not available yet.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Student Calendar</div>
+    <div class="empty-state">
+      <div class="empty-illo">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="16" width="64" height="56" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+          <rect x="8" y="16" width="64" height="18" rx="6" fill="#818cf8"/>
+          <rect x="8" y="28" width="64" height="6" fill="#818cf8"/>
+          <line x1="26" y1="8" x2="26" y2="24" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="54" y1="8" x2="54" y2="24" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="18" y="44" width="10" height="8" rx="2" fill="#c7d2fe"/>
+          <rect x="35" y="44" width="10" height="8" rx="2" fill="#818cf8"/>
+          <rect x="52" y="44" width="10" height="8" rx="2" fill="#c7d2fe"/>
+          <rect x="18" y="58" width="10" height="8" rx="2" fill="#c7d2fe"/>
+          <rect x="35" y="58" width="10" height="8" rx="2" fill="#c7d2fe"/>
+        </svg>
       </div>
+      <p class="empty-text">Calendar data not available yet.</p>
     </div>
   </div>
-  {% elif page in ['wish-list', 'phase-one', 'phase-two', 'self-registration'] %}
-  <div class="wide-card">
-    <div class="empty-state large">
-      <div class="empty-icon">⟲</div>
-      <div>
-        Advising has not been scheduled or has been expired. Please try after scheduled.
-      </div>
+</div>
+
+{# ══════════ ADVISING PAGES (expired) ══════════ #}
+{% elif page in ['wish-list', 'phase-one', 'phase-two', 'self-registration'] %}
+<div class="card full-card">
+  <div class="empty-state large-empty">
+    <div class="empty-illo">
+      <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="70" cy="70" r="54" stroke="#2563eb" stroke-width="5" fill="none" stroke-dasharray="0"/>
+        <path d="M70 70 L24 70" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+        <path d="M24 70 Q10 56 24 42 Q38 28 70 70" fill="#2563eb" opacity="0.9"/>
+        <path d="M70 70 L116 70" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/>
+        <path d="M116 70 Q130 84 116 98 Q102 112 70 70" fill="#60a5fa" opacity="0.9"/>
+      </svg>
     </div>
+    <p class="empty-title">Advising has not been scheduled or has been expired. Please try after scheduled.</p>
   </div>
-  {% elif page == 'section-status' %}
-  <div class="wide-card">
-    <div class="section-header">Section Status</div>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>COURSE CODE</th>
-            <th>SECTION</th>
-            <th>CREDIT</th>
-            <th>FACULTY</th>
-            <th>TOTAL SEAT</th>
-            <th>SEAT BOOKED</th>
-            <th>SEAT REMAINING</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>CHN101</td><td>05</td><td>3</td><td>RAI</td><td>30</td><td>5</td><td>25</td></tr>
-          <tr><td>MAT091</td><td>01</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
-          <tr><td>MAT091</td><td>02</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
-          <tr><td>MAT091</td><td>03</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
-          <tr><td>ECE103</td><td>05</td><td>3</td><td>TBA</td><td>3</td><td>2</td><td>1</td></tr>
-          <tr><td>HUM101</td><td>35</td><td>3</td><td>HSF</td><td>30</td><td>30</td><td>0</td></tr>
-          <tr><td>MAT101</td><td>03</td><td>3</td><td>TBA</td><td>40</td><td>33</td><td>7</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  {% elif page == 'schedule' %}
-  <div class="wide-card">
-    <div class="section-header">Schedule</div>
-    <div class="subsection">Class Schedule</div>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr><th>TIME/DAY</th><th>SUNDAY</th><th>MONDAY</th><th>TUESDAY</th><th>WEDNESDAY</th><th>THURSDAY</th><th>FRIDAY</th><th>SATURDAY</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>8:00 am - 9:20 am</td><td></td><td>CSE340 -13 -09H-32C</td><td></td><td>CSE340 -13 -09H-32C</td><td></td><td></td><td></td></tr>
-          <tr><td>8:00 am - 10:50 am</td><td></td><td></td><td>CSE471L -10 -09F-26L</td><td></td><td></td><td></td><td>CSE423L -03 -10E-27L</td></tr>
-          <tr><td>11:00 am - 12:20 pm</td><td></td><td>MAT092 -04 -MMR-12A-07C</td><td>MAT092 -04 -MMR-12A-07C</td><td>MAT092 -04 -MMR-12A-07C</td><td>CSE470 -19 -ART-07H-27C</td><td>CSE470 -19 -ART-07H-27C</td><td></td></tr>
-          <tr><td>12:30 pm - 1:50 pm</td><td></td><td>CSE423 -03 -TMD-07F-22C</td><td></td><td>CSE423 -03 -TMD-07F-22C</td><td></td><td>CSE471 -10 -MHDE-09B-12C</td><td></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="subsection">Exam Schedule</div>
-    <div class="table-container">
-      <table>
-        <thead><tr><th>DAY</th><th>TIME</th><th>EXAM</th><th>COURSE</th></tr></thead>
-        <tbody>
-          <tr><td>SUNDAY (2025-11-16)</td><td>4:30 pm -6:30 pm</td><td>MID</td><td>CSE423</td></tr>
-          <tr><td>MONDAY (2025-11-17)</td><td>11:00 am -1:00 pm</td><td>MID</td><td>MAT092</td></tr>
-          <tr><td>WEDNESDAY (2025-11-19)</td><td>2:00 pm -4:00 pm</td><td>MID</td><td>CSE471</td></tr>
-          <tr><td>WEDNESDAY (2025-11-19)</td><td>4:30 pm -6:30 pm</td><td>MID</td><td>CSE470</td></tr>
-          <tr><td>FRIDAY (2025-11-22)</td><td>11:00 am -1:00 pm</td><td>MID</td><td>CSE340</td></tr>
-          <tr><td>SUNDAY (2026-01-11)</td><td>4:30 pm -6:30 pm</td><td>FINAL</td><td>CSE423</td></tr>
-          <tr><td>MONDAY (2026-01-12)</td><td>11:00 am -1:00 pm</td><td>FINAL</td><td>MAT092</td></tr>
-          <tr><td>WEDNESDAY (2026-01-14)</td><td>2:00 pm -4:00 pm</td><td>FINAL</td><td>CSE471</td></tr>
-          <tr><td>WEDNESDAY (2026-01-14)</td><td>4:30 pm -6:30 pm</td><td>FINAL</td><td>CSE470</td></tr>
-          <tr><td>FRIDAY (2026-01-16)</td><td>11:00 am -1:00 pm</td><td>FINAL</td><td>CSE340</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  {% elif page == 'student-concession-apply' %}
-  <div class="wide-card form-card">
-    <div class="banner">Scholarship & Waiver Apply</div>
-    <div class="form-grid">
-      <div class="form-section">
-        <p class="section-label">No active scholarship or waiver session exists!</p>
-      </div>
-    </div>
-  </div>
-  {% elif page == 'concession-history-list' %}
-  <div class="wide-card">
-    <div class="empty-state large">
-      <div class="empty-icon">📄</div>
-      <div>Sorry, No scholarship & waiver data found!</div>
-    </div>
-  </div>
-  {% elif page == 'course-drop-application' %}
-  <div class="wide-card form-card">
-    <div class="banner">Apply for Dropping Course</div>
-    <div class="form-grid-grid">
-      <div class="table-card">
-        <h3>Taken Courses</h3>
-        <ul class="item-list">
-          <li>COMPUTER ARCHITECTURE (CSE340)</li>
-          <li>SOFTWARE ENGINEERING (CSE470)</li>
-          <li>SYSTEM ANALYSIS AND DESIGN (CSE471)</li>
-          <li>COMPUTER GRAPHICS (CSE423)</li>
-        </ul>
-      </div>
-      <div class="empty-drop">Selected Courses<br><span>No Data</span></div>
-      <div class="profile-card">
-        <p><strong>Name</strong> Md. Tahsinul Islam</p>
-        <p><strong>Student ID</strong> 22241090</p>
-        <p><strong>Mobile No.</strong> 01600341615</p>
-        <p><strong>Email</strong> md.tahsinul.islam@g.bracu.ac.bd</p>
-        <p><strong>Department</strong> DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</p>
-        <p><strong>Program</strong> BACHELOR OF SCIENCE IN COMPUTER SCIENCE</p>
-        <p><strong>Current Semester</strong> FALL 2025</p>
-        <p><strong>CGPA</strong> 2.36</p>
+</div>
+
+{# ══════════ SECTION SEAT STATUS ══════════ #}
+{% elif page == 'section-status' %}
+<div class="card full-card">
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>COURSE CODE <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>SECTION <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>CREDIT <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>FACULTY <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>TOTAL SEAT <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>SEAT BOOKED <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>SEAT REMAINING <span class="sort-icon">⇅</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>CHN101</td><td>05</td><td>3</td><td>RAI</td><td>30</td><td>5</td><td>25</td></tr>
+        <tr><td>MAT091</td><td>01</td><td>0</td><td>TBA</td><td>40</td><td class="blue-val">0</td><td>40</td></tr>
+        <tr><td>MAT091</td><td>02</td><td>0</td><td>TBA</td><td>40</td><td class="blue-val">0</td><td>40</td></tr>
+        <tr><td>MAT091</td><td>03</td><td>0</td><td>TBA</td><td>40</td><td>0</td><td>40</td></tr>
+        <tr><td>ECE103</td><td>05</td><td>3</td><td>TBA</td><td>3</td><td>2</td><td>1</td></tr>
+        <tr><td>HUM101</td><td>35</td><td>3</td><td>HSF</td><td>30</td><td>30</td><td>0</td></tr>
+        <tr><td>MAT101</td><td>03</td><td>3</td><td>TBA</td><td>40</td><td>33</td><td>7</td></tr>
+        <tr><td>MAT092</td><td>04</td><td>0</td><td>TBA</td><td>40</td><td class="blue-val">0</td><td>40</td></tr>
+        <tr><td>MAT101</td><td>12</td><td>3</td><td>TBA</td><td>40</td><td class="blue-val">10</td><td>30</td></tr>
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <button class="tbl-icon-btn" title="Column view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="18"/><rect x="14" y="3" width="7" height="18"/></svg>
+      </button>
+      <div class="pagination-row">
+        <span>Page Size:</span>
+        <select class="page-size-select"><option>15</option><option>25</option><option>50</option></select>
+        <span>1 to 15 of 2,133</span>
+        <button class="pg-btn">&#171;</button>
+        <button class="pg-btn">&#8249;</button>
+        <span>Page 1 of 143</span>
+        <button class="pg-btn">&#8250;</button>
+        <button class="pg-btn">&#187;</button>
       </div>
     </div>
   </div>
-  {% elif page == 'drop-semester-application' %}
-  <div class="wide-card form-card">
-    <div class="banner">Apply for Dropping Semester</div>
-    <div class="form-grid">
-      <label>Semester you wish to drop</label>
-      <select><option>FALL 2025</option></select>
-      <label>Reasons For Absence</label>
-      <div class="radio-group"><label><input type="radio" disabled /> Illness/Health Issues</label><label><input type="radio" disabled /> Family Emergency/Compassionate Ground</label><label><input type="radio" disabled /> Others</label></div>
-      <div class="file-row"><input type="text" placeholder="Attachment Title *" /><input type="file" disabled /></div>
-      <button class="primary-button">Submit</button>
+</div>
+
+{# ══════════ SCHEDULE ══════════ #}
+{% elif page == 'schedule' %}
+<div class="card full-card">
+  <div class="schedule-header-row">
+    <div class="card-title">Schedule</div>
+    <div class="schedule-actions">
+      <button class="icon-button-sm" title="Print">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      </button>
+      <button class="chevron-toggle-btn" onclick="this.classList.toggle('rotated')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
     </div>
   </div>
-  {% elif page == 'grade-sheet' %}
-  <div class="wide-card center-card">
-    <div class="profile-panel">
-      <div><strong>Student ID</strong> 22241090</div>
-      <div><strong>Name</strong> Md. Tahsinul Islam</div>
-      <div><strong>Department</strong> DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</div>
-      <div><strong>Program</strong> BACHELOR OF SCIENCE IN COMPUTER SCIENCE</div>
-      <div><strong>Current Semester</strong> FALL 2025</div>
-    </div>
-    <div class="button-row">
-      <a class="secondary-button" href="/static/grade_sheet.pdf" target="_blank">Preview</a>
-      <a class="primary-button" href="/static/grade_sheet.pdf" download>Download</a>
+
+  <div class="subsection-label">Class Schedule</div>
+  <div class="data-table-wrap overflow-x">
+    <table class="data-table schedule-table">
+      <thead>
+        <tr>
+          <th>TIME/DAY</th><th>SUNDAY</th><th>MONDAY</th><th>TUESDAY</th><th>WEDNESDAY</th><th>THURSDAY</th><th>FRIDAY</th><th>SATURDAY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">8:00 am - 9:20 am</td>
+          <td></td><td class="course-cell">CSE340 -13 -09H-32C</td><td></td><td class="course-cell">CSE340 -13 -09H-32C</td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="time-cell">8:00 am - 10:50 am</td>
+          <td></td><td></td><td class="course-cell">CSE471L -10 -09F-26L</td><td></td><td></td><td></td><td class="course-cell">CSE423L -03 -10E-27L</td>
+        </tr>
+        <tr>
+          <td class="time-cell">11:00 am - 12:20 pm</td>
+          <td class="course-cell">MAT092 -04 -MMR-12A-07C</td>
+          <td class="course-cell">MAT092 -04 -MMR-12A-07C</td>
+          <td class="course-cell">MAT092 -04 -MMR-12A-07C</td>
+          <td class="course-cell">MAT092 -04 -MMR-12A-07C</td>
+          <td class="course-cell">CSE470 -19 -ART-07H-27C</td>
+          <td class="course-cell">CSE470 -19 -ART-07H-27C</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="time-cell">12:30 pm - 1:50 pm</td>
+          <td class="course-cell">CSE423 -03 -TMD-07F-22C</td>
+          <td></td>
+          <td class="course-cell">CSE423 -03 -TMD-07F-22C</td>
+          <td></td>
+          <td class="course-cell">CSE471 -10 -MHDE-09B-12C</td>
+          <td class="course-cell">CSE471 -10 -MHDE-09B-12C</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection-label" style="margin-top:28px">Exam Schedule</div>
+  <div class="data-table-wrap overflow-x">
+    <table class="data-table">
+      <thead>
+        <tr><th>DAY</th><th>TIME</th><th>EXAM</th><th>COURSE</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SUNDAY (2025-11-16)</td><td>4:30 pm – 6:30 pm</td><td>MID</td><td>CSE423</td></tr>
+        <tr><td>MONDAY (2025-11-17)</td><td>11:00 am – 1:00 pm</td><td>MID</td><td>MAT092</td></tr>
+        <tr><td>WEDNESDAY (2025-11-19)</td><td>2:00 pm – 4:00 pm</td><td>MID</td><td>CSE471</td></tr>
+        <tr><td>WEDNESDAY (2025-11-19)</td><td>4:30 pm – 6:30 pm</td><td>MID</td><td>CSE470</td></tr>
+        <tr><td>FRIDAY (2025-11-22)</td><td>11:00 am – 1:00 pm</td><td>MID</td><td>CSE340</td></tr>
+        <tr><td>SUNDAY (2026-01-11)</td><td>4:30 pm – 6:30 pm</td><td>FINAL</td><td>CSE423</td></tr>
+        <tr><td>MONDAY (2026-01-12)</td><td>11:00 am – 1:00 pm</td><td>FINAL</td><td>MAT092</td></tr>
+        <tr><td>WEDNESDAY (2026-01-14)</td><td>2:00 pm – 4:00 pm</td><td>FINAL</td><td>CSE471</td></tr>
+        <tr><td>WEDNESDAY (2026-01-14)</td><td>4:30 pm – 6:30 pm</td><td>FINAL</td><td>CSE470</td></tr>
+        <tr><td>FRIDAY (2026-01-16)</td><td>11:00 am – 1:00 pm</td><td>FINAL</td><td>CSE340</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{# ══════════ SCHOLARSHIP APPLY ══════════ #}
+{% elif page == 'student-concession-apply' %}
+<div class="card full-card">
+  <div class="alert-info-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div>
+      <strong>No active scholarship or waiver session exists!</strong>
+      <p>Please check back later when a new session is opened.</p>
     </div>
   </div>
-  {% elif page == 'probation-application' %}
-  <div class="wide-card">
-    <div class="empty-state large">
-      <div class="empty-icon">⚠️</div>
-      <div>You are not in probation currently.</div>
+</div>
+
+{# ══════════ SCHOLARSHIP HISTORY ══════════ #}
+{% elif page == 'concession-history-list' %}
+<div class="card full-card">
+  <div class="empty-state large-empty">
+    <div class="empty-illo">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="12" y="8" width="56" height="66" rx="4" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+        <line x1="22" y1="26" x2="58" y2="26" stroke="#c7d2fe" stroke-width="1.5"/>
+        <line x1="22" y1="36" x2="58" y2="36" stroke="#c7d2fe" stroke-width="1.5"/>
+        <line x1="22" y1="46" x2="48" y2="46" stroke="#c7d2fe" stroke-width="1.5"/>
+        <line x1="22" y1="56" x2="44" y2="56" stroke="#c7d2fe" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <p class="empty-text">Sorry, No scholarship &amp; waiver data found!</p>
+  </div>
+</div>
+
+{# ══════════ COURSE DROP ══════════ #}
+{% elif page == 'course-drop-application' %}
+<div class="card full-card">
+  <div class="info-banner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div>
+      <strong>Course Drop – Refund Eligibility</strong>
+      <div style="font-size:13px;margin-top:2px;color:#4b5563">Please submit your request within the course drop timeline.</div>
     </div>
   </div>
-  {% elif page == 'payslips' %}
-  <div class="wide-card">
-    <div class="section-header">Pay Slip View</div>
-    <div class="table-container">
-      <table>
-        <thead><tr><th>PAYMENT STATUS</th><th>PAY SLIP NUMBER</th><th>FEES TYPE</th><th>DATE OF ISSUING</th><th>DUE DATE</th><th>TOTAL AMOUNT</th><th>ACTION</th></tr></thead>
-        <tbody>
-          <tr><td>Paid</td><td>251051947</td><td>Registration</td><td>16/02/2025</td><td>10/03/2025</td><td>106,700 BDT</td><td>View</td></tr>
-          <tr><td>Paid</td><td>252040945</td><td>Registration</td><td>23/06/2025</td><td>29/06/2025</td><td>106,700 BDT</td><td>View</td></tr>
-          <tr><td>Paid</td><td>253046964</td><td>Registration</td><td>13/10/2025</td><td>23/10/2025</td><td>106,700 BDT</td><td>View</td></tr>
-        </tbody>
-      </table>
+
+  <div class="course-drop-grid">
+    <!-- Taken Courses -->
+    <div class="drop-panel" id="takenCoursesPanel">
+      <div class="drop-panel-label">Taken Courses</div>
+      <ul class="course-list" id="takenList">
+        <li class="course-item" onclick="moveCourse(this,'takenList','selectedList')">
+          COMPUTER ARCHITECTURE( CSE340) <span class="add-dot"></span>
+        </li>
+        <li class="course-item" onclick="moveCourse(this,'takenList','selectedList')">
+          SOFTWARE ENGINEERING( CSE470) <span class="add-dot"></span>
+        </li>
+        <li class="course-item" onclick="moveCourse(this,'takenList','selectedList')">
+          SYSTEM ANALYSIS AND DESIGN( CSE471) <span class="add-dot"></span>
+        </li>
+        <li class="course-item" onclick="moveCourse(this,'takenList','selectedList')">
+          COMPUTER GRAPHICS( CSE423) <span class="add-dot"></span>
+        </li>
+        <li class="course-item" onclick="moveCourse(this,'takenList','selectedList')">
+          REMEDIAL COURSE IN MATHEMATICS( MAT092) <span class="add-dot"></span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Transfer arrow -->
+    <div class="drop-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+    </div>
+
+    <!-- Selected Courses -->
+    <div class="drop-panel">
+      <div class="drop-panel-label">Selected Courses <span style="color:#ef4444">*</span></div>
+      <ul class="course-list" id="selectedList">
+        <div class="no-data-drop" id="noDataMsg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9cdd6" stroke-width="1.5" width="40" height="40"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>No Data</span>
+        </div>
+      </ul>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-info-card">
+      <div class="pi-row"><span class="pi-label">Name</span><span class="pi-value">Md. Tahsinul Islam</span></div>
+      <div class="pi-row"><span class="pi-label">Student ID</span><span class="pi-value">22241090</span></div>
+      <div class="pi-row"><span class="pi-label">Mobile No.</span><span class="pi-value">01600341615</span></div>
+      <div class="pi-row"><span class="pi-label">Email</span><span class="pi-value">md.tahsinul.islam@g.bracu.ac.bd</span></div>
+      <div class="pi-row"><span class="pi-label">Department</span><span class="pi-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span></div>
+      <div class="pi-row"><span class="pi-label">Program</span><span class="pi-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span></div>
+      <div class="pi-row"><span class="pi-label">Current Semester</span><span class="pi-value">FALL 2025</span></div>
+      <div class="pi-row"><span class="pi-label">CGPA</span><span class="pi-value">2.36</span></div>
     </div>
   </div>
-  {% elif page == 'profile-overview' %}
-  <div class="wide-card profile-overview">
-    <div class="profile-hero">
-      <img class="profile-photo" src="/static/images/bracit.svg" alt="Profile" />
-      <div>
-        <h2>Md. Tahsinul Islam</h2>
-        <div class="profile-meta">22241090 · CS · FALL 2022</div>
+
+  <!-- Reason -->
+  <div class="reason-section">
+    <div class="reason-label">Reason Type <span style="color:#ef4444">*</span></div>
+    <div class="radio-row">
+      <label class="radio-opt"><input type="radio" name="reason" value="medical" /> Medical</label>
+      <label class="radio-opt"><input type="radio" name="reason" value="others" /> Others</label>
+    </div>
+  </div>
+
+  <div class="textarea-section">
+    <label class="reason-label">Reason <span style="color:#ef4444">*</span></label>
+    <textarea class="reason-textarea" maxlength="500" id="reasonText" oninput="updateCount()" placeholder=""></textarea>
+    <div class="char-count"><span id="charCount">0</span>/500</div>
+  </div>
+
+  <div class="attachment-section">
+    <div class="reason-label">Attachment:</div>
+    <div class="file-input-row">
+      <button class="choose-file-btn" onclick="document.getElementById('dropFile').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Choose File
+      </button>
+      <input type="file" id="dropFile" style="display:none" onchange="showFileName(this)" />
+      <span id="fileName" class="file-name-display">No file chosen</span>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;margin-top:24px">
+    <button class="submit-btn" onclick="handleCourseDrop()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Submit
+    </button>
+  </div>
+</div>
+
+<script>
+function moveCourse(el, fromId, toId) {
+  const from = document.getElementById(fromId);
+  const to = document.getElementById(toId);
+  const noData = document.getElementById('noDataMsg');
+  if (toId === 'selectedList') {
+    el.onclick = function() { moveCourse(this, 'selectedList', 'takenList'); };
+    el.classList.add('selected-item');
+    to.appendChild(el);
+    if (noData) noData.style.display = 'none';
+  } else {
+    el.onclick = function() { moveCourse(this, 'takenList', 'selectedList'); };
+    el.classList.remove('selected-item');
+    from.appendChild(el);
+    if (document.getElementById('selectedList').querySelectorAll('li').length === 0 && noData) {
+      noData.style.display = 'flex';
+    }
+  }
+}
+function updateCount() {
+  document.getElementById('charCount').textContent = document.getElementById('reasonText').value.length;
+}
+function showFileName(input) {
+  document.getElementById('fileName').textContent = input.files[0]?.name || 'No file chosen';
+}
+function handleCourseDrop() {
+  const selected = document.getElementById('selectedList').querySelectorAll('li').length;
+  const reason = document.querySelector('input[name="reason"]:checked');
+  if (!selected) { alert('Please select at least one course to drop.'); return; }
+  if (!reason) { alert('Please select a reason type.'); return; }
+  alert('Course drop application submitted successfully!');
+}
+</script>
+
+{# ══════════ SEMESTER DROP ══════════ #}
+{% elif page == 'drop-semester-application' %}
+<div class="card full-card">
+  <div class="form-section-wrap">
+    <div class="form-row">
+      <label class="form-label">Semester you wish to drop</label>
+      <select class="form-select"><option>FALL 2025</option><option>SUMMER 2025</option></select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Reasons For Absence</label>
+      <div class="radio-col">
+        <label class="radio-opt"><input type="radio" name="semreason" value="illness" /> Illness/Health Issues</label>
+        <label class="radio-opt"><input type="radio" name="semreason" value="family" /> Family Emergency/Compassionate Ground</label>
+        <label class="radio-opt"><input type="radio" name="semreason" value="others" /> Others</label>
       </div>
-      <div class="profile-stats">
-        <div><strong>63</strong><span>Earned Credit</span></div>
-        <div><strong>2.36</strong><span>CGPA</span></div>
-        <div><strong>FALL 2025</strong><span>Current Semester</span></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Attachment</label>
+      <div class="file-input-row">
+        <input type="text" class="form-input" placeholder="Attachment Title *" id="semAttachTitle" />
+        <button class="choose-file-btn" onclick="document.getElementById('semFile').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Choose File
+        </button>
+        <input type="file" id="semFile" style="display:none" onchange="document.getElementById('semFileName').textContent = this.files[0]?.name || ''" />
+        <span id="semFileName" style="font-size:13px;color:#6b7280"></span>
       </div>
     </div>
-    <div class="info-grid">
-      <div><strong>FULL NAME:</strong> Md. Tahsinul Islam</div>
-      <div><strong>MOBILE NO.:</strong> 01600341615</div>
-      <div><strong>EMAIL:</strong> md.tahsinul.islam@g.bracu.ac.bd</div>
-      <div><strong>DATE OF BIRTH:</strong> 2003-08-16</div>
-      <div><strong>EMERGENCY CONTACT NAME:</strong> Md. Tanjimul Islam</div>
-      <div><strong>EMERGENCY CONTACT NO.:</strong> 01814335678</div>
-      <div><strong>BIRTH CERTIFICATE NO.:</strong> N/A</div>
-      <div><strong>PASSPORT NO.:</strong> N/A</div>
+    <div style="margin-top:20px">
+      <button class="submit-btn" onclick="alert('Semester drop application submitted!')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Submit
+      </button>
     </div>
   </div>
-  {% else %}
-  <div class="wide-card">
-    <p>Content is coming soon.</p>
+</div>
+
+{# ══════════ GRADE SHEET ══════════ #}
+{% elif page == 'grade-sheet' %}
+<div class="card full-card">
+  <div class="profile-info-card grade-profile">
+    <div class="pi-row"><span class="pi-label">Student ID</span><span class="pi-value">22241090</span></div>
+    <div class="pi-row"><span class="pi-label">Name</span><span class="pi-value">Md. Tahsinul Islam</span></div>
+    <div class="pi-row"><span class="pi-label">Department</span><span class="pi-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span></div>
+    <div class="pi-row"><span class="pi-label">Program</span><span class="pi-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span></div>
+    <div class="pi-row"><span class="pi-label">Current Semester</span><span class="pi-value">FALL 2025</span></div>
   </div>
-  {% endif %}
+  <div class="button-row" style="margin-top:20px">
+    <a class="outline-btn" href="/static/grade_sheet.pdf" target="_blank">Preview</a>
+    <a class="primary-btn" href="/static/grade_sheet.pdf" download>Download</a>
+  </div>
+</div>
+
+{# ══════════ PROBATION ══════════ #}
+{% elif page == 'probation-application' %}
+<div class="card full-card">
+  <div class="empty-state large-empty">
+    <div class="empty-illo">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="34" fill="#fef9c3" stroke="#fde047" stroke-width="2"/>
+        <line x1="40" y1="22" x2="40" y2="46" stroke="#ca8a04" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="40" cy="56" r="3.5" fill="#ca8a04"/>
+      </svg>
+    </div>
+    <p class="empty-text">You are not in probation currently.</p>
+  </div>
+</div>
+
+{# ══════════ PAYSLIPS ══════════ #}
+{% elif page == 'payslips' %}
+<div class="card full-card">
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>PAYMENT STATUS <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>PAY SLIP NUMBER <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>FEES TYPE <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>DATE OF ISSUING <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>DUE DATE <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>TOTAL AMOUNT <span class="sort-icon">⇅</span> <span class="col-sep">|</span></th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="status-badge paid">Paid</span></td>
+          <td>251051947</td><td class="blue-val">Registration</td>
+          <td>16/02/2025</td><td>10/03/2025</td><td class="blue-val">106,700 BDT</td>
+          <td>
+            <button class="view-btn" onclick="alert('Viewing payslip 251051947')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="status-badge paid">Paid</span></td>
+          <td>252040945</td><td class="blue-val">Registration</td>
+          <td>23/06/2025</td><td>29/06/2025</td><td class="blue-val">106,700 BDT</td>
+          <td>
+            <button class="view-btn" onclick="alert('Viewing payslip 252040945')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="status-badge paid">Paid</span></td>
+          <td>253046964</td><td class="blue-val">Registration</td>
+          <td>13/10/2025</td><td>23/10/2025</td><td class="blue-val">106,700 BDT</td>
+          <td>
+            <button class="view-btn" onclick="alert('Viewing payslip 253046964')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{# ══════════ PROFILE OVERVIEW ══════════ #}
+{% elif page == 'profile-overview' %}
+<div class="card full-card profile-page">
+  <!-- Hero -->
+  <div class="profile-hero">
+    <img class="profile-hero-photo" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="{{ user.name if user else 'Student' }}" />
+    <div class="profile-hero-info">
+      <h2>{{ user.name if user else 'Md. Tahsinul Islam' }}</h2>
+      <div class="profile-hero-meta">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          22241090
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          CS
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          FALL 2022
+        </span>
+      </div>
+      <div class="profile-stats-row">
+        <div class="profile-stat-box">
+          <strong>63</strong><span>Earned Credit</span>
+        </div>
+        <div class="profile-stat-box">
+          <strong>2.36</strong><span>CGPA</span>
+        </div>
+        <div class="profile-stat-box">
+          <strong>FALL 2025</strong><span>Current Semester</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="profile-tabs">
+    <button class="profile-tab active" onclick="switchTab(this,'tab-overview')">Overview</button>
+    <button class="profile-tab" onclick="switchTab(this,'tab-misc')">Miscellaneous Info</button>
+    <button class="profile-tab" onclick="switchTab(this,'tab-academic')">Academic Info</button>
+  </div>
+
+  <!-- Tab: Overview -->
+  <div class="tab-panel" id="tab-overview">
+    <div class="tab-panel-header">
+      <span class="tab-panel-title">Overview</span>
+      <div style="display:flex;gap:10px">
+        <button class="outline-btn-sm" onclick="alert('Update Email clicked')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Update Email
+        </button>
+        <button class="outline-btn-sm" onclick="alert('Edit profile clicked')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+      </div>
+    </div>
+    <div class="info-4col">
+      <div class="info-cell"><div class="ic-label">FULL NAME:</div><div class="ic-val">Md. Tahsinul Islam</div></div>
+      <div class="info-cell"><div class="ic-label">MOBILE NO.:</div><div class="ic-val">01600341615</div></div>
+      <div class="info-cell"><div class="ic-label">EMAIL:</div><div class="ic-val">md.tahsinul.islam@g.bracu.ac.bd</div></div>
+      <div class="info-cell"><div class="ic-label">DATE OF BIRTH:</div><div class="ic-val">2003-08-16</div></div>
+      <div class="info-cell"><div class="ic-label">EMERGENCY CONTACT NAME:</div><div class="ic-val">Md. Tanjimul Islam</div></div>
+      <div class="info-cell"><div class="ic-label">EMERGENCY CONTACT NO.:</div><div class="ic-val">01814335678</div></div>
+      <div class="info-cell"><div class="ic-label">BIRTH CERTIFICATE NO.:</div><div class="ic-val">N/A</div></div>
+      <div class="info-cell"><div class="ic-label">PASSPORT NO.:</div><div class="ic-val">N/A</div></div>
+    </div>
+  </div>
+
+  <!-- Tab: Miscellaneous -->
+  <div class="tab-panel hidden" id="tab-misc">
+    <div class="tab-panel-header"><span class="tab-panel-title">Miscellaneous Info</span></div>
+    <div class="info-4col">
+      <div class="info-cell"><div class="ic-label">BLOOD GROUP:</div><div class="ic-val">N/A</div></div>
+      <div class="info-cell"><div class="ic-label">NATIONALITY:</div><div class="ic-val">Bangladeshi</div></div>
+      <div class="info-cell"><div class="ic-label">RELIGION:</div><div class="ic-val">Islam</div></div>
+      <div class="info-cell"><div class="ic-label">GENDER:</div><div class="ic-val">Male</div></div>
+    </div>
+  </div>
+
+  <!-- Tab: Academic -->
+  <div class="tab-panel hidden" id="tab-academic">
+    <div class="tab-panel-header"><span class="tab-panel-title">Academic Info</span></div>
+    <div class="info-4col">
+      <div class="info-cell"><div class="ic-label">DEPARTMENT:</div><div class="ic-val">Computer Science &amp; Engineering</div></div>
+      <div class="info-cell"><div class="ic-label">PROGRAM:</div><div class="ic-val">BSc in Computer Science</div></div>
+      <div class="info-cell"><div class="ic-label">ADMISSION SEMESTER:</div><div class="ic-val">FALL 2022</div></div>
+      <div class="info-cell"><div class="ic-label">CURRENT SEMESTER:</div><div class="ic-val">FALL 2025</div></div>
+      <div class="info-cell"><div class="ic-label">CGPA:</div><div class="ic-val">2.36</div></div>
+      <div class="info-cell"><div class="ic-label">EARNED CREDITS:</div><div class="ic-val">63</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.remove('hidden');
+}
+</script>
+
+{% else %}
+<div class="card full-card">
+  <p>Content is coming soon.</p>
+</div>
+{% endif %}
+
 {% endblock %}
