@@ -400,7 +400,9 @@ function handleCourseDrop() {
       <button class="close-modal-btn" type="button" onclick="closeGradePreview()">×</button>
     </div>
     <div class="preview-modal-body">
-      <iframe id="gradePreviewIframe" src="" title="Grade Sheet Preview"></iframe>
+      <object id="gradePreviewObject" data="" type="application/pdf" width="100%" height="100%">
+        <p style="padding:24px; color:#374151; text-align:center;">Preview unavailable in this browser. <a href="/static/grade_sheet.pdf" target="_blank">Open PDF</a></p>
+      </object>
     </div>
     <div class="preview-modal-footer">
       <a class="secondary-btn" href="/static/grade_sheet.pdf" download>Download</a>
@@ -589,19 +591,19 @@ function switchTab(btn, panelId) {
 <script>
 function openGradePreview() {
   const modal = document.getElementById('gradePreviewModal');
-  const iframe = document.getElementById('gradePreviewIframe');
-  if (!modal || !iframe) return;
-  iframe.src = '/static/grade_sheet.pdf';
+  const preview = document.getElementById('gradePreviewObject');
+  if (!modal || !preview) return;
+  preview.data = '/static/grade_sheet.pdf';
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeGradePreview() {
   const modal = document.getElementById('gradePreviewModal');
-  const iframe = document.getElementById('gradePreviewIframe');
-  if (!modal || !iframe) return;
+  const preview = document.getElementById('gradePreviewObject');
+  if (!modal || !preview) return;
   modal.classList.remove('open');
-  iframe.src = '';
+  preview.data = '';
   document.body.style.overflow = '';
 }
 </script>
