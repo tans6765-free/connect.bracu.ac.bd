@@ -331,20 +331,6 @@ function handleCourseDrop() {
   if (!reason) { alert('Please select a reason type.'); return; }
   alert('Course drop application submitted successfully!');
 }
-function openGradePreview() {
-  const modal = document.getElementById('gradePreviewModal');
-  const iframe = document.getElementById('gradePreviewIframe');
-  iframe.src = '/static/grade_sheet.pdf';
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeGradePreview() {
-  const modal = document.getElementById('gradePreviewModal');
-  const iframe = document.getElementById('gradePreviewIframe');
-  modal.classList.remove('open');
-  iframe.src = '';
-  document.body.style.overflow = '';
-}
 </script>
 
 {# ══════════ SEMESTER DROP ══════════ #}
@@ -389,10 +375,9 @@ function closeGradePreview() {
 <div class="card full-card grade-sheet-card">
   <div class="grade-sheet-grid">
     <div class="grade-sheet-main">
-      <div class="section-header">Download Grade Sheet</div>
-      <div class="grade-sheet-actions">
-        <button class="primary-btn" type="button" onclick="openGradePreview()">Preview</button>
-        <a class="secondary-btn" href="/static/grade_sheet.pdf" download>Download</a>
+      <div class="grade-sheet-actions centered">
+        <button class="primary-btn primary-btn-lg" type="button" onclick="openGradePreview()">Preview</button>
+        <a class="secondary-btn secondary-btn-lg" href="/static/grade_sheet.pdf" download>Download</a>
       </div>
     </div>
     <div class="grade-sheet-info-card">
@@ -600,5 +585,25 @@ function switchTab(btn, panelId) {
   <p>Content is coming soon.</p>
 </div>
 {% endif %}
+
+<script>
+function openGradePreview() {
+  const modal = document.getElementById('gradePreviewModal');
+  const iframe = document.getElementById('gradePreviewIframe');
+  if (!modal || !iframe) return;
+  iframe.src = '/static/grade_sheet.pdf';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGradePreview() {
+  const modal = document.getElementById('gradePreviewModal');
+  const iframe = document.getElementById('gradePreviewIframe');
+  if (!modal || !iframe) return;
+  modal.classList.remove('open');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+</script>
 
 {% endblock %}

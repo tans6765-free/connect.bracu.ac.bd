@@ -1090,18 +1090,28 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
 }
 
-.section-header {
-  font-size: 20px;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 22px;
+.grade-sheet-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .grade-sheet-actions {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   flex-wrap: wrap;
+}
+
+.grade-sheet-actions.centered {
+  width: 100%;
+}
+
+.primary-btn-lg,
+.secondary-btn-lg {
+  padding: 14px 28px;
+  font-size: 15px;
 }
 
 .secondary-btn {
@@ -1119,6 +1129,18 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .secondary-btn:hover { background: #6d28d9; }
+
+.grade-sheet-info-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+}
+
+@media (max-width: 900px) {
+  .grade-sheet-grid { grid-template-columns: 1fr; }
+}
 
 .grade-sheet-info-card {
   background: #ffffff;
