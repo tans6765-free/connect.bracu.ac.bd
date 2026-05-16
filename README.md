@@ -28,11 +28,16 @@ This repository contains a Python web application that replicates the BRAC stude
   - `SECRET_KEY`
   - `GOOGLE_CLIENT_ID`
   - `GOOGLE_CLIENT_SECRET`
+  - `SESSION_COOKIE_SAMESITE`
+  - `SESSION_COOKIE_SECURE`
 - Set the following Google OAuth redirect URIs in Google Cloud Console:
   - `http://localhost:8080/accounts/google/login/callback/`
   - `https://connectbracuacbd.vercel.app/accounts/google/login/callback/`
 - If the app still produces a redirect mismatch, set `GOOGLE_REDIRECT_URI` in `.env` to the exact callback URL used by the browser.
   - Example: `https://connectbracuacbd.vercel.app/accounts/google/login/callback/`
+- For Vercel deployment, preserve OAuth state by setting:
+  - `SESSION_COOKIE_SAMESITE=None`
+  - `SESSION_COOKIE_SECURE=True`
 - To verify the actual computed URI from the deployed app, visit `/debug/redirect-uri`.
 - The login page is served at `/` and `/accounts/google/login/`.
 - The OAuth authorization redirect route is `/accounts/google/auth/`.
