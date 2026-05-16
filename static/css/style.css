@@ -1545,6 +1545,12 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center;
 }
 
+.profile-stat-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
 .profile-stat-box strong {
   font-size: 18px;
   font-weight: 700;

@@ -157,8 +157,8 @@ def auth_callback():
             "student_id": "22241090",
             "department": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
             "program": "BACHELOR OF SCIENCE IN COMPUTER SCIENCE",
-            "current_semester": "FALL 2025",
-            "cgpa": "2.36",
+            "current_semester": "SPRING 2026",
+            "cgpa": "2.74",
             "earned_credit": "63",
         }
         return redirect(url_for("dashboard"))
