@@ -29,89 +29,29 @@
         </div>
       </div>
     </div>
-    <div class="calendar-month-label">May 2026</div>
+    <div class="calendar-month-label">{{ calendar_label }}</div>
     <div class="calendar-grid">
-      <div class="calendar-day-label">Sun</div>
-      <div class="calendar-day-label">Mon</div>
-      <div class="calendar-day-label">Tue</div>
-      <div class="calendar-day-label">Wed</div>
-      <div class="calendar-day-label">Thu</div>
-      <div class="calendar-day-label">Fri</div>
-      <div class="calendar-day-label">Sat</div>
+      {% for weekday in calendar_weekdays %}
+        <div class="calendar-day-label">{{ weekday }}</div>
+      {% endfor %}
 
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell day cell-day-27">
-        <span class="calendar-date">27</span>
-        <div class="event event-class">9:30 AM Regular Class (CSE340-30)</div>
-        <div class="event event-class">11:00 AM Regular Class (BUS102-09)</div>
-        <div class="event event-class">12:30 PM Regular Class (CSE421-15)</div>
-        <div class="event event-class">5:00 PM Regular Class (BUS201-02)</div>
-      </div>
-      <div class="calendar-cell day cell-day-28">
-        <span class="calendar-date">28</span>
-        <div class="event event-class">11:00 AM Regular Class (CSE421L-15)</div>
-      </div>
-      <div class="calendar-cell day cell-day-29">
-        <span class="calendar-date">29</span>
-        <div class="event event-class">9:30 AM Regular Class (CSE340-30)</div>
-        <div class="event event-class">11:00 AM Regular Class (BUS102-09)</div>
-        <div class="event event-class">12:30 PM Regular Class (CSE421-15)</div>
-        <div class="event event-class">5:00 PM Regular Class (BUS201-02)</div>
-      </div>
-      <div class="calendar-cell day cell-day-30">
-        <span class="calendar-date">30</span>
-        <div class="holiday-block">May Day Buddha Purnima</div>
-      </div>
-      <div class="calendar-cell empty"></div>
-
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell day cell-day-3">
-        <span class="calendar-date">3</span>
-        <div class="event event-class">9:30 AM Regular Class (CSE340-30)</div>
-        <div class="event event-class">11:00 AM Regular Class (BUS102-09)</div>
-        <div class="event event-class">12:30 PM Regular Class (CSE421-15)</div>
-        <div class="event event-class">5:00 PM Regular Class (BUS201-02)</div>
-      </div>
-      <div class="calendar-cell day cell-day-4">
-        <span class="calendar-date">4</span>
-        <div class="event event-class">11:00 AM Regular Class (CSE421L-15)</div>
-      </div>
-      <div class="calendar-cell day cell-day-5">
-        <span class="calendar-date">5</span>
-        <div class="event event-class">9:30 AM Regular Class (CSE340-30)</div>
-        <div class="event event-class">11:00 AM Regular Class (BUS102-09)</div>
-        <div class="event event-class">12:30 PM Regular Class (CSE421-15)</div>
-        <div class="event event-class">5:00 PM Regular Class (BUS201-02)</div>
-      </div>
-      <div class="calendar-cell day cell-day-6">
-        <span class="calendar-date">6</span>
-      </div>
-      <div class="calendar-cell empty"></div>
-
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell day cell-day-12">
-        <span class="calendar-date">12</span>
-        <div class="event event-final">2:00 PM Final Exam (CSE421-15)</div>
-        <div class="event event-final">4:30 PM Final Exam (BUS201-02)</div>
-      </div>
-      <div class="calendar-cell day cell-day-13">
-        <span class="calendar-date">13</span>
-        <div class="event event-final">4:30 PM Final Exam (BUS102-09)</div>
-      </div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
-
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell day cell-day-18">
-        <span class="calendar-date">18</span>
-        <div class="event event-final">11:00 AM Final Exam (CSE340-30)</div>
-      </div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
-      <div class="calendar-cell empty"></div>
+      {% for row in calendar_rows %}
+        {% for cell in row %}
+          {% if not cell %}
+            <div class="calendar-cell empty"></div>
+          {% else %}
+            <div class="calendar-cell day">
+              <span class="calendar-date">{{ cell.date }}</span>
+              {% if cell.holiday %}
+                <div class="holiday-block">{{ cell.holiday }}</div>
+              {% endif %}
+              {% for event in cell.events %}
+                <div class="event{% if event.variant == 'final' %} event-final{% endif %}">{{ event.label }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
     </div>
   </div>
 </div>

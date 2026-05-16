@@ -179,7 +179,118 @@ def logout():
 @app.route("/student/dashboard")
 @login_required
 def dashboard():
-    return render_template("page.html", page="dashboard", user=session["user"])
+    calendar_weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    calendar_rows = [
+        [
+            None,
+            {
+                "date": "27",
+                "events": [
+                    {"label": "9:30 AM Regular Class (CSE340-30)", "variant": "class"},
+                    {"label": "11:00 AM Regular Class (BUS102-09)", "variant": "class"},
+                    {"label": "12:30 PM Regular Class (CSE421-15)", "variant": "class"},
+                    {"label": "5:00 PM Regular Class (BUS201-02)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "28",
+                "events": [
+                    {"label": "11:00 AM Regular Class (CSE421L-15)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "29",
+                "events": [
+                    {"label": "9:30 AM Regular Class (CSE340-30)", "variant": "class"},
+                    {"label": "11:00 AM Regular Class (BUS102-09)", "variant": "class"},
+                    {"label": "12:30 PM Regular Class (CSE421-15)", "variant": "class"},
+                    {"label": "5:00 PM Regular Class (BUS201-02)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "30",
+                "holiday": "May Day Buddha Purnima",
+                "events": [],
+            },
+            None,
+            None,
+        ],
+        [
+            None,
+            {
+                "date": "3",
+                "events": [
+                    {"label": "9:30 AM Regular Class (CSE340-30)", "variant": "class"},
+                    {"label": "11:00 AM Regular Class (BUS102-09)", "variant": "class"},
+                    {"label": "12:30 PM Regular Class (CSE421-15)", "variant": "class"},
+                    {"label": "5:00 PM Regular Class (BUS201-02)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "4",
+                "events": [
+                    {"label": "11:00 AM Regular Class (CSE421L-15)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "5",
+                "events": [
+                    {"label": "9:30 AM Regular Class (CSE340-30)", "variant": "class"},
+                    {"label": "11:00 AM Regular Class (BUS102-09)", "variant": "class"},
+                    {"label": "12:30 PM Regular Class (CSE421-15)", "variant": "class"},
+                    {"label": "5:00 PM Regular Class (BUS201-02)", "variant": "class"},
+                ],
+            },
+            {
+                "date": "6",
+                "events": [],
+            },
+            None,
+            None,
+        ],
+        [
+            None,
+            None,
+            {
+                "date": "12",
+                "events": [
+                    {"label": "2:00 PM Final Exam (CSE421-15)", "variant": "final"},
+                    {"label": "4:30 PM Final Exam (BUS201-02)", "variant": "final"},
+                ],
+            },
+            {
+                "date": "13",
+                "events": [
+                    {"label": "4:30 PM Final Exam (BUS102-09)", "variant": "final"},
+                ],
+            },
+            None,
+            None,
+            None,
+        ],
+        [
+            None,
+            None,
+            None,
+            {
+                "date": "18",
+                "events": [
+                    {"label": "11:00 AM Final Exam (CSE340-30)", "variant": "final"},
+                ],
+            },
+            None,
+            None,
+            None,
+        ],
+    ]
+    return render_template(
+        "page.html",
+        page="dashboard",
+        user=session["user"],
+        calendar_label="May 2026",
+        calendar_weekdays=calendar_weekdays,
+        calendar_rows=calendar_rows,
+    )
 
 
 @app.route("/student/advising/wish-list")
