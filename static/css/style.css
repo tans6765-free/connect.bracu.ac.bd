@@ -599,14 +599,15 @@ button { font-family: inherit; cursor: pointer; }
 .dash-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 28px;
 }
 
 .dashboard-activity-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 240px;
+  min-height: 280px;
+  padding: 32px;
 }
 
 .activity-card-body {
@@ -614,7 +615,7 @@ button { font-family: inherit; cursor: pointer; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
+  padding: 48px 0 16px;
   gap: 18px;
 }
 
@@ -640,6 +641,7 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
 .calendar-title {
