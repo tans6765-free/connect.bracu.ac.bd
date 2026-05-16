@@ -177,10 +177,56 @@
             <button class="icon-button icon-btn-fullscreen" title="Fullscreen" onclick="toggleFullscreen()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
             </button>
-            <button class="icon-button icon-btn-notif" title="Notifications">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              <span class="badge">14</span>
-            </button>
+            <div class="dropdown-wrap" id="dd-notifications">
+              <button class="icon-button icon-btn-notif" title="Notifications" onclick="toggleDropdown('dd-notifications')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="badge">18</span>
+              </button>
+              <div class="dropdown-menu notification-menu">
+                <div class="notification-header">
+                  <div>User Notifications</div>
+                  <span class="notification-count">18 new</span>
+                </div>
+                <div class="notification-list">
+                  <div class="notification-item">
+                    <div class="notification-icon">✉️</div>
+                    <div>
+                      <div class="notification-title">Payment Confirmation Alert</div>
+                      <div class="notification-meta">Feb 17, 2026, 10:29:27 AM</div>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-icon">✉️</div>
+                    <div>
+                      <div class="notification-title">Payslip Deadline Alert</div>
+                      <div class="notification-meta">Feb 15, 2026, 8:00:02 AM</div>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-icon">✉️</div>
+                    <div>
+                      <div class="notification-title">Payslip Deadline Alert</div>
+                      <div class="notification-meta">Feb 11, 2026, 8:00:02 AM</div>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-icon">✉️</div>
+                    <div>
+                      <div class="notification-title">Registration Payslip Alert</div>
+                      <div class="notification-meta">Feb 2, 2026, 11:02:30 AM</div>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-icon">✉️</div>
+                    <div>
+                      <div class="notification-title">Payment Confirmation Alert</div>
+                      <div class="notification-meta">Oct 21, 2025, 11:23:19 AM</div>
+                    </div>
+                  </div>
+                </div>
+                <a class="notification-view-all" href="#">View All →</a>
+              </div>
+            </div>
             <div class="profile-menu" id="profileMenu" onclick="toggleProfileDropdown()">
               <img class="avatar" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="{{ user.name if user else 'Student' }}" />
               <!-- Profile dropdown -->
