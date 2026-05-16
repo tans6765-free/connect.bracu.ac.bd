@@ -822,6 +822,31 @@ button { font-family: inherit; cursor: pointer; }
   background: #f8faff;
 }
 
+.schedule-table thead tr { background: #f8fafc; }
+
+.schedule-table th {
+  text-align: center;
+  color: #6b7280;
+}
+
+.schedule-table td {
+  text-align: center;
+  font-size: 13px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-table td:first-child {
+  text-align: left;
+}
+
+.schedule-table tbody tr:hover {
+  background: transparent;
+}
+
+.schedule-table .course-cell {
+  background: transparent;
+}
+
 /* ══════════════════════════════════
    ALERT / INFO BOXES
    ══════════════════════════════════ */
