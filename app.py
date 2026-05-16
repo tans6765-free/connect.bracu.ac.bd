@@ -22,7 +22,10 @@ app.secret_key = os.getenv("SECRET_KEY", "django-insecure-dev-key-change-in-prod
 app.config["PREFERRED_URL_SCHEME"] = os.getenv("PREFERRED_URL_SCHEME", "https")
 
 ALLOWED_EMAIL = "md.tahsinul.islam@g.bracu.ac.bd"
-REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
+REDIRECT_URI = os.getenv(
+    "GOOGLE_REDIRECT_URI",
+    "https://connectbracuacbd.vercel.app/accounts/google/login/callback/",
+)
 
 oauth = OAuth(app)
 
@@ -76,7 +79,14 @@ def google_auth():
     if session.get("user"):
         return redirect(url_for("dashboard"))
     redirect_uri = REDIRECT_URI or url_for("auth_callback", _external=True)
+    print(f"DEBUG redirect_uri={redirect_uri}")
     return google.authorize_redirect(redirect_uri)
+
+
+@app.route("/debug/redirect-uri")
+def debug_redirect_uri():
+    computed_uri = url_for("auth_callback", _external=True)
+    return f"Computed callback URI: {computed_uri}<br>Configured redirect URI: {REDIRECT_URI}"
 
 
 @app.route("/accounts/google/login/callback/")

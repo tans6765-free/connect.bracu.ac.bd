@@ -32,6 +32,8 @@ This repository contains a Python web application that replicates the BRAC stude
   - `http://localhost:8080/accounts/google/login/callback/`
   - `https://connectbracuacbd.vercel.app/accounts/google/login/callback/`
 - If the app still produces a redirect mismatch, set `GOOGLE_REDIRECT_URI` in `.env` to the exact callback URL used by the browser.
+  - Example: `https://connectbracuacbd.vercel.app/accounts/google/login/callback/`
+- To verify the actual computed URI from the deployed app, visit `/debug/redirect-uri`.
 - The login page is served at `/` and `/accounts/google/login/`.
 - The OAuth authorization redirect route is `/accounts/google/auth/`.
 
