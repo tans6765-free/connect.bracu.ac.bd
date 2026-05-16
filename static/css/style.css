@@ -459,9 +459,11 @@ tbody td {
   margin-top: 24px;
   color: #5f6368;
   font-size: 14px;
+  line-height: 1.6;
 }
 
-.login-note a {
+.login-note a,
+.google-footer a {
   color: #1a73e8;
   text-decoration: none;
 }
