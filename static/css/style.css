@@ -1157,22 +1157,23 @@ button { font-family: inherit; cursor: pointer; }
   z-index: 70;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(4px);
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
 }
 
 .modal-overlay.open { display: flex; }
 
 .preview-modal {
-  width: min(1180px, 100%);
-  max-height: 90vh;
+  width: 100vw;
+  height: 100vh;
+  max-height: none;
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.18);
+  box-shadow: none;
 }
 
 .preview-modal-header {
