@@ -84,11 +84,15 @@ def get_google_env_status():
     return missing
 
 
+def ensure_trailing_slash(url: str) -> str:
+    return url if url.endswith("/") else f"{url}/"
+
+
 @app.route("/accounts/google/auth/")
 def google_auth():
     if session.get("user"):
         return redirect(url_for("dashboard"))
-    redirect_uri = REDIRECT_URI or url_for("auth_callback", _external=True)
+    redirect_uri = ensure_trailing_slash(REDIRECT_URI or url_for("auth_callback", _external=True))
     missing_env = get_google_env_status()
     if missing_env:
         return (
@@ -119,13 +123,12 @@ def debug_redirect_uri():
     )
     return (
         f"Computed callback URI: {computed_uri}<br>"
-        f"Configured redirect URI: {REDIRECT_URI}<br>"
+        f"Configured redirect URI: {ensure_trailing_slash(REDIRECT_URI)}<br>"
         f"Google env status: {env_message}"
     )
 
 
 @app.route("/accounts/google/login/callback/")
-@app.route("/accounts/google/login/callback")
 def auth_callback():
     try:
         token = google.authorize_access_token()
