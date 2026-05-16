@@ -22,6 +22,12 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.secret_key = os.getenv("SECRET_KEY", "django-insecure-dev-key-change-in-prod")
 app.config["PREFERRED_URL_SCHEME"] = os.getenv("PREFERRED_URL_SCHEME", "https")
 
+session_cookie_samesite = os.getenv("SESSION_COOKIE_SAMESITE", "None")
+app.config["SESSION_COOKIE_SAMESITE"] = None if session_cookie_samesite.lower() == "none" else session_cookie_samesite
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE", "True").lower() in ("1", "true", "yes")
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_PATH"] = "/"
+
 ALLOWED_EMAIL = "md.tahsinul.islam@g.bracu.ac.bd"
 REDIRECT_URI = os.getenv(
     "GOOGLE_REDIRECT_URI",
