@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block page_title %}Dashboard{% endblock %}
 
@@ -8,11 +9,10 @@
   <!-- Dashboard heading row -->
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h3 class="dashboard-main-title mb-0">Dashboard</h3>
-    <button class="btn btn-primary btn-sm configure-btn">Configure Dashboard ▾</button>
+    <button class="btn btn-link configure-btn text-primary">Configure Dashboard &#8964;</button>
   </div>
 
   <div class="row gy-4">
-    <!-- Left column: Activity + Calendar -->
     <div class="col-12">
 
       <!-- Activity Card -->
@@ -20,7 +20,7 @@
         <div class="card-header fw-semibold">Activity</div>
         <div class="card-body">
           <div class="empty-state-box">
-            <!-- Clipboard illustration -->
+            <!-- Clipboard illustration (pure CSS) -->
             <div class="clipboard-illustration">
               <div class="clipboard-back"></div>
               <div class="clipboard-front">
@@ -39,96 +39,134 @@
 
       <!-- Student Calendar Card -->
       <div class="card">
-        <div class="card-header fw-semibold d-flex align-items-center justify-content-between cal-header">
-          <span>Student Calendar</span>
-          <div class="cal-header-actions">
-            <div class="d-flex align-items-center gap-2">
-              <button class="btn btn-sm btn-outline-secondary cal-nav-btn">&#8249;</button>
-              <button class="btn btn-sm btn-outline-secondary cal-nav-btn">&#8250;</button>
-              <button class="btn btn-sm btn-outline-secondary cal-nav-btn">Today</button>
+        <div class="card-header d-flex align-items-center justify-content-between cal-header">
+          <span class="fw-semibold">Student Calendar</span>
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="d-flex align-items-center gap-1">
+              <button class="btn btn-sm btn-outline-secondary cal-nav-btn" id="calPrev">&#8249;</button>
+              <button class="btn btn-sm btn-outline-secondary cal-nav-btn" id="calToday">Today</button>
+              <button class="btn btn-sm btn-outline-secondary cal-nav-btn" id="calNext">&#8250;</button>
             </div>
-            <div class="d-flex align-items-center gap-2">
-              <span class="cal-month-title">May 2026</span>
-              <div class="cal-view-btns">
-                <button class="btn btn-sm cal-view active">Month</button>
-                <button class="btn btn-sm cal-view">Week</button>
-                <button class="btn btn-sm cal-view">Day</button>
-              </div>
+            <span class="cal-month-title fw-semibold" id="calMonthTitle">May 2026</span>
+            <div class="cal-view-btns">
+              <button class="btn btn-sm cal-view active" data-view="month">Month</button>
+              <button class="btn btn-sm cal-view" data-view="week">Week</button>
+              <button class="btn btn-sm cal-view" data-view="day">Day</button>
             </div>
           </div>
         </div>
         <div class="card-body p-0">
-          <table class="cal-table w-100">
-            <thead>
-              <tr>
-                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="cal-day other-month"><span>26</span></td>
-                <td class="cal-day">
-                  <span>27</span>
-                  <div class="cal-event blue">9:30 AM &nbsp; Regular Class (CSE340-3)</div>
-                  <div class="cal-event blue">11:00 AM &nbsp; Regular Class (BUS102-...</div>
-                  <div class="cal-event blue">10:00 AM &nbsp; Regular Class (CSE16...)</div>
-                </td>
-                <td class="cal-day">
-                  <span>28</span>
-                  <div class="cal-event green">11:00 AM &nbsp; Regular Class (CSE421...)</div>
-                </td>
-                <td class="cal-day">
-                  <span>29</span>
-                  <div class="cal-event blue">9:30 AM &nbsp; Regular Class (CSE340-3)</div>
-                  <div class="cal-event blue">11:00 AM &nbsp; Regular Class (BUS102-...</div>
-                  <div class="cal-event blue">10:00 AM &nbsp; Regular Class (CSE16...)</div>
-                </td>
-                <td class="cal-day"><span>30</span><div class="cal-holiday">May Day Buddha Purnima*</div></td>
-                <td class="cal-day first-of-month"><span class="date-circle">1</span></td>
-                <td class="cal-day"><span>2</span></td>
-              </tr>
-              <tr>
-                <td class="cal-day"><span>3</span></td>
-                <td class="cal-day"><span>4</span></td>
-                <td class="cal-day"><span>5</span></td>
-                <td class="cal-day"><span>6</span></td>
-                <td class="cal-day"><span>7</span></td>
-                <td class="cal-day"><span>8</span></td>
-                <td class="cal-day"><span>9</span></td>
-              </tr>
-              <tr>
-                <td class="cal-day"><span>10</span></td>
-                <td class="cal-day"><span>11</span></td>
-                <td class="cal-day"><span>12</span></td>
-                <td class="cal-day"><span>13</span></td>
-                <td class="cal-day"><span>14</span></td>
-                <td class="cal-day"><span>15</span></td>
-                <td class="cal-day"><span>16</span></td>
-              </tr>
-              <tr>
-                <td class="cal-day"><span>17</span></td>
-                <td class="cal-day"><span>18</span></td>
-                <td class="cal-day"><span>19</span></td>
-                <td class="cal-day"><span>20</span></td>
-                <td class="cal-day"><span>21</span></td>
-                <td class="cal-day"><span>22</span></td>
-                <td class="cal-day"><span>23</span></td>
-              </tr>
-              <tr>
-                <td class="cal-day"><span>24</span></td>
-                <td class="cal-day"><span>25</span></td>
-                <td class="cal-day"><span>26</span></td>
-                <td class="cal-day"><span>27</span></td>
-                <td class="cal-day"><span>28</span></td>
-                <td class="cal-day"><span>29</span></td>
-                <td class="cal-day"><span>30</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <div id="calendarContainer">
+            <!-- Calendar renders here via JS -->
+          </div>
         </div>
       </div>
 
     </div>
   </div>
 </div>
+
+<script>
+(function() {
+  // Simple static calendar matching the screenshot style
+  const MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // Sample events matching the screenshot
+  const events = {
+    '2026-05-27': [
+      { text: '9:30 AM  Regular Class (CSE340-3)', color: 'blue' },
+      { text: '11:00 AM  Regular Class (BUS102-...)', color: 'blue' },
+      { text: '10:00 AM  Regular Class (CSE16...)', color: 'blue' },
+    ],
+    '2026-05-28': [
+      { text: '11:00 AM  Regular Class (CSE421...)', color: 'green' },
+    ],
+    '2026-05-29': [
+      { text: '9:30 AM  Regular Class (CSE340-3)', color: 'blue' },
+    ],
+  };
+
+  let current = { year: 2026, month: 4 }; // May 2026 (0-indexed)
+
+  function today() {
+    const d = new Date();
+    return { y: d.getFullYear(), m: d.getMonth(), d: d.getDate() };
+  }
+
+  function renderCalendar(year, month) {
+    const t = today();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrev = new Date(year, month, 0).getDate();
+
+    document.getElementById('calMonthTitle').textContent = `${MONTHS[month]} ${year}`;
+
+    let html = `<table class="cal-table w-100"><thead><tr>`;
+    DAYS.forEach(d => { html += `<th>${d}</th>`; });
+    html += `</tr></thead><tbody>`;
+
+    let day = 1;
+    let nextDay = 1;
+    let cells = 0;
+
+    for (let week = 0; week < 6; week++) {
+      html += '<tr>';
+      for (let dow = 0; dow < 7; dow++) {
+        if (week === 0 && dow < firstDay) {
+          // previous month
+          const pd = daysInPrev - firstDay + dow + 1;
+          html += `<td class="cal-day other-month"><span>${pd}</span></td>`;
+        } else if (day > daysInMonth) {
+          // next month
+          html += `<td class="cal-day other-month"><span>${nextDay++}</span></td>`;
+        } else {
+          const isToday = (year === t.y && month === t.m && day === t.d);
+          const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          const dayEvents = events[dateKey] || [];
+          html += `<td class="cal-day${isToday ? ' today' : ''}">`;
+          html += `<span${isToday ? ' class="date-circle"' : ''}>${day}</span>`;
+          dayEvents.forEach(ev => {
+            html += `<div class="cal-event ${ev.color}">${ev.text}</div>`;
+          });
+          html += `</td>`;
+          day++;
+        }
+        cells++;
+      }
+      html += '</tr>';
+      if (day > daysInMonth && week >= 4) break;
+    }
+    html += '</tbody></table>';
+    document.getElementById('calendarContainer').innerHTML = html;
+  }
+
+  renderCalendar(current.year, current.month);
+
+  document.getElementById('calPrev').addEventListener('click', function() {
+    current.month--;
+    if (current.month < 0) { current.month = 11; current.year--; }
+    renderCalendar(current.year, current.month);
+  });
+  document.getElementById('calNext').addEventListener('click', function() {
+    current.month++;
+    if (current.month > 11) { current.month = 0; current.year++; }
+    renderCalendar(current.year, current.month);
+  });
+  document.getElementById('calToday').addEventListener('click', function() {
+    const t = new Date();
+    current = { year: t.getFullYear(), month: t.getMonth() };
+    renderCalendar(current.year, current.month);
+  });
+
+  // View toggle UI
+  document.querySelectorAll('.cal-view').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.cal-view').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+})();
+</script>
 {% endblock %}

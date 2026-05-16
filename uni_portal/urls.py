@@ -3,18 +3,20 @@ from django.contrib.auth.views import LogoutView
 from portal import views
 
 urlpatterns = [
-    # Health check endpoint
+    # Health check
     path('health/', views.health_check, name='health_check'),
-    
-    # Portal routes
-    path('', include('portal.urls')),
-    
-    # Override allauth logout to ensure proper session cleanup
-    # This is CRITICAL for proper logout functionality
-    path('accounts/logout/', 
-         LogoutView.as_view(next_page='/accounts/login/'), 
+
+    # Custom logout (must come BEFORE allauth URLs so it takes priority)
+    path('logout/', views.logout_view, name='custom_logout'),
+
+    # Override allauth's own logout to use our custom handler too
+    path('accounts/logout/',
+         LogoutView.as_view(next_page='/accounts/login/'),
          name='account_logout'),
-    
-    # All other allauth URLs (login, signup, social auth, etc.)
+
+    # All allauth URLs (login, social auth, etc.)
     path('accounts/', include('allauth.urls')),
+
+    # Portal pages
+    path('', include('portal.urls')),
 ]

@@ -4,37 +4,28 @@
 {% block page_title %}Grade Sheet{% endblock %}
 {% block grade_active %}active{% endblock %}
 
+{% block breadcrumb_extra %} / <span style="color:#1f2937;font-weight:600;">Grade Sheet</span>{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-0">
-
-  <!-- Breadcrumb -->
-  <div class="d-flex align-items-center gap-2 mb-4">
-    <span class="text-muted" style="font-size:.9rem;">Student</span>
-    <span class="text-muted">/</span>
-    <span style="font-size:.9rem; font-weight:600;">Grade Sheet</span>
-  </div>
 
   <h4 class="fw-bold mb-4">Download Grade Sheet</h4>
 
   <div class="card">
-    <div class="card-body">
-      
-      <!-- Main content row -->
+    <div class="card-body p-4">
       <div class="row align-items-start gy-4">
 
-        <!-- Left side: Buttons and Preview area -->
-        <div class="col-12 col-lg-6">
-          
-          <!-- Buttons section -->
-          <div class="d-flex align-items-center justify-content-center gap-3 mb-4" style="min-height: 80px;">
+        <!-- Left: Buttons + optional preview -->
+        <div class="col-12 col-lg-8">
+          <div class="d-flex align-items-center justify-content-center gap-3 mb-4" style="min-height:80px;">
             <button class="btn gs-preview-btn btn-lg px-4" id="previewBtn" onclick="togglePreview()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.5rem;vertical-align:middle;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.4rem;vertical-align:middle;">
                 <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
               </svg>
               Preview
             </button>
             <a href="{% url 'grade_sheet_download' %}" class="btn gs-download-btn btn-lg px-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.5rem;vertical-align:middle;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.4rem;vertical-align:middle;">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
               </svg>
@@ -42,136 +33,43 @@
             </a>
           </div>
 
-          <!-- PDF Preview area -->
-          <div id="pdfPreviewArea" style="display:none; margin-top: 30px;">
+          <div id="pdfPreviewArea" style="display:none; margin-top:16px;">
             <h6 class="fw-bold mb-3">Grade Sheet Preview</h6>
-            <div class="pdf-preview-container">
-              <embed src="{% static 'grade_sheet.pdf' %}" type="application/pdf" width="100%" height="600px" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            </div>
-            <div style="margin-top: 15px; text-align: center;">
-              <a href="{% url 'grade_sheet_download' %}" class="btn btn-sm btn-primary" download="grade_sheet.pdf">
-                Download PDF
-              </a>
+            <embed src="{% url 'grade_sheet_pdf' %}" type="application/pdf" width="100%" height="600px"
+                   style="border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); border:1px solid #e2e8f0;">
+            <div style="margin-top:12px; text-align:center;">
+              <a href="{% url 'grade_sheet_download' %}" class="btn btn-sm btn-primary">Download PDF</a>
             </div>
           </div>
-
         </div>
 
-        <!-- Right side: Student Info Card -->
-        <div class="col-12 col-lg-6 d-flex justify-content-lg-end">
-          <div class="student-info-card" style="width: 100%; max-width: 350px;">
-            <div class="student-info-row">
-              <span class="si-label">Student ID</span>
-              <span class="si-value">22241090</span>
-            </div>
-            <div class="student-info-row">
-              <span class="si-label">Name</span>
-              <span class="si-value">Md. Tahsinul Islam</span>
-            </div>
-            <div class="student-info-row">
-              <span class="si-label">Department</span>
-              <span class="si-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span>
-            </div>
-            <div class="student-info-row">
-              <span class="si-label">Program</span>
-              <span class="si-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span>
-            </div>
-            <div class="student-info-row">
-              <span class="si-label">Current Semester</span>
-              <span class="si-value">SPRING 2026</span>
-            </div>
+        <!-- Right: Student info card -->
+        <div class="col-12 col-lg-4">
+          <div class="student-info-card">
+            <div class="si-row"><span class="si-label">Student ID</span><span class="si-value">22241090</span></div>
+            <div class="si-row"><span class="si-label">Name</span><span class="si-value fw-bold">Md. Tahsinul Islam</span></div>
+            <div class="si-row"><span class="si-label">Department</span><span class="si-value fw-bold">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span></div>
+            <div class="si-row"><span class="si-label">Program</span><span class="si-value fw-bold">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</span></div>
+            <div class="si-row"><span class="si-label">Current Semester</span><span class="si-value">FALL 2025</span></div>
           </div>
         </div>
 
       </div>
-
     </div>
   </div>
 
 </div>
 
-<style>
-  .gs-preview-btn {
-    background-color: #06b6d4;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 12px;
-    transition: background-color 0.2s ease;
-  }
-
-  .gs-preview-btn:hover {
-    background-color: #0891b2;
-    color: #fff;
-  }
-
-  .gs-download-btn {
-    background-color: #7c3aed;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    border-radius: 12px;
-    transition: background-color 0.2s ease;
-  }
-
-  .gs-download-btn:hover {
-    background-color: #6d28d9;
-    color: #fff;
-  }
-
-  .student-info-card {
-    background: #f9fafb;
-    border: 1px solid #e5e8ee;
-    border-radius: 14px;
-    padding: 1.4rem 1.6rem;
-  }
-
-  .student-info-row {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: .7rem;
-    font-size: .85rem;
-  }
-
-  .si-label {
-    color: #6b7280;
-    min-width: 130px;
-    flex-shrink: 0;
-  }
-
-  .si-value {
-    font-weight: 600;
-    color: #283140;
-  }
-
-  .pdf-preview-container {
-    background: #ffffff;
-    border: 1px solid #e5e8ee;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
-
-  .pdf-preview-container embed {
-    display: block;
-  }
-</style>
-
 <script>
   function togglePreview() {
-    var area = document.getElementById('pdfPreviewArea');
-    var btn = document.getElementById('previewBtn');
-    
+    const area = document.getElementById('pdfPreviewArea');
+    const btn = document.getElementById('previewBtn');
     if (area.style.display === 'none') {
       area.style.display = 'block';
-      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.5rem;vertical-align:middle;"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/></svg> Hide Preview';
-      // Scroll to preview
-      setTimeout(() => {
-        area.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+      btn.textContent = 'Hide Preview';
     } else {
       area.style.display = 'none';
-      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.5rem;vertical-align:middle;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg> Preview';
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right:.4rem;vertical-align:middle;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg> Preview`;
     }
   }
 </script>

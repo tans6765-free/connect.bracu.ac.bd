@@ -1,16 +1,31 @@
-{% extends 'account/login.html' %}
-
-{% block content %}
-<div class="login-card" style="margin-top: 20px;">
-  <div class="alert" style="background: #fef2f2; border: 1px solid #fecaca; padding: 14px; border-radius: 8px; color: #b91c1c; margin-bottom: 0;">
-    <strong>Authentication Failed</strong>
-    <p style="margin-top: 8px; font-size: 13px;">
-      An error occurred while attempting to login with {{ provider }}. 
-      Please try again or contact support.
-    </p>
-    <p style="margin-top: 8px; font-size: 12px; opacity: 0.8;">
-      Error: {{ exception|default:"Unknown error" }}
-    </p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Error — BRAC University</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+    .card { background: #fff; border-radius: 16px; padding: 32px; max-width: 420px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; text-align: center; }
+    .icon { font-size: 2.5rem; margin-bottom: 16px; }
+    h2 { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+    p { color: #64748b; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+    .alert-err { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; padding: 12px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 20px; }
+    a.btn { display: inline-block; background: #2563eb; color: #fff; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">⚠️</div>
+    <h2>Authentication Failed</h2>
+    <div class="alert-err">
+      {% if exception %}{{ exception }}{% else %}An error occurred during Google sign-in.{% endif %}
+    </div>
+    <p>Only authorised BRAC University Google accounts are permitted to access this portal.</p>
+    <a href="/accounts/login/" class="btn">← Back to Login</a>
   </div>
-</div>
-{% endblock %}
+</body>
+</html>

@@ -5,3 +5,4 @@ PyJWT
 cryptography
 gunicorn
 whitenoise[brotli]==6.6.0
+dj-database-url

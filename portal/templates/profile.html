@@ -3,19 +3,21 @@
 
 {% block page_title %}Profile{% endblock %}
 
+{% block breadcrumb_extra %} / <span style="color:#1f2937;font-weight:600;">Profile</span>{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-0">
 
-  <!-- Profile Header Card -->
   <div class="card mb-0">
-    <div class="card-body">
+    <div class="card-body p-4">
 
-      <!-- Top section: photo + name + stats -->
+      <!-- Profile header: photo + name + stats -->
       <div class="d-flex align-items-start gap-4 flex-wrap mb-4">
-        <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-page-avatar">
+        <img src="{% static 'images/profilepic1.jpg' %}" alt="Profile" class="profile-page-avatar"
+             onerror="this.style.background='#e2e8f0'">
         <div class="flex-grow-1">
           <h4 class="fw-bold mb-1">Md. Tahsinul Islam</h4>
-          <div class="d-flex gap-3 text-muted mb-3" style="font-size:.85rem;">
+          <div class="d-flex gap-3 text-muted mb-3 flex-wrap" style="font-size:.85rem;">
             <span>🪪 22241090</span>
             <span>⚙ CS</span>
             <span>📅 FALL 2022</span>
@@ -24,21 +26,21 @@
             <div class="stat-badge">
               <div class="stat-icon green">💬</div>
               <div>
-                <div class="stat-number">66</div>
+                <div class="stat-number">63</div>
                 <div class="stat-label">Earned Credit</div>
               </div>
             </div>
             <div class="stat-badge">
               <div class="stat-icon blue">↑</div>
               <div>
-                <div class="stat-number">2.74</div>
+                <div class="stat-number">2.36</div>
                 <div class="stat-label">CGPA</div>
               </div>
             </div>
             <div class="stat-badge">
               <div class="stat-icon red">📅</div>
               <div>
-                <div class="stat-number">SPRING 2026</div>
+                <div class="stat-number">FALL 2025</div>
                 <div class="stat-label">Current Semester</div>
               </div>
             </div>
@@ -59,7 +61,7 @@
         </li>
       </ul>
 
-      <!-- ===== OVERVIEW TAB ===== -->
+      <!-- OVERVIEW TAB -->
       <div id="tab-overview" class="tab-panel">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h6 class="fw-bold mb-0">Overview</h6>
@@ -68,7 +70,6 @@
             <a href="#" class="profile-action-link">✏ Edit</a>
           </div>
         </div>
-
         <div class="row gy-4">
           <div class="col-6 col-md-3">
             <div class="info-field-label">FULL NAME:</div>
@@ -92,7 +93,7 @@
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">EMERGENCY CONTACT NO:</div>
-            <div class="info-field-value">01717672108</div>
+            <div class="info-field-value">01814335678</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">BIRTH CERTIFICATE NO:</div>
@@ -105,50 +106,48 @@
         </div>
       </div>
 
-      <!-- ===== MISCELLANEOUS INFO TAB ===== -->
+      <!-- MISCELLANEOUS TAB -->
       <div id="tab-misc" class="tab-panel" style="display:none;">
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="fw-bold mb-0">Miscellaneous Information</h6>
           <a href="#" class="profile-action-link">✏ Edit</a>
         </div>
-
         <div class="row gy-4">
           <div class="col-12 col-md-3">
             <div class="info-field-label">Present Address:</div>
-            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
-              Abhoynagar , Dhaka , Dhaka
+            <div class="info-field-value mt-1" style="font-weight:400;font-size:.9rem;line-height:1.6;">
+              Abhoynagar, Dhaka, Dhaka
             </div>
           </div>
           <div class="col-12 col-md-3">
             <div class="info-field-label">Permanent Address:</div>
-            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
+            <div class="info-field-value mt-1" style="font-weight:400;font-size:.9rem;line-height:1.6;">
               House-284, Alokar More, Boalia Para,<br>
               Ghoramara, Rajshahi<br>
-              Abhoynagar , Dhaka , Dhaka
+              Abhoynagar, Dhaka, Dhaka
             </div>
           </div>
           <div class="col-12 col-md-3">
             <div class="info-field-label">Family Information:</div>
-            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.8;">
-              Md, Zahidul Islam , 01600341615<br>
-              Taslima Khatun , 01715171002
+            <div class="info-field-value mt-1" style="font-weight:400;font-size:.9rem;line-height:1.8;">
+              Md. Zahidul Islam, 01600341615<br>
+              Taslima Khatun, 01715171002
             </div>
           </div>
           <div class="col-12 col-md-3">
             <div class="info-field-label">Local Guardian:</div>
-            <div class="info-field-value mt-1" style="font-weight:400; font-size:.9rem; line-height:1.6;">
+            <div class="info-field-value mt-1" style="font-weight:400;font-size:.9rem;line-height:1.6;">
               Md. Tanjimul Islam, 01717672108
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ===== ACADEMIC INFO TAB ===== -->
+      <!-- ACADEMIC TAB -->
       <div id="tab-academic" class="tab-panel" style="display:none;">
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="fw-bold mb-0">Academic Information</h6>
         </div>
-
         <div class="row gy-4">
           <div class="col-6 col-md-3">
             <div class="info-field-label">STUDENT ID:</div>
@@ -156,11 +155,11 @@
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">DEPARTMENT:</div>
-            <div class="info-field-value">Computer Science &amp; Engineering</div>
+            <div class="info-field-value">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">PROGRAM:</div>
-            <div class="info-field-value">B.Sc. in Computer Science</div>
+            <div class="info-field-value">BACHELOR OF SCIENCE IN COMPUTER SCIENCE</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">INTAKE:</div>
@@ -168,15 +167,15 @@
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">CURRENT SEMESTER:</div>
-            <div class="info-field-value">SPRING 2026</div>
+            <div class="info-field-value">FALL 2025</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">CGPA:</div>
-            <div class="info-field-value">2.74</div>
+            <div class="info-field-value">2.36</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">EARNED CREDIT:</div>
-            <div class="info-field-value">66</div>
+            <div class="info-field-value">63</div>
           </div>
           <div class="col-6 col-md-3">
             <div class="info-field-label">ACADEMIC STATUS:</div>
@@ -194,14 +193,10 @@
   document.querySelectorAll('#profileTabs .nav-link').forEach(function(tab) {
     tab.addEventListener('click', function(e) {
       e.preventDefault();
-      // Remove active from all
       document.querySelectorAll('#profileTabs .nav-link').forEach(t => t.classList.remove('active'));
-      // Hide all panels
       document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-      // Activate clicked
       this.classList.add('active');
-      var target = this.getAttribute('data-tab');
-      document.getElementById('tab-' + target).style.display = 'block';
+      document.getElementById('tab-' + this.dataset.tab).style.display = 'block';
     });
   });
 </script>

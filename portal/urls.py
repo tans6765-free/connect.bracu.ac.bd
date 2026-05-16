@@ -6,7 +6,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('profile/', views.profile, name='profile'),
     path('grade-sheet/', views.grade_sheet, name='grade_sheet'),
-    path('grade-sheet/preview/', views.grade_sheet_preview, name='grade_sheet_preview'),
     path('grade-sheet/pdf/', views.grade_sheet_pdf, name='grade_sheet_pdf'),
     path('grade-sheet/download/', views.grade_sheet_download, name='grade_sheet_download'),
     path('logout/', views.logout_view, name='custom_logout'),
