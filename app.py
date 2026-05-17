@@ -159,7 +159,7 @@ def auth_callback():
             "program": "BACHELOR OF SCIENCE IN COMPUTER SCIENCE",
             "current_semester": "SPRING 2026",
             "cgpa": "2.74",
-            "earned_credit": "63",
+            "earned_credit": "66",
         }
         return redirect(url_for("dashboard"))
     except Exception:
