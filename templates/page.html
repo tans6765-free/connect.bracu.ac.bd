@@ -487,6 +487,71 @@ function handleCourseDrop() {
   </div>
 </div>
 
+{# ══════════ SEARCH RESULTS ══════════ #}
+{% elif page == 'search' %}
+<div class="card full-card">
+  <div class="section-heading">
+    <h2>Search results</h2>
+    {% if query %}
+      <p class="sub-text">Showing matches for "<strong>{{ query }}</strong>".</p>
+    {% else %}
+      <p class="sub-text">Enter a search term in the top bar to find pages and actions.</p>
+    {% endif %}
+  </div>
+  {% if query %}
+    {% if results %}
+      <div class="search-grid">
+        {% for item in results %}
+          <div class="card search-card">
+            <div>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.subtitle }}</p>
+            </div>
+            <a class="outline-btn" href="{{ item.url }}">Open</a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty-text">No results found for "{{ query }}". Try a different keyword.</p>
+    {% endif %}
+  {% endif %}
+</div>
+
+{# ══════════ ACCOUNT SETTINGS ══════════ #}
+{% elif page == 'account-settings' %}
+<div class="card full-card profile-page">
+  <div class="profile-hero">
+    <img class="profile-hero-photo" src="{{ user.picture or '/static/images/bracit.svg' }}" alt="{{ user.name }}" />
+    <div class="profile-hero-info">
+      <h2>Account Settings</h2>
+      <p class="profile-hero-meta">Manage your BRACU Central account and profile settings.</p>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <div class="card profile-info-card">
+      <h3>Personal Details</h3>
+      <div class="profile-meta-row"><strong>Name</strong><span>{{ user.name }}</span></div>
+      <div class="profile-meta-row"><strong>Email</strong><span>{{ user.email }}</span></div>
+      <div class="profile-meta-row"><strong>Student ID</strong><span>{{ user.student_id }}</span></div>
+      <div class="profile-meta-row"><strong>Program</strong><span>{{ user.program }}</span></div>
+      <div class="profile-meta-row"><strong>Department</strong><span>{{ user.department }}</span></div>
+    </div>
+    <div class="card profile-info-card">
+      <h3>Security</h3>
+      <div class="form-field">
+        <label>New password</label>
+        <input type="password" placeholder="Enter new password" class="text-input" />
+      </div>
+      <div class="form-field">
+        <label>Confirm password</label>
+        <input type="password" placeholder="Confirm new password" class="text-input" />
+      </div>
+      <button class="primary-btn" onclick="alert('Your settings are saved.')">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 {# ══════════ PROFILE OVERVIEW ══════════ #}
 {% elif page == 'profile-overview' %}
 <div class="card full-card profile-page">

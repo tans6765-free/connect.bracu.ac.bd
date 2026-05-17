@@ -70,15 +70,72 @@ def root():
     )
 
 
-@app.route("/login")
-@app.route("/accounts/google/login/")
+@app.route("/login", methods=["GET", "POST"])
+@app.route("/accounts/google/login/", methods=["GET", "POST"])
 def login():
     if session.get("user"):
         return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+        robot_checked = request.form.get("robotCheck")
+        next_url = request.args.get("next") or request.form.get("next") or url_for("dashboard")
+
+        if not username or not password:
+            return render_template(
+                "login.html",
+                page_title="Login | BRAC Student Portal",
+                auth_route="/accounts/google/auth/",
+                error="Please enter both username and password.",
+                username=username,
+            )
+
+        if not robot_checked:
+            return render_template(
+                "login.html",
+                page_title="Login | BRAC Student Portal",
+                auth_route="/accounts/google/auth/",
+                error="Please confirm you are not a robot.",
+                username=username,
+            )
+
+        email = username if "@" in username else f"{username}@bracu.ac.bd"
+        student_name = username.split("@")[0].replace(".", " ").title()
+        session["user"] = {
+            "name": student_name,
+            "email": email,
+            "picture": "",
+            "student_id": "22241090",
+            "department": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
+            "program": "BACHELOR OF SCIENCE IN COMPUTER SCIENCE",
+            "current_semester": "SPRING 2026",
+            "cgpa": "2.74",
+            "earned_credit": "66",
+        }
+        return redirect(next_url)
+
     return render_template(
         "login.html",
-        page_title="Google Login | BRAC Student Portal",
+        page_title="Login | BRAC Student Portal",
         auth_route="/accounts/google/auth/",
+    )
+
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+@app.route("/forgot-password/", methods=["GET", "POST"])
+def forgot_password():
+    message = None
+    if request.method == "POST":
+        email = request.form.get("email", "").strip()
+        if email:
+            message = "If this email exists, a reset link has been sent to your inbox."
+        else:
+            message = "Please enter a valid BRAC email address."
+    return render_template(
+        "forgot-password.html",
+        page_title="Forgot Password | BRAC Student Portal",
+        message=message,
     )
 
 
@@ -375,6 +432,48 @@ def payslips():
 @login_required
 def profile_overview():
     return render_template("page.html", page="profile-overview", user=session["user"])
+
+
+@app.route("/accounts/settings/")
+@app.route("/accounts/settings")
+@login_required
+def account_settings():
+    return render_template(
+        "page.html",
+        page="account-settings",
+        user=session["user"],
+        page_heading="Account Settings",
+    )
+
+
+@app.route("/search")
+@login_required
+def search():
+    query = request.args.get("q", "").strip()
+    results = []
+    if query:
+        available = [
+            {"title": "Dashboard", "subtitle": "Open the student dashboard.", "url": "/student/dashboard"},
+            {"title": "Class and Exam Schedule", "subtitle": "View current semester schedule.", "url": "/student/schedule"},
+            {"title": "Grade Sheet", "subtitle": "Check results and download grade sheet.", "url": "/student/grade-sheet"},
+            {"title": "Profile Overview", "subtitle": "See your personal and academic details.", "url": "/student/profile/overview"},
+            {"title": "Account Settings", "subtitle": "Update your account preferences.", "url": "/accounts/settings/"},
+        ]
+        results = [item for item in available if query.lower() in item["title"].lower() or query.lower() in item["subtitle"].lower()]
+
+    return render_template(
+        "page.html",
+        page="search",
+        user=session["user"],
+        page_heading="Search Results",
+        query=query,
+        results=results,
+    )
+
+
+@app.route("/accounts/logout/")
+def accounts_logout():
+    return logout()
 
 
 if __name__ == "__main__":

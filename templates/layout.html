@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% if page == 'dashboard' %}Dashboard | buX{% elif page == 'wish-list' %}Course Wish List | buX{% elif page == 'phase-one' %}Phase One | buX{% elif page == 'phase-two' %}Phase Two | buX{% elif page == 'self-registration' %}Self Registration | buX{% elif page == 'section-status' %}Section Status | buX{% elif page == 'schedule' %}Class Schedule | buX{% elif page == 'student-concession-apply' %}Scholarship & Waiver | buX{% elif page == 'concession-history-list' %}Scholarship History | buX{% elif page == 'course-drop-application' %}Course Drop | buX{% elif page == 'drop-semester-application' %}Semester Drop | buX{% elif page == 'grade-sheet' %}Grade Sheet | buX{% elif page == 'probation-application' %}Probation | buX{% elif page == 'payslips' %}Payslips | buX{% elif page == 'profile-overview' %}Profile Overview | buX{% else %}BRAC Student Portal{% endif %}</title>
-    <link rel="icon" href="/static/favicon.ico" />
+    <link rel="icon" href="/static/fav.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
@@ -160,6 +160,10 @@
                 <span>Student</span><span class="bc-sep">/</span><strong>Probation</strong>
               {% elif page == 'payslips' %}
                 <span>Student</span>
+              {% elif page == 'search' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Search Results</strong>
+              {% elif page == 'account-settings' %}
+                <span>Student</span><span class="bc-sep">/</span><strong>Account Settings</strong>
               {% elif page == 'profile-overview' %}
                 <span>Student</span><span class="bc-sep">/</span><strong>Profile Overview</strong>
               {% else %}
@@ -169,11 +173,11 @@
           </div>
 
           <div class="topbar-actions">
-            <div class="search-box">
+            <form class="search-box" action="/search" method="get">
               <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" placeholder="Search" aria-label="Search" />
+              <input type="text" name="q" value="{{ request.args.get('q', '') }}" placeholder="Search" aria-label="Search" />
               <kbd>Ctrl K</kbd>
-            </div>
+            </form>
             <button class="icon-button icon-btn-fullscreen" title="Fullscreen" onclick="toggleFullscreen()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
             </button>
@@ -245,7 +249,7 @@
                   <a href="/accounts/settings/" class="pd-link">
                     <span class="pd-dot green"></span> Account Settings
                   </a>
-                  <a href="/accounts/logout/" class="pd-link pd-signout">
+                  <a href="/logout" class="pd-link pd-signout">
                     <span class="pd-dot red"></span> Sign Out
                   </a>
                 </div>

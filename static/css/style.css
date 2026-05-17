@@ -1671,7 +1671,8 @@ button { font-family: inherit; cursor: pointer; }
    ══════════════════════════════════ */
 .login-body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  background: radial-gradient(circle at top left, rgba(86, 121, 215, 0.18), transparent 20%),
+              linear-gradient(180deg, #eef5fc 0%, #d7e6f8 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1728,22 +1729,50 @@ button { font-family: inherit; cursor: pointer; }
   color: #1e3a5f;
 }
 
+.login-top-divider {
+  width: 210px;
+  height: 1px;
+  margin: 10px auto 0;
+  background: #cbd5e1;
+  border-radius: 1px;
+}
+
 /* Card */
 .login-card {
   width: 100%;
   max-width: 460px;
-  background: var(--panel);
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.96);
+  border-radius: 30px;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
   padding: 40px;
-  border: 1px solid rgba(226, 232, 240, 0.5);
+  border: 1px solid rgba(203, 213, 225, 0.65);
 }
 
 .login-h1 {
   font-size: 18px;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
+}
+
+.form-error, .form-message {
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+}
+
+.form-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+
+.form-message {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
 }
 
 .login-form { display: flex; flex-direction: column; gap: 14px; }
@@ -1903,6 +1932,61 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .google-login-btn:hover { background: #f9fafb; }
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #111827;
+}
+
+.sub-text {
+  color: #475569;
+  font-size: 14px;
+}
+
+.search-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.search-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: #fff;
+}
+
+.profile-info-card h3,
+.search-card h3 {
+  margin: 0 0 12px;
+}
+
+.profile-meta-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.profile-meta-row strong {
+  color: #475569;
+}
+
+.profile-meta-row span {
+  color: #111827;
+}
 
 /* ══════════════════════════════════
    RESPONSIVE HELPERS
